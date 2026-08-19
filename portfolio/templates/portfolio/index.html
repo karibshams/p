@@ -1,0 +1,288 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Karib Shams | Data Scientist & AI Developer</title>
+<meta name="description" content="Karib Shams — Data Scientist, AI Developer, Best Paper Award AII 2025 Washington D.C., 16 publications, AI Stream Team Lead, 60+ projects."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="{% static 'css/main.css' %}"/>
+</head>
+<body>
+<canvas id="neural-bg"></canvas>
+<div class="cursor-dot" id="cDot"></div>
+<div class="cursor-ring" id="cRing"></div>
+<nav id="navbar">
+  <div class="nav-brand"><span class="na">[</span><span class="nn">KS</span><span class="na">]</span><span class="blink">_</span></div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#about">About</a></li><li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">XP</a></li><li><a href="#projects">Projects</a></li>
+    <li><a href="#publications">Papers</a></li><li><a href="#aichat">AI Chat</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="{{ data.scholar }}" target="_blank" class="nav-scholar">🎓 Scholar</a>
+    <a href="https://wa.me/{{ data.whatsapp }}" target="_blank" class="nav-cta">Hire Me →</a>
+    <button class="nav-toggle" id="navToggle">☰</button>
+  </div>
+</nav>
+<section id="hero">
+  <div class="hero-wrap">
+    <div class="hero-left">
+      <div class="hero-badge"><span class="pdot"></span>Available for AI Projects &amp; Collaborations</div>
+      <h1 class="hero-name"><span class="hn1">KARIB</span><span class="hn2">SHAMS</span></h1>
+      <div class="hero-role"><span id="typedEl"></span><span class="tc">|</span></div>
+      <p class="hero-bio">{{ data.about }}</p>
+      <div class="hero-btns">
+        <a href="#projects" class="btn-primary">View Projects</a>
+        <a href="{{ data.award_url }}" target="_blank" class="btn-award">🏆 Best Paper Award</a>
+        <a href="{{ data.scholar }}" target="_blank" class="btn-ghost">🎓 Scholar</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hs"><span class="hn" data-count="{{ pub_count }}">0</span><span class="hl">Publications</span></div>
+        <div class="hs"><span class="hn" data-count="{{ data.citations }}">0</span><span class="hl">Citations</span></div>
+        <div class="hs"><span class="hn" data-count="{{ data.h_index }}">0</span><span class="hl">h-index</span></div>
+        <div class="hs"><span class="hn" data-count="60">0</span><span class="hl">+ Team Projects</span></div>
+        <div class="hs"><span class="hn" data-count="3">0</span><span class="hl">Years XP</span></div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="av-wrap">
+        <div class="av-ring r1"></div><div class="av-ring r2"></div><div class="av-ring r3"></div>
+        <div class="av-img"><img src="{% static 'img/karib.jpg' %}" alt="Karib Shams" onerror="this.src='{% static 'img/placeholder.svg' %}'"/></div>
+        <a href="{{ data.award_url }}" target="_blank" class="av-badge">🏆 Best Paper Award<br/><span>AII 2025 · Washington D.C.</span></a>
+      </div>
+      <div class="socials">
+        <a href="{{ data.github }}" target="_blank" class="sc" title="GitHub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg></a>
+        <a href="{{ data.linkedin }}" target="_blank" class="sc" title="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+        <a href="{{ data.scholar }}" target="_blank" class="sc" title="Scholar"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0L0 6.9v.2l4.6 2.7V18l7.4 4.3 7.4-4.3V9.8L24 7.1V6.9L12 0zm5.8 17.4L12 20.7l-5.8-3.3v-7l5.8 3.3 5.8-3.3v7zM12 13.4L2.4 7.8 12 2.2l9.6 5.6L12 13.4z"/></svg></a>
+        <a href="https://wa.me/{{ data.whatsapp }}" target="_blank" class="sc" title="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-cue"><div class="scl"></div><span>scroll</span></div>
+</section>
+<section id="about" class="sec">
+  <div class="container">
+    <div class="sec-hdr reveal"><span class="sn">01</span><h2>About Me</h2><div class="sl"></div></div>
+    <div class="about-grid">
+      <div class="reveal">
+        <p class="about-lead">I build <span class="ac">intelligent systems</span> that understand, learn, and predict — turning raw data into real-world impact.</p>
+        <p class="muted sm">{{ data.about }}</p>
+        <div class="tag-row"><span class="itag">📊 Data Science</span><span class="itag">🧠 AI Research</span><span class="itag">✈️ Travelling</span><span class="itag">⚽ Football</span></div>
+        <div class="team-card">
+          <div class="tc-hdr">
+            <span class="tc-icon">⚡</span>
+            <div><h3>{{ data.team.name }} — My AI Team</h3><span class="tc-count">{{ data.team.projects_count }} Projects Delivered</span></div>
+            <a href="{{ data.team.drive }}" target="_blank" class="tc-link">View All →</a>
+          </div>
+          <p class="muted sm">{{ data.team.desc }}</p>
+        </div>
+      </div>
+      <div class="reveal">
+        <h3 class="sub-title">Education</h3>
+        {% for e in data.education %}
+        <div class="edu-card"><div class="edu-dot"></div><div><h4>{{ e.degree }}</h4><span class="edu-inst">{{ e.institution }}</span><span class="edu-period">{{ e.period }}</span><span class="edu-detail">{{ e.detail }}</span></div></div>
+        {% endfor %}
+        <h3 class="sub-title" style="margin-top:2rem">Languages</h3>
+        <div class="lang-row">
+          <div class="lang-pill"><span>English</span><span class="llv">Advanced (C1)</span></div>
+          <div class="lang-pill"><span>Bengali</span><span class="llv">Native</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="skills" class="sec sec-alt">
+  <div class="container">
+    <div class="sec-hdr reveal"><span class="sn">02</span><h2>Skills & Stack</h2><div class="sl"></div></div>
+    <div class="skills-grid">
+      {% for cat, items in data.skills.items %}
+      <div class="skill-group reveal"><h3 class="skill-cat">{{ cat }}</h3><div class="skill-tags">{% for it in items %}<span class="sk-tag">{{ it }}</span>{% endfor %}</div></div>
+      {% endfor %}
+    </div>
+    <div class="quiz-wrap reveal">
+      <div class="quiz-hdr">
+        <span style="font-size:1.5rem">🧠</span>
+        <div><h3>AI & Data Science Quiz</h3><p class="muted" style="font-size:.74rem;font-family:var(--mono)">30 questions · Random · No repeats · Beat Karib's AI!</p></div>
+        <div id="qscore" class="qscore"></div>
+      </div>
+      <div id="quiz-body">
+        <p class="muted sm" style="margin-bottom:1.2rem">Challenge yourself on ML, Deep Learning, NLP, Computer Vision, and more.</p>
+        <button class="btn-primary" onclick="initQuiz()">🚀 Start Quiz</button>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="experience" class="sec">
+  <div class="container">
+    <div class="sec-hdr reveal"><span class="sn">03</span><h2>Experience</h2><div class="sl"></div></div>
+    <div class="timeline">
+      {% for xp in data.experience %}
+      <div class="tl-item reveal">
+        <div class="tl-mark"><div class="tl-dot"></div><div class="tl-line"></div></div>
+        <div class="tl-card">
+          <div class="tl-top"><div><h3>{{ xp.role }}</h3><span class="tl-co">{{ xp.company }}</span></div><div class="tl-meta"><span>{{ xp.period }}</span><span>📍 {{ xp.location }}</span></div></div>
+          <p class="muted sm">{{ xp.desc }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+<section id="projects" class="sec sec-alt">
+  <div class="container">
+    <div class="sec-hdr reveal"><span class="sn">04</span><h2>Projects</h2><div class="sl"></div></div>
+    <div class="proj-tabs reveal">
+      <button class="ptab active" data-filter="all">All</button>
+      <button class="ptab" data-filter="Professional">Professional</button>
+      <button class="ptab" data-filter="Academic">Academic</button>
+      <button class="ptab" data-filter="Team">AI Stream</button>
+    </div>
+    <div class="proj-grid">
+      {% for p in data.projects %}
+      <div class="proj-card reveal" data-type="{{ p.type }}">
+        <div class="pc-glow"></div>
+        <div class="pc-type">{{ p.type }}</div>
+        <div class="pc-tags">{% for t in p.tags %}<span class="pc-tag">{{ t }}</span>{% endfor %}</div>
+        <h3>{{ p.name }}</h3>
+        <p class="muted sm" style="margin:.5rem 0 1rem">{{ p.desc }}</p>
+        <a href="{{ p.link }}" target="_blank" class="pc-link">View Project →</a>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="upload-zone reveal" id="uploadZone">
+      <span style="font-size:2rem;display:block;margin-bottom:.5rem">📁</span>
+      <p class="muted sm">Drop your project file or <label for="fileInput" style="color:var(--acc);cursor:pointer;text-decoration:underline">browse</label> to showcase</p>
+      <input type="file" id="fileInput" hidden/>
+      <div id="uploadResult"></div>
+    </div>
+  </div>
+</section>
+<section id="publications" class="sec">
+  <div class="container">
+    <div class="sec-hdr reveal"><span class="sn">05</span><h2>Publications</h2><div class="sl"></div></div>
+    <a href="{{ data.award_url }}" target="_blank" class="award-highlight reveal">
+      <div class="aw-icon">🏆</div>
+      <div class="aw-body">
+        <h3>Best Paper Award — AII 2025, Washington D.C., USA</h3>
+        <p>CodeMixEcom-Emotion: A Large-Scale Bangla–English Review Corpus and Transformer-Based Benchmark for Fine-Grained Emotion Detection</p>
+        <span>Springer-Nature CCIS · Click for EWU official announcement →</span>
+      </div>
+    </a>
+    <div class="scholar-banner reveal">
+      <div class="sb-stats">
+        <div class="sb-s"><span class="sb-n">{{ pub_count }}</span><span class="sb-l">Papers</span></div>
+        <div class="sb-s"><span class="sb-n">{{ data.citations }}</span><span class="sb-l">Citations</span></div>
+        <div class="sb-s"><span class="sb-n">{{ data.h_index }}</span><span class="sb-l">h-index</span></div>
+        <div class="sb-s"><span class="sb-n">4</span><span class="sb-l">Venues</span></div>
+      </div>
+      <a href="{{ data.scholar }}" target="_blank" class="btn-ghost" style="font-size:.78rem;padding:9px 18px">Google Scholar →</a>
+    </div>
+    <div class="pub-list">
+      {% for pub in data.publications %}
+      <div class="pub-card {% if pub.award %}pub-top{% endif %} reveal">
+        <div class="pub-idx">{{ forloop.counter|stringformat:"02d" }}</div>
+        <div class="pub-body">
+          <p class="pub-title">{{ pub.title }}</p>
+          <span class="pub-venue">{{ pub.venue }}</span>
+          <div class="pub-meta">
+            {% if pub.award %}<a href="{{ pub.award_url }}" target="_blank" class="pub-award">{{ pub.award }}</a>{% endif %}
+            {% if pub.cited > 0 %}<span class="pub-cited">{{ pub.cited }} citation{{ pub.cited|pluralize }}</span>{% endif %}
+            {% if pub.doi %}<a href="https://doi.org/{{ pub.doi }}" target="_blank" class="pub-doi">DOI →</a>{% endif %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+<section id="aichat" class="sec sec-alt">
+  <div class="container">
+    <div class="sec-hdr reveal"><span class="sn">AI</span><h2>Talk to My AI</h2><div class="sl"></div></div>
+    <p class="muted sm reveal" style="margin-bottom:1.8rem">100% free — no API, no cost, always on. Ask about Karib's research, projects, or any AI/ML concept.</p>
+    <div class="chat-box reveal">
+      <div class="chat-hdr">
+        <div style="display:flex;align-items:center;gap:.8rem">
+          <div class="bot-av-lg">🤖</div>
+          <div><strong style="display:block;font-size:.88rem">Karib's AI Assistant</strong><span style="font-size:.66rem;color:var(--muted);font-family:var(--mono)">Free · Zero API · Built-in Knowledge Base</span></div>
+        </div>
+        <button onclick="clearChat()" class="chat-clr">Clear</button>
+      </div>
+      <div class="chat-msgs" id="chatMsgs">
+        <div class="cm bot"><span class="bav">🤖</span><div class="bubble">Hi! I'm Karib's AI — 100% free, zero API. I know his 16 publications (🏆 Best Paper AII 2025, D.C.), 60+ AI Stream projects, and can explain any AI/ML concept. Ask me anything!</div></div>
+      </div>
+      <div class="chat-sugg" id="chatSugg">
+        <span style="font-family:var(--mono);font-size:.64rem;color:var(--sec)">Try:</span>
+        <button class="cs-btn" onclick="sendSug(this)">Tell me about the Best Paper Award</button>
+        <button class="cs-btn" onclick="sendSug(this)">What papers has Karib published?</button>
+        <button class="cs-btn" onclick="sendSug(this)">What is RAG in AI?</button>
+        <button class="cs-btn" onclick="sendSug(this)">Tell me about AI Stream team</button>
+        <button class="cs-btn" onclick="sendSug(this)">Explain XAI and SHAP</button>
+        <button class="cs-btn" onclick="sendSug(this)">What is a Transformer?</button>
+      </div>
+      <div class="chat-inp-row">
+        <input type="text" id="chatInput" class="chat-inp" placeholder="Ask about Karib or any AI/ML/Data Science topic..."/>
+        <button onclick="sendChat()" class="chat-snd">↑</button>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="feedback" class="sec">
+  <div class="container">
+    <div class="sec-hdr reveal"><span class="sn">FB</span><h2>Feedback</h2><div class="sl"></div></div>
+    <div class="fb-wrap">
+      <form class="fb-form reveal" id="fbForm" onsubmit="submitFeedback(event)">
+        {% csrf_token %}
+        <input type="text" id="fb-name" class="fb-inp" placeholder="Your Name" required/>
+        <input type="email" id="fb-email" class="fb-inp" placeholder="Your Email" required/>
+        <textarea id="fb-msg" class="fb-inp fb-ta" rows="4" placeholder="Your feedback, message, or collaboration idea..." required></textarea>
+        <button type="submit" class="btn-primary">Submit Feedback</button>
+        <div id="fb-res"></div>
+      </form>
+      <div class="reveal">
+        <h3 class="sub-title">Recent Feedback</h3>
+        {% for fb in feedbacks %}<div class="fb-card"><div class="fb-meta"><strong>{{ fb.name }}</strong><span>{{ fb.created_at|date:"M d, Y" }}</span></div><p class="muted sm">{{ fb.message }}</p></div>
+        {% empty %}<p class="muted" style="font-family:var(--mono);font-size:.82rem">Be the first to leave feedback!</p>{% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+<section id="contact" class="sec sec-alt">
+  <div class="container">
+    <div class="sec-hdr reveal"><span class="sn">06</span><h2>Get In Touch</h2><div class="sl"></div></div>
+    <div class="contact-grid">
+      <a href="mailto:{{ data.email }}" class="ci reveal"><span class="ci-ic">✉️</span><div><span class="ci-lb">Email</span><span class="ci-vl">{{ data.email }}</span></div></a>
+      <a href="https://wa.me/{{ data.whatsapp }}" target="_blank" class="ci reveal"><span class="ci-ic">💬</span><div><span class="ci-lb">Phone / WhatsApp</span><span class="ci-vl">{{ data.phone }}</span></div></a>
+      <a href="{{ data.github }}" target="_blank" class="ci reveal"><span class="ci-ic">💻</span><div><span class="ci-lb">GitHub</span><span class="ci-vl">github.com/karibshams</span></div></a>
+      <a href="{{ data.linkedin }}" target="_blank" class="ci reveal"><span class="ci-ic">🔗</span><div><span class="ci-lb">LinkedIn</span><span class="ci-vl">karib-shams-007975305</span></div></a>
+      <a href="{{ data.scholar }}" target="_blank" class="ci reveal"><span class="ci-ic">🎓</span><div><span class="ci-lb">Google Scholar</span><span class="ci-vl">{{ data.citations }} citations · h-index {{ data.h_index }}</span></div></a>
+      <a href="{{ data.award_url }}" target="_blank" class="ci reveal"><span class="ci-ic">🏆</span><div><span class="ci-lb">Best Paper Award</span><span class="ci-vl">AII 2025, Washington D.C.</span></div></a>
+    </div>
+    <div style="margin-top:3rem" class="reveal">
+      <h3 class="sub-title">References</h3>
+      <div class="ref-grid">
+        {% for r in data.references %}<div class="ref-card"><strong>{{ r.name }}</strong><span class="muted sm">{{ r.title }}</span><a href="mailto:{{ r.email }}" style="color:var(--acc);font-family:var(--mono);font-size:.74rem">{{ r.email }}</a></div>{% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+<footer id="footer">
+  <div class="footer-in">
+    <div style="margin-bottom:1rem"><span class="na" style="font-family:var(--mono);font-size:1.15rem">[</span><span class="nn" style="font-family:var(--mono);font-size:1.15rem;font-weight:700">KS</span><span class="na" style="font-family:var(--mono);font-size:1.15rem">]</span><p class="muted" style="font-size:.76rem;margin-top:4px">Data Scientist & AI Developer · AI Stream Team Lead · 🏆 Best Paper Award AII 2025</p></div>
+    <div class="footer-links">
+      <a href="{{ data.github }}" target="_blank">GitHub</a>
+      <a href="{{ data.linkedin }}" target="_blank">LinkedIn</a>
+      <a href="{{ data.scholar }}" target="_blank">Scholar</a>
+      <a href="{{ data.award_url }}" target="_blank">🏆 Award</a>
+      <a href="https://wa.me/{{ data.whatsapp }}" target="_blank">WhatsApp</a>
+      <a href="mailto:{{ data.email }}">Email</a>
+    </div>
+    <p class="muted" style="font-size:.7rem;font-family:var(--mono)">© 2025 Karib Shams · Django · AI Stream · v3.0</p>
+  </div>
+</footer>
+<script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>
