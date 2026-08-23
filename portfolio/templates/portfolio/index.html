@@ -283,6 +283,78 @@
     <p class="muted" style="font-size:.7rem;font-family:var(--mono)">© 2025 Karib Shams · Django · AI Stream · v3.0</p>
   </div>
 </footer>
+<!-- ═══ AI ROBOT GUIDE ═══ -->
+<div id="robot-guide">
+
+  <!-- Robot Body -->
+  <div id="robot-body" onclick="toggleRobotChat()">
+    <!-- Antenna -->
+    <div class="robot-antenna">
+      <div class="antenna-ball"></div>
+      <div class="antenna-stick"></div>
+    </div>
+    <!-- Head -->
+    <div class="robot-head">
+      <div class="robot-screen">
+        <img src="{% static 'img/karib.jpeg' %}" alt="Karib" class="robot-face"
+             onerror="this.style.display='none';document.querySelector('.robot-face-fallback').style.display='flex'"/>
+        <div class="robot-face-fallback">KS</div>
+        <div class="robot-scanline"></div>
+        <div class="robot-glitch"></div>
+      </div>
+      <div class="robot-ears">
+        <div class="robot-ear left"></div>
+        <div class="robot-ear right"></div>
+      </div>
+    </div>
+    <!-- Body -->
+    <div class="robot-torso">
+      <div class="robot-chest">
+        <div class="chest-light l1"></div>
+        <div class="chest-light l2"></div>
+        <div class="chest-light l3"></div>
+      </div>
+    </div>
+    <!-- Status -->
+    <div class="robot-status">
+      <span class="rs-dot"></span>
+      <span class="rs-text">AI GUIDE</span>
+    </div>
+  </div>
+
+  <!-- Speech Bubble -->
+  <div id="robot-bubble" class="robot-bubble">
+    <div class="bubble-arrow"></div>
+    <p id="robot-bubble-text">Hi! I'm Karib's AI Guide 🤖 Click me to chat!</p>
+  </div>
+
+  <!-- Robot Chat Panel -->
+  <div id="robot-chat" class="robot-chat hidden">
+    <div class="rc-header">
+      <div class="rc-avatar">
+        <img src="{% static 'img/karib.jpeg' %}" alt="Karib"
+             onerror="this.style.display='none'"/>
+        <div class="rc-online"></div>
+      </div>
+      <div class="rc-info">
+        <strong>Karib's AI Robot</strong>
+        <span>Always online · Free AI</span>
+      </div>
+      <button onclick="toggleRobotChat()" class="rc-close">✕</button>
+    </div>
+    <div class="rc-messages" id="rcMessages">
+      <div class="rc-msg bot">
+        <div class="rc-bubble">Hello! I'm Karib's futuristic AI Robot Guide! 🤖⚡<br/>Ask me anything about his research, projects, or any AI/ML topic!</div>
+      </div>
+    </div>
+    <div class="rc-input-row">
+      <input type="text" id="rcInput" class="rc-input" placeholder="Ask me anything..."/>
+      <button onclick="sendRobotMsg()" class="rc-send">↑</button>
+    </div>
+  </div>
+
+</div>
+
 <script src="{% static 'js/main.js' %}"></script>
 </body>
 </html>
