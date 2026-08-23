@@ -311,3 +311,139 @@ function showUpload(f) {
 // ── UTILS ─────────────────────────────────────
 function esc(t) { return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function csrf() { return document.querySelector('[name=csrfmiddlewaretoken]')?.value || ''; }
+
+/* ═══════════════════════════════════════════════
+   AI ROBOT GUIDE
+═══════════════════════════════════════════════ */
+
+// Section messages robot says as user scrolls
+const ROBOT_MSGS = {
+  'hero':         "Hi! I'm Karib's AI Robot Guide! 🤖 Welcome to his portfolio — explore and ask me anything!",
+  'about':        "📖 Let me tell you about Karib's journey — MSc in Data Science, GTA, Researcher, and Team Leader!",
+  'skills':       "⚙️ Karib masters Python, Deep Learning, RAG, NLP, Computer Vision, n8n, and much more!",
+  'experience':   "💼 Karib leads a night team at JVai building RAG chatbots and AI automation systems!",
+  'projects':     "🚀 These are real AI products Karib built — including live deployed apps at emothrive.net!",
+  'publications': "🏆 16 published papers across IEEE, Springer & Nature! Best Paper Award in Washington D.C.!",
+  'aichat':       "💬 Ask me anything! I'm Karib's free AI — I know all his research, projects and AI/ML concepts!",
+  'feedback':     "📝 Leave your feedback! Karib personally reads every message!",
+  'contact':      "📞 Want to collaborate? Reach Karib on WhatsApp or Email — he responds fast!",
+};
+
+let robotChatOpen   = false;
+let lastRobotSection = '';
+let bubbleTimeout;
+
+// Toggle robot chat panel
+function toggleRobotChat() {
+  robotChatOpen = !robotChatOpen;
+  const chat   = document.getElementById('robot-chat');
+  const bubble = document.getElementById('robot-bubble');
+  if (robotChatOpen) {
+    chat.classList.remove('hidden');
+    bubble.classList.add('hidden');
+    document.getElementById('rcInput').focus();
+  } else {
+    chat.classList.add('hidden');
+    bubble.classList.remove('hidden');
+  }
+}
+
+// Show speech bubble with message
+function showRobotBubble(msg) {
+  const bubble = document.getElementById('robot-bubble');
+  const text   = document.getElementById('robot-bubble-text');
+  if (robotChatOpen) return;
+  clearTimeout(bubbleTimeout);
+  text.textContent = msg;
+  bubble.classList.remove('hidden');
+  bubbleTimeout = setTimeout(() => {
+    bubble.classList.add('hidden');
+  }, 5000);
+}
+
+// Detect which section is in view → show robot message
+function checkRobotSection() {
+  if (robotChatOpen) return;
+  const sections = document.querySelectorAll('section[id]');
+  let current = '';
+  sections.forEach(s => {
+    const rect = s.getBoundingClientRect();
+    if (rect.top <= window.innerHeight * .5 && rect.bottom >= window.innerHeight * .3) {
+      current = s.id;
+    }
+  });
+  if (current && current !== lastRobotSection && ROBOT_MSGS[current]) {
+    lastRobotSection = current;
+    showRobotBubble(ROBOT_MSGS[current]);
+  }
+}
+
+window.addEventListener('scroll', checkRobotSection, { passive: true });
+
+// Show welcome message after 2 seconds
+setTimeout(() => {
+  showRobotBubble("Hi! I'm Karib's AI Robot Guide 🤖 Click me to chat!");
+}, 2000);
+
+// Send message in robot chat
+async function sendRobotMsg() {
+  const inp = document.getElementById('rcInput');
+  const msg = inp.value.trim();
+  if (!msg) return;
+  inp.value = '';
+
+  addRobotMsg(msg, 'user');
+  const tid = 'rt' + Date.now();
+  addRobotTyping(tid);
+
+  try {
+    const res = await fetch('/api/chat/', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrf() },
+      body:    JSON.stringify({ message: msg }),
+    });
+    const data = await res.json();
+    removeRobotTyping(tid);
+    addRobotMsg(data.reply || 'No response.', 'bot');
+  } catch {
+    removeRobotTyping(tid);
+    addRobotMsg('Connection error. Please try again.', 'bot');
+  }
+}
+
+function addRobotMsg(text, role) {
+  const wrap = document.getElementById('rcMessages');
+  const d    = document.createElement('div');
+  d.className = 'rc-msg ' + role;
+  const fmt = esc(text).replace(/\n/g, '<br/>');
+  d.innerHTML = `<div class="rc-bubble">${fmt}</div>`;
+  wrap.appendChild(d);
+  wrap.scrollTop = wrap.scrollHeight;
+}
+
+function addRobotTyping(id) {
+  const wrap = document.getElementById('rcMessages');
+  const d    = document.createElement('div');
+  d.className = 'rc-msg bot'; d.id = id;
+  d.innerHTML = '<div class="rc-bubble"><span class="typing-dots"><span>●</span><span>●</span><span>●</span></span></div>';
+  wrap.appendChild(d);
+  wrap.scrollTop = wrap.scrollHeight;
+}
+
+function removeRobotTyping(id) {
+  const el = document.getElementById(id);
+  if (el) el.remove();
+}
+
+// Enter key to send
+document.getElementById('rcInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') sendRobotMsg();
+});
+
+// Robot body hover — stop floating
+document.getElementById('robot-body').addEventListener('mouseenter', () => {
+  document.getElementById('robot-body').style.animationPlayState = 'paused';
+});
+document.getElementById('robot-body').addEventListener('mouseleave', () => {
+  document.getElementById('robot-body').style.animationPlayState = 'running';
+});
