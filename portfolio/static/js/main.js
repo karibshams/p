@@ -419,6 +419,57 @@ function addRobotMsg(text, role) {
   d.innerHTML = `<div class="rc-bubble">${fmt}</div>`;
   wrap.appendChild(d);
   wrap.scrollTop = wrap.scrollHeight;
+
+  // 🔊 Speak bot replies
+  if (role === 'bot') {
+    speakText(text);
+  }
+}
+
+function speakText(text) {
+  if (!window.speechSynthesis || robotMuted) return;
+
+  // Cancel any ongoing speech
+  window.speechSynthesis.cancel();
+
+  // Clean text
+  const clean = text
+    .replace(/[^\w\s,.!?'-]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, 250);
+
+  if (!clean) return;
+
+  const utter = new SpeechSynthesisUtterance(clean);
+  utter.rate   = 0.92;
+  utter.pitch  = 1.0;
+  utter.volume = 1.0;
+  utter.lang   = 'en-US';
+
+  const speak = () => {
+    const voices = window.speechSynthesis.getVoices();
+    const voice  = voices.find(v => v.lang === 'en-US' && v.name.includes('Google'))
+                || voices.find(v => v.lang === 'en-US')
+                || voices.find(v => v.lang.startsWith('en'))
+                || null;
+    if (voice) utter.voice = voice;
+
+    // Chrome bug — needs small delay
+    setTimeout(() => {
+      window.speechSynthesis.speak(utter);
+    }, 100);
+  };
+
+  const voices = window.speechSynthesis.getVoices();
+  if (voices.length > 0) {
+    speak();
+  } else {
+    window.speechSynthesis.onvoiceschanged = () => {
+      window.speechSynthesis.onvoiceschanged = null;
+      speak();
+    };
+  }
 }
 
 function addRobotTyping(id) {
@@ -434,7 +485,12 @@ function removeRobotTyping(id) {
   const el = document.getElementById(id);
   if (el) el.remove();
 }
-
+let robotMuted = false;
+function toggleMute() {
+  robotMuted = !robotMuted;
+  document.getElementById('muteBtn').textContent = robotMuted ? '🔇' : '🔊';
+  if (robotMuted) window.speechSynthesis.cancel();
+}
 // Enter key to send
 document.getElementById('rcInput').addEventListener('keydown', e => {
   if (e.key === 'Enter') sendRobotMsg();
