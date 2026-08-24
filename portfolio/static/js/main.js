@@ -503,3 +503,9 @@ document.getElementById('robot-body').addEventListener('mouseenter', () => {
 document.getElementById('robot-body').addEventListener('mouseleave', () => {
   document.getElementById('robot-body').style.animationPlayState = 'running';
 });
+// Pre-load voices on page load
+window.addEventListener('load', () => {
+  if (window.speechSynthesis) {
+    window.speechSynthesis.getVoices();
+  }
+});
