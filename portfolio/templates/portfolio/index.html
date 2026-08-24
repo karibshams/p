@@ -261,12 +261,7 @@
       <a href="{{ data.scholar }}" target="_blank" class="ci reveal"><span class="ci-ic">🎓</span><div><span class="ci-lb">Google Scholar</span><span class="ci-vl">{{ data.citations }} citations · h-index {{ data.h_index }}</span></div></a>
       <a href="{{ data.award_url }}" target="_blank" class="ci reveal"><span class="ci-ic">🏆</span><div><span class="ci-lb">Best Paper Award</span><span class="ci-vl">AII 2025, Washington D.C.</span></div></a>
     </div>
-    <div style="margin-top:3rem" class="reveal">
-      <h3 class="sub-title">References</h3>
-      <div class="ref-grid">
-        {% for r in data.references %}<div class="ref-card"><strong>{{ r.name }}</strong><span class="muted sm">{{ r.title }}</span><a href="mailto:{{ r.email }}" style="color:var(--acc);font-family:var(--mono);font-size:.74rem">{{ r.email }}</a></div>{% endfor %}
-      </div>
-    </div>
+   
   </div>
 </section>
 <footer id="footer">

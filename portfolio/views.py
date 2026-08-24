@@ -157,10 +157,6 @@ DATA = {
         {"degree": "HSC", "institution": "National Ideal College", "period": "2017 – 2019", "detail": "GPA: 4.67"},
         {"degree": "SSC", "institution": "Motijheel Model School And College", "period": "2016 – 2017", "detail": "GPA: 5.00"},
     ],
-    "references": [
-        {"name": "Mohammad Rifat Ahmmad Rashid", "title": "Associate Professor, East West University", "email": "rifat.rashid@ewubd.edu"},
-        {"name": "Musharrat Khan", "title": "Senior Lecturer, East West University", "email": "musharrat.khan@ewubd.edu"},
-    ],
 }
 
 # ══════════════════════════════════════════════════════════════════
