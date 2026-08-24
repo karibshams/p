@@ -724,3 +724,15 @@ input,textarea,button { font-family:var(--font) }
   .robot-chat  { width:280px; }
   .robot-bubble { max-width:180px; }
 }
+.rc-mute {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: .75rem;
+  transition: var(--tr);
+  display: flex; align-items:center; justify-content:center;
+}
+.rc-mute:hover { border-color:var(--acc); }
