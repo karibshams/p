@@ -419,57 +419,6 @@ function addRobotMsg(text, role) {
   d.innerHTML = `<div class="rc-bubble">${fmt}</div>`;
   wrap.appendChild(d);
   wrap.scrollTop = wrap.scrollHeight;
-
-  // 🔊 Speak bot replies
-  if (role === 'bot') {
-    speakText(text);
-  }
-}
-
-function speakText(text) {
-  if (!window.speechSynthesis || robotMuted) return;
-
-  // Cancel any ongoing speech
-  window.speechSynthesis.cancel();
-
-  // Clean text
-  const clean = text
-    .replace(/[^\w\s,.!?'-]/g, '')
-    .replace(/\s+/g, ' ')
-    .trim()
-    .slice(0, 250);
-
-  if (!clean) return;
-
-  const utter = new SpeechSynthesisUtterance(clean);
-  utter.rate   = 0.92;
-  utter.pitch  = 1.0;
-  utter.volume = 1.0;
-  utter.lang   = 'en-US';
-
-  const speak = () => {
-    const voices = window.speechSynthesis.getVoices();
-    const voice  = voices.find(v => v.lang === 'en-US' && v.name.includes('Google'))
-                || voices.find(v => v.lang === 'en-US')
-                || voices.find(v => v.lang.startsWith('en'))
-                || null;
-    if (voice) utter.voice = voice;
-
-    // Chrome bug — needs small delay
-    setTimeout(() => {
-      window.speechSynthesis.speak(utter);
-    }, 100);
-  };
-
-  const voices = window.speechSynthesis.getVoices();
-  if (voices.length > 0) {
-    speak();
-  } else {
-    window.speechSynthesis.onvoiceschanged = () => {
-      window.speechSynthesis.onvoiceschanged = null;
-      speak();
-    };
-  }
 }
 
 function addRobotTyping(id) {
@@ -485,12 +434,7 @@ function removeRobotTyping(id) {
   const el = document.getElementById(id);
   if (el) el.remove();
 }
-let robotMuted = false;
-function toggleMute() {
-  robotMuted = !robotMuted;
-  document.getElementById('muteBtn').textContent = robotMuted ? '🔇' : '🔊';
-  if (robotMuted) window.speechSynthesis.cancel();
-}
+
 // Enter key to send
 document.getElementById('rcInput').addEventListener('keydown', e => {
   if (e.key === 'Enter') sendRobotMsg();
@@ -503,9 +447,191 @@ document.getElementById('robot-body').addEventListener('mouseenter', () => {
 document.getElementById('robot-body').addEventListener('mouseleave', () => {
   document.getElementById('robot-body').style.animationPlayState = 'running';
 });
-// Pre-load voices on page load
-window.addEventListener('load', () => {
-  if (window.speechSynthesis) {
-    window.speechSynthesis.getVoices();
+
+/* ═══════════════════════════════════════════════
+   DATA VISUALISATION — Chart.js
+═══════════════════════════════════════════════ */
+
+// Chart default styles
+Chart.defaults.color = '#94a3b8';
+Chart.defaults.font.family = "'JetBrains Mono', monospace";
+Chart.defaults.font.size = 11;
+
+const ACC  = '#00FFC2';
+const ACC2 = '#22D3EE';
+const GOLD = '#F59E0B';
+const SEC  = '#64748B';
+const CARD = 'rgba(36,43,54,0.8)';
+
+let chartsInitialised = false;
+
+function initCharts() {
+  if (chartsInitialised) return;
+  chartsInitialised = true;
+
+  // ── CHART 1: Publications by Year ──────────
+  new Chart(document.getElementById('chartYear'), {
+    type: 'bar',
+    data: {
+      labels: ['2024', '2025', '2026'],
+      datasets: [{
+        label: 'Papers Published',
+        data: [1, 13, 2],
+        backgroundColor: [
+          'rgba(0,255,194,.2)',
+          'rgba(0,255,194,.6)',
+          'rgba(34,211,238,.4)',
+        ],
+        borderColor: [ACC, ACC, ACC2],
+        borderWidth: 2,
+        borderRadius: 6,
+      }],
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#242b36',
+          borderColor: ACC,
+          borderWidth: 1,
+          callbacks: {
+            label: ctx => ` ${ctx.parsed.y} paper${ctx.parsed.y>1?'s':''}`,
+          },
+        },
+      },
+      scales: {
+        x: { grid: { color: 'rgba(255,255,255,.05)' }, ticks: { color: '#94a3b8' } },
+        y: { grid: { color: 'rgba(255,255,255,.05)' }, ticks: { color: '#94a3b8', stepSize: 1 }, beginAtZero: true },
+      },
+      animation: { duration: 1200, easing: 'easeOutQuart' },
+    },
+  });
+
+  // ── CHART 2: Publications by Venue ─────────
+  new Chart(document.getElementById('chartVenue'), {
+    type: 'doughnut',
+    data: {
+      labels: ['IEEE', 'Springer', 'Elsevier / Data in Brief', 'Nature Portfolio'],
+      datasets: [{
+        data: [7, 3, 4, 2],
+        backgroundColor: [
+          'rgba(0,255,194,.7)',
+          'rgba(34,211,238,.7)',
+          'rgba(245,158,11,.7)',
+          'rgba(100,116,139,.7)',
+        ],
+        borderColor: ['#1a1e23'],
+        borderWidth: 3,
+        hoverOffset: 8,
+      }],
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { color: '#94a3b8', padding: 12, font: { size: 10 } },
+        },
+        tooltip: {
+          backgroundColor: '#242b36',
+          borderColor: ACC,
+          borderWidth: 1,
+          callbacks: {
+            label: ctx => ` ${ctx.label}: ${ctx.parsed} papers`,
+          },
+        },
+      },
+      animation: { duration: 1200, easing: 'easeOutQuart' },
+    },
+  });
+
+  // ── CHART 3: Research Topics ────────────────
+  new Chart(document.getElementById('chartTopics'), {
+    type: 'bar',
+    data: {
+      labels: ['Medical AI', 'Agriculture AI', 'XAI', 'NLP / Emotion', 'Computer Vision', 'Datasets'],
+      datasets: [{
+        label: 'Papers',
+        data: [5, 5, 2, 2, 2, 4],
+        backgroundColor: [
+          'rgba(0,255,194,.55)',
+          'rgba(34,211,238,.55)',
+          'rgba(245,158,11,.55)',
+          'rgba(0,255,194,.35)',
+          'rgba(34,211,238,.35)',
+          'rgba(100,116,139,.55)',
+        ],
+        borderColor: [ACC, ACC2, GOLD, ACC, ACC2, SEC],
+        borderWidth: 2,
+        borderRadius: 6,
+      }],
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#242b36',
+          borderColor: ACC,
+          borderWidth: 1,
+          callbacks: {
+            label: ctx => ` ${ctx.parsed.x} paper${ctx.parsed.x>1?'s':''}`,
+          },
+        },
+      },
+      scales: {
+        x: { grid: { color: 'rgba(255,255,255,.05)' }, ticks: { color: '#94a3b8', stepSize: 1 }, beginAtZero: true },
+        y: { grid: { color: 'rgba(255,255,255,.03)' }, ticks: { color: '#94a3b8' } },
+      },
+      animation: { duration: 1200, easing: 'easeOutQuart' },
+    },
+  });
+
+  // ── CHART 4: Citations per Paper ────────────
+  new Chart(document.getElementById('chartCitations'), {
+    type: 'bar',
+    data: {
+      labels: ['TFP-BD', 'Sunflower', 'TB Diagnosis', 'Mushroom XAI', 'Drug XAI', 'BDFlower', 'Vegetable'],
+      datasets: [{
+        label: 'Citations',
+        data: [2, 2, 1, 1, 1, 1, 1],
+        backgroundColor: 'rgba(245,158,11,.5)',
+        borderColor: GOLD,
+        borderWidth: 2,
+        borderRadius: 6,
+      }],
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#242b36',
+          borderColor: GOLD,
+          borderWidth: 1,
+          callbacks: {
+            label: ctx => ` ${ctx.parsed.y} citation${ctx.parsed.y>1?'s':''}`,
+          },
+        },
+      },
+      scales: {
+        x: { grid: { color: 'rgba(255,255,255,.05)' }, ticks: { color: '#94a3b8', maxRotation: 30 } },
+        y: { grid: { color: 'rgba(255,255,255,.05)' }, ticks: { color: '#94a3b8', stepSize: 1 }, beginAtZero: true },
+      },
+      animation: { duration: 1200, easing: 'easeOutQuart' },
+    },
+  });
+}
+
+// Init charts when section scrolls into view
+const vizObs = new IntersectionObserver(entries => {
+  if (entries[0].isIntersecting) {
+    initCharts();
+    vizObs.disconnect();
   }
-});
+}, { threshold: .1 });
+
+const vizSection = document.getElementById('dataviz');
+if (vizSection) vizObs.observe(vizSection);
