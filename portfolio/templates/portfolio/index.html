@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="{% static 'css/main.css' %}"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 </head>
 <body>
 <canvas id="neural-bg"></canvas>
@@ -19,7 +20,7 @@
   <ul class="nav-links" id="navLinks">
     <li><a href="#about">About</a></li><li><a href="#skills">Skills</a></li>
     <li><a href="#experience">XP</a></li><li><a href="#projects">Projects</a></li>
-    <li><a href="#publications">Papers</a></li><li><a href="#aichat">AI Chat</a></li>
+    <li><a href="#publications">Papers</a></li><li><a href="#dataviz">Analytics</a></li><li><a href="#aichat">AI Chat</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
   <div class="nav-right">
@@ -51,7 +52,7 @@
     <div class="hero-right">
       <div class="av-wrap">
         <div class="av-ring r1"></div><div class="av-ring r2"></div><div class="av-ring r3"></div>
-        <div class="av-img"><img src="{% static 'img/karib.jpeg' %}" alt="Karib Shams" onerror="this.src='{% static 'img/placeholder.svg' %}'"/></div>
+        <div class="av-img"><img src="{% static 'img/karib.jpg' %}" alt="Karib Shams" onerror="this.src='{% static 'img/placeholder.svg' %}'"/></div>
         <a href="{{ data.award_url }}" target="_blank" class="av-badge">🏆 Best Paper Award<br/><span>AII 2025 · Washington D.C.</span></a>
       </div>
       <div class="socials">
@@ -199,6 +200,60 @@
     </div>
   </div>
 </section>
+<!-- ═══ DATA VISUALISATION ═══ -->
+<section id="dataviz" class="sec sec-alt">
+  <div class="container">
+    <div class="sec-hdr reveal"><span class="sn">📊</span><h2>Research Analytics</h2><div class="sl"></div></div>
+    <p class="muted sm reveal" style="margin-bottom:2.5rem">A data-driven view of Karib's research output — because a Data Scientist's portfolio should have data visualisation.</p>
+    <div class="viz-grid">
+      <!-- Chart 1: Publications by Year -->
+      <div class="viz-card reveal">
+        <div class="viz-card-hdr">
+          <span class="viz-icon">📅</span>
+          <div>
+            <h3>Publications by Year</h3>
+            <p class="muted" style="font-size:.74rem;font-family:var(--mono)">Research output growth over time</p>
+          </div>
+        </div>
+        <canvas id="chartYear"></canvas>
+      </div>
+      <!-- Chart 2: Publications by Venue -->
+      <div class="viz-card reveal">
+        <div class="viz-card-hdr">
+          <span class="viz-icon">🏛️</span>
+          <div>
+            <h3>Publications by Venue</h3>
+            <p class="muted" style="font-size:.74rem;font-family:var(--mono)">IEEE, Springer, Elsevier, Nature</p>
+          </div>
+        </div>
+        <canvas id="chartVenue"></canvas>
+      </div>
+      <!-- Chart 3: Research Topics -->
+      <div class="viz-card reveal">
+        <div class="viz-card-hdr">
+          <span class="viz-icon">🧠</span>
+          <div>
+            <h3>Research Topics</h3>
+            <p class="muted" style="font-size:.74rem;font-family:var(--mono)">Distribution across AI domains</p>
+          </div>
+        </div>
+        <canvas id="chartTopics"></canvas>
+      </div>
+      <!-- Chart 4: Citations per Paper -->
+      <div class="viz-card reveal">
+        <div class="viz-card-hdr">
+          <span class="viz-icon">📈</span>
+          <div>
+            <h3>Citations per Paper</h3>
+            <p class="muted" style="font-size:.74rem;font-family:var(--mono)">Research impact & reach</p>
+          </div>
+        </div>
+        <canvas id="chartCitations"></canvas>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="aichat" class="sec sec-alt">
   <div class="container">
     <div class="sec-hdr reveal"><span class="sn">AI</span><h2>Talk to My AI</h2><div class="sl"></div></div>
@@ -261,7 +316,12 @@
       <a href="{{ data.scholar }}" target="_blank" class="ci reveal"><span class="ci-ic">🎓</span><div><span class="ci-lb">Google Scholar</span><span class="ci-vl">{{ data.citations }} citations · h-index {{ data.h_index }}</span></div></a>
       <a href="{{ data.award_url }}" target="_blank" class="ci reveal"><span class="ci-ic">🏆</span><div><span class="ci-lb">Best Paper Award</span><span class="ci-vl">AII 2025, Washington D.C.</span></div></a>
     </div>
-   
+    <div style="margin-top:3rem" class="reveal">
+      <h3 class="sub-title">References</h3>
+      <div class="ref-grid">
+        {% for r in data.references %}<div class="ref-card"><strong>{{ r.name }}</strong><span class="muted sm">{{ r.title }}</span><a href="mailto:{{ r.email }}" style="color:var(--acc);font-family:var(--mono);font-size:.74rem">{{ r.email }}</a></div>{% endfor %}
+      </div>
+    </div>
   </div>
 </section>
 <footer id="footer">
@@ -335,7 +395,6 @@
         <strong>Karib's AI Robot</strong>
         <span>Always online · Free AI</span>
       </div>
-      <button onclick="toggleMute()" class="rc-mute" id="muteBtn" title="Mute/Unmute">🔊</button>
       <button onclick="toggleRobotChat()" class="rc-close">✕</button>
     </div>
     <div class="rc-messages" id="rcMessages">
