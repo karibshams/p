@@ -724,15 +724,45 @@ input,textarea,button { font-family:var(--font) }
   .robot-chat  { width:280px; }
   .robot-bubble { max-width:180px; }
 }
-.rc-mute {
-  background: none;
-  border: 1px solid var(--border);
-  color: var(--muted);
-  width: 28px; height: 28px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: .75rem;
-  transition: var(--tr);
-  display: flex; align-items:center; justify-content:center;
+
+/* ═══════════════════════════════════════════
+   DATA VISUALISATION SECTION
+═══════════════════════════════════════════ */
+.viz-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
 }
-.rc-mute:hover { border-color:var(--acc); }
+.viz-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 1.5rem;
+  transition: var(--tr);
+  position: relative;
+  overflow: hidden;
+}
+.viz-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(to right, var(--acc), var(--acc2));
+  opacity: 0;
+  transition: opacity .3s;
+}
+.viz-card:hover { border-color: rgba(0,255,194,.3); transform: translateY(-3px); }
+.viz-card:hover::before { opacity: 1; }
+.viz-card-hdr {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+.viz-icon { font-size: 1.6rem; }
+.viz-card-hdr h3 { font-size: .92rem; font-weight: 700; color: var(--acc2); }
+.viz-card canvas { max-height: 220px; }
+
+@media(max-width:768px) {
+  .viz-grid { grid-template-columns: 1fr; }
+}
