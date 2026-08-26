@@ -635,3 +635,188 @@ const vizObs = new IntersectionObserver(entries => {
 
 const vizSection = document.getElementById('dataviz');
 if (vizSection) vizObs.observe(vizSection);
+
+/* ═══════════════════════════════════════════════
+   SKILL RADAR CHART
+═══════════════════════════════════════════════ */
+function initRadar() {
+  const ctx = document.getElementById('skillRadar');
+  if (!ctx || ctx.dataset.init) return;
+  ctx.dataset.init = '1';
+
+  new Chart(ctx, {
+    type: 'radar',
+    data: {
+      labels: ['Deep Learning', 'Computer Vision', 'NLP', 'RAG Systems', 'XAI', 'Automation', 'Python', 'Research'],
+      datasets: [{
+        label: 'Karib Shams',
+        data: [95, 90, 88, 92, 85, 87, 96, 94],
+        backgroundColor: 'rgba(0,255,194,.12)',
+        borderColor: '#00FFC2',
+        borderWidth: 2,
+        pointBackgroundColor: '#00FFC2',
+        pointBorderColor: '#1a1e23',
+        pointBorderWidth: 2,
+        pointRadius: 4,
+      }],
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#242b36',
+          borderColor: '#00FFC2',
+          borderWidth: 1,
+        },
+      },
+      scales: {
+        r: {
+          min: 60, max: 100,
+          grid:      { color: 'rgba(255,255,255,.08)' },
+          angleLines:{ color: 'rgba(255,255,255,.08)' },
+          pointLabels:{ color: '#94a3b8', font: { size: 10 } },
+          ticks: { display: false },
+        },
+      },
+      animation: { duration: 1400, easing: 'easeOutQuart' },
+    },
+  });
+}
+
+// Animate progress bars
+function animateProgressBars() {
+  document.querySelectorAll('.pb-fill').forEach(bar => {
+    const w = bar.dataset.width;
+    setTimeout(() => { bar.style.width = w + '%'; }, 200);
+  });
+}
+
+// Observe skills section for radar + bars
+const skillObs = new IntersectionObserver(entries => {
+  if (entries[0].isIntersecting) {
+    initRadar();
+    animateProgressBars();
+    skillObs.disconnect();
+  }
+}, { threshold: .15 });
+const skillSec = document.getElementById('skills');
+if (skillSec) skillObs.observe(skillSec);
+
+/* ═══════════════════════════════════════════════
+   GAME SWITCHER
+═══════════════════════════════════════════════ */
+function switchGame(name) {
+  document.querySelectorAll('.game-panel').forEach(p => p.classList.add('hidden'));
+  document.querySelectorAll('.gtab').forEach(t => t.classList.remove('active'));
+  document.getElementById('game-' + name).classList.remove('hidden');
+  event.target.classList.add('active');
+}
+
+/* ═══════════════════════════════════════════════
+   GAME 2 — GUESS THE AI MODEL
+═══════════════════════════════════════════════ */
+const GUESS_QS = [
+  { clue: "I process images by sliding small filters across them, learning edges, textures, and shapes layer by layer. I'm the backbone of most image recognition systems.", opts: ["LSTM", "CNN", "Random Forest", "XGBoost"], a: 1 },
+  { clue: "I read a sentence from both left to right AND right to left simultaneously. I'm pre-trained on masked words. I revolutionised NLP in 2018.", opts: ["GPT-2", "BERT", "T5", "XLNet"], a: 1 },
+  { clue: "I can detect multiple objects in an image in a single forward pass. My name literally means I look at the whole image just once.", opts: ["Faster R-CNN", "SSD", "YOLO", "RetinaNet"], a: 2 },
+  { clue: "I use Shapley values from game theory to explain exactly how much each feature contributed to a model's prediction.", opts: ["LIME", "SHAP", "Grad-CAM", "Anchors"], a: 1 },
+  { clue: "I retrieve relevant documents first, then feed them to a language model to generate grounded, factual answers. I reduce hallucinations dramatically.", opts: ["Fine-tuning", "RAG", "Prompt Chaining", "In-context Learning"], a: 1 },
+  { clue: "I'm a vision transformer that uses shifted windows for attention computation, giving me linear complexity and hierarchical features like CNNs.", opts: ["ViT", "DeiT", "Swin Transformer", "BEiT"], a: 2 },
+  { clue: "I'm an ensemble of hundreds of decision trees. Each tree sees a random subset of data and features. I combine their votes for the final answer.", opts: ["XGBoost", "AdaBoost", "Random Forest", "Bagging Classifier"], a: 2 },
+  { clue: "I'm a self-supervised learning framework where I learn by comparing augmented views of the same image, pulling similar pairs together and pushing different pairs apart.", opts: ["MAE", "SimCLR", "DINO", "MoCo"], a: 1 },
+  { clue: "I'm an open-source workflow automation tool. I connect APIs, AI models, and databases using visual nodes — no heavy coding needed.", opts: ["Zapier", "n8n", "Airflow", "Prefect"], a: 1 },
+  { clue: "I'm a gradient boosted tree algorithm optimised for speed and performance. I handle missing data automatically and have built-in regularisation.", opts: ["Random Forest", "LightGBM", "XGBoost", "CatBoost"], a: 2 },
+];
+
+let gIdx = 0, gScore = 0, gQs = [];
+
+function initGuessGame() {
+  gQs = shuffle([...GUESS_QS]);
+  gIdx = 0; gScore = 0;
+  document.getElementById('guessStartBtn').style.display = 'none';
+  document.getElementById('guessScore').textContent = 'Score: 0/' + gQs.length;
+  showGuessQ();
+}
+
+function showGuessQ() {
+  if (gIdx >= gQs.length) {
+    const pct = Math.round((gScore / gQs.length) * 100);
+    document.getElementById('guessClue').innerHTML = `<strong style="color:var(--acc)">Game Over! Score: ${gScore}/${gQs.length} (${pct}%)</strong>`;
+    document.getElementById('guessOpts').innerHTML = '';
+    document.getElementById('guessScore').textContent = pct >= 80 ? '🏆 AI Expert!' : pct >= 60 ? '⭐ Great!' : '📚 Keep Learning!';
+    const btn = document.getElementById('guessStartBtn');
+    btn.textContent = 'Play Again';
+    btn.style.display = 'inline-flex';
+    return;
+  }
+  const q = gQs[gIdx];
+  document.getElementById('guessClue').textContent = q.clue;
+  const oe = document.getElementById('guessOpts'); oe.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const b = document.createElement('button');
+    b.className = 'guess-opt'; b.textContent = opt;
+    b.onclick = () => {
+      Array.from(oe.children).forEach(x => x.disabled = true);
+      if (i === q.a) { b.classList.add('correct'); gScore++; }
+      else { b.classList.add('wrong'); oe.children[q.a].classList.add('correct'); }
+      document.getElementById('guessScore').textContent = 'Score: ' + gScore + '/' + gQs.length;
+      gIdx++;
+      setTimeout(showGuessQ, 1200);
+    };
+    oe.appendChild(b);
+  });
+}
+
+/* ═══════════════════════════════════════════════
+   GAME 3 — PREDICT THE OUTPUT
+═══════════════════════════════════════════════ */
+const PREDICT_QS = [
+  { clue: "You train a model with 10,000 features but only 100 training samples. The training accuracy is 99%. What happens on the test set?", opts: ["High accuracy — model is great", "Low accuracy — model overfits", "Same accuracy as training", "Model refuses to train"], a: 1 },
+  { clue: "You use a learning rate of 10.0 (very large) in gradient descent. What happens to the loss?", opts: ["Converges quickly to minimum", "Diverges — loss explodes or oscillates", "Stays the same", "Gradually decreases"], a: 1 },
+  { clue: "Your dataset has 95% class A and 5% class B. You train a model that always predicts class A. What is the accuracy?", opts: ["50%", "5%", "95%", "100%"], a: 2 },
+  { clue: "You apply dropout with rate 0.9 (90% neurons dropped) during training. What is the likely result?", opts: ["Perfect regularisation", "Severe underfitting — model can't learn", "Faster training", "Better generalisation"], a: 1 },
+  { clue: "You add 50 more layers to a deep neural network without residual connections. Training accuracy starts dropping. This is called:", opts: ["Overfitting", "Vanishing gradient problem", "Data leakage", "Mode collapse"], a: 1 },
+  { clue: "You have a RAG system but the retrieved documents are always irrelevant to the question. What is the likely problem?", opts: ["LLM is too small", "Poor embedding model or chunking strategy", "Too many documents", "Wrong temperature setting"], a: 1 },
+  { clue: "You train YOLO on 10,000 images of cars in daylight. At night, detection fails completely. This is called:", opts: ["Overfitting", "Distribution shift / domain mismatch", "Low learning rate", "Wrong architecture"], a: 1 },
+  { clue: "In a GAN, the discriminator becomes perfect too quickly and the generator stops improving. This is called:", opts: ["Vanishing gradient", "Mode collapse", "Discriminator dominance", "Training collapse"], a: 2 },
+];
+
+let pIdx = 0, pScore = 0, pQs = [];
+
+function initPredictGame() {
+  pQs = shuffle([...PREDICT_QS]);
+  pIdx = 0; pScore = 0;
+  document.getElementById('predictStartBtn').style.display = 'none';
+  document.getElementById('predictScore').textContent = 'Score: 0/' + pQs.length;
+  showPredictQ();
+}
+
+function showPredictQ() {
+  if (pIdx >= pQs.length) {
+    const pct = Math.round((pScore / pQs.length) * 100);
+    document.getElementById('predictClue').innerHTML = `<strong style="color:var(--acc)">Done! Score: ${pScore}/${pQs.length} (${pct}%)</strong>`;
+    document.getElementById('predictOpts').innerHTML = '';
+    document.getElementById('predictScore').textContent = pct >= 80 ? '🏆 ML Expert!' : pct >= 60 ? '⭐ Good thinking!' : '📚 Study more ML!';
+    const btn = document.getElementById('predictStartBtn');
+    btn.textContent = 'Play Again';
+    btn.style.display = 'inline-flex';
+    return;
+  }
+  const q = pQs[pIdx];
+  document.getElementById('predictClue').textContent = q.clue;
+  const oe = document.getElementById('predictOpts'); oe.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const b = document.createElement('button');
+    b.className = 'guess-opt'; b.textContent = opt;
+    b.onclick = () => {
+      Array.from(oe.children).forEach(x => x.disabled = true);
+      if (i === q.a) { b.classList.add('correct'); pScore++; }
+      else { b.classList.add('wrong'); oe.children[q.a].classList.add('correct'); }
+      document.getElementById('predictScore').textContent = 'Score: ' + pScore + '/' + pQs.length;
+      pIdx++;
+      setTimeout(showPredictQ, 1200);
+    };
+    oe.appendChild(b);
+  });
+}
