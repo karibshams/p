@@ -52,7 +52,7 @@
     <div class="hero-right">
       <div class="av-wrap">
         <div class="av-ring r1"></div><div class="av-ring r2"></div><div class="av-ring r3"></div>
-        <div class="av-img"><img src="{% static 'img/karib.jpeg' %}" alt="Karib Shams" onerror="this.src='{% static 'img/placeholder.svg' %}'"/></div>
+        <div class="av-img"><img src="{% static 'img/karib.jpg' %}" alt="Karib Shams" onerror="this.src='{% static 'img/placeholder.svg' %}'"/></div>
         <a href="{{ data.award_url }}" target="_blank" class="av-badge">🏆 Best Paper Award<br/><span>AII 2025 · Washington D.C.</span></a>
       </div>
       <div class="socials">
@@ -114,7 +114,63 @@
         <p class="muted sm" style="margin-bottom:1.2rem">Challenge yourself on ML, Deep Learning, NLP, Computer Vision, and more.</p>
         <button class="btn-primary" onclick="initQuiz()">🚀 Start Quiz</button>
       </div>
+    <!-- SKILL RADAR CHART -->
+    <div class="radar-wrap reveal">
+      <div class="viz-card-hdr" style="margin-bottom:1.2rem">
+        <span class="viz-icon">🎯</span>
+        <div>
+          <h3 style="color:var(--acc2);font-size:.92rem;font-weight:700">AI Skill Radar</h3>
+          <p class="muted" style="font-size:.74rem;font-family:var(--mono)">Visual breakdown of Karib core competencies</p>
+        </div>
+      </div>
+      <div class="radar-grid">
+        <div class="radar-chart-wrap">
+          <canvas id="skillRadar"></canvas>
+        </div>
+        <div class="progress-bars">
+          <div class="pb-item"><div class="pb-label"><span>Deep Learning</span><span class="pb-val">95%</span></div><div class="pb-track"><div class="pb-fill" data-width="95"></div></div></div>
+          <div class="pb-item"><div class="pb-label"><span>Computer Vision</span><span class="pb-val">90%</span></div><div class="pb-track"><div class="pb-fill" data-width="90"></div></div></div>
+          <div class="pb-item"><div class="pb-label"><span>NLP and LLMs</span><span class="pb-val">88%</span></div><div class="pb-track"><div class="pb-fill" data-width="88" style="background:linear-gradient(to right,var(--acc2),#818cf8)"></div></div></div>
+          <div class="pb-item"><div class="pb-label"><span>RAG Systems</span><span class="pb-val">92%</span></div><div class="pb-track"><div class="pb-fill" data-width="92"></div></div></div>
+          <div class="pb-item"><div class="pb-label"><span>Python</span><span class="pb-val">96%</span></div><div class="pb-track"><div class="pb-fill" data-width="96"></div></div></div>
+          <div class="pb-item"><div class="pb-label"><span>Explainable AI</span><span class="pb-val">85%</span></div><div class="pb-track"><div class="pb-fill" data-width="85" style="background:linear-gradient(to right,var(--gold),#f97316)"></div></div></div>
+          <div class="pb-item"><div class="pb-label"><span>n8n Automation</span><span class="pb-val">87%</span></div><div class="pb-track"><div class="pb-fill" data-width="87" style="background:linear-gradient(to right,var(--acc2),#818cf8)"></div></div></div>
+          <div class="pb-item"><div class="pb-label"><span>Django and Web AI</span><span class="pb-val">89%</span></div><div class="pb-track"><div class="pb-fill" data-width="89"></div></div></div>
+        </div>
+      </div>
     </div>
+
+    <!-- AI MINI GAMES -->
+    <div class="games-section reveal">
+      <div class="games-hdr">
+        <span style="font-size:1.5rem">🎮</span>
+        <div><h3>AI Mini Games</h3><p class="muted" style="font-size:.74rem;font-family:var(--mono)">3 fun games to test your AI knowledge</p></div>
+      </div>
+      <div class="games-tabs">
+        <button class="gtab active" onclick="switchGame('quiz')">🧠 AI Quiz</button>
+        <button class="gtab" onclick="switchGame('guess')">🤖 Guess the Model</button>
+        <button class="gtab" onclick="switchGame('predict')">📊 Predict Output</button>
+      </div>
+      <div id="game-quiz" class="game-panel">
+        <p class="muted sm" style="margin-bottom:1rem">30 random AI questions — challenge yourself above in the Skills section!</p>
+        <button class="btn-primary" onclick="document.querySelector('.quiz-wrap').scrollIntoView({behavior:'smooth'})">Go to Quiz</button>
+      </div>
+      <div id="game-guess" class="game-panel hidden">
+        <p class="muted sm" style="margin-bottom:1.2rem">Read the clue and guess which AI model or concept it describes!</p>
+        <div class="guess-clue" id="guessClue"></div>
+        <div class="guess-opts" id="guessOpts"></div>
+        <div class="guess-score" id="guessScore"></div>
+        <button class="btn-primary" id="guessStartBtn" onclick="initGuessGame()">Start Game</button>
+      </div>
+      <div id="game-predict" class="game-panel hidden">
+        <p class="muted sm" style="margin-bottom:1.2rem">Look at the ML scenario and predict what will happen!</p>
+        <div class="guess-clue" id="predictClue"></div>
+        <div class="guess-opts" id="predictOpts"></div>
+        <div class="guess-score" id="predictScore"></div>
+        <button class="btn-primary" id="predictStartBtn" onclick="initPredictGame()">Start Game</button>
+      </div>
+    </div>
+
   </div>
 </section>
 <section id="experience" class="sec">
