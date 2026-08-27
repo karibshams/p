@@ -820,3 +820,49 @@ function showPredictQ() {
     oe.appendChild(b);
   });
 }
+
+/* ═══════════════════════════════════════════════
+   LIVE RESEARCH IMPACT COUNTERS
+═══════════════════════════════════════════════ */
+const IMPACT_DATA = [
+  { id: 'imp1', target: 16, suffix: '+' },
+  { id: 'imp2', target: 9,  suffix: ''  },
+  { id: 'imp3', target: 2,  suffix: ''  },
+  { id: 'imp4', target: 1,  suffix: ''  },
+  { id: 'imp5', target: 60, suffix: '+' },
+  { id: 'imp6', target: 4,  suffix: ''  },
+];
+
+function animateImpactCounters() {
+  IMPACT_DATA.forEach(({ id, target, suffix }) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    let cur = 0;
+    const step = target / 50;
+    const timer = setInterval(() => {
+      cur += step;
+      if (cur >= target) {
+        el.textContent = target + suffix;
+        clearInterval(timer);
+      } else {
+        el.textContent = Math.floor(cur) + suffix;
+      }
+    }, 35);
+  });
+}
+
+const impactObs = new IntersectionObserver(entries => {
+  if (entries[0].isIntersecting) {
+    animateImpactCounters();
+    impactObs.disconnect();
+  }
+}, { threshold: .2 });
+
+const impactSec = document.getElementById('impact');
+if (impactSec) impactObs.observe(impactSec);
+
+/* ═══════════════════════════════════════════════
+   ROBOT MSG FOR NEW SECTIONS
+═══════════════════════════════════════════════ */
+ROBOT_MSGS['timeline'] = "⭐ This is Karib's journey — from GPA 5.00 in SSC all the way to Best Paper Award in Washington D.C.!";
+ROBOT_MSGS['impact']   = "📈 16 papers, 9 citations, h-index 2, and 60+ AI products — Karib's research impact in numbers!";
