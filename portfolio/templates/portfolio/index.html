@@ -20,7 +20,7 @@
   <ul class="nav-links" id="navLinks">
     <li><a href="#about">About</a></li><li><a href="#skills">Skills</a></li>
     <li><a href="#experience">XP</a></li><li><a href="#projects">Projects</a></li>
-    <li><a href="#publications">Papers</a></li><li><a href="#dataviz">Analytics</a></li><li><a href="#aichat">AI Chat</a></li>
+    <li><a href="#publications">Papers</a></li><li><a href="#timeline">Journey</a></li><li><a href="#dataviz">Analytics</a></li><li><a href="#aichat">AI Chat</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
   <div class="nav-right">
@@ -39,6 +39,7 @@
       <div class="hero-btns">
         <a href="#projects" class="btn-primary">View Projects</a>
         <a href="{{ data.award_url }}" target="_blank" class="btn-award">🏆 Best Paper Award</a>
+        <a href="{% static 'img/KARIB_SHAMS_latest.pdf' %}" download="KARIB_SHAMS_CV.pdf" class="btn-cv">📄 Download CV</a>
         <a href="{{ data.scholar }}" target="_blank" class="btn-ghost">🎓 Scholar</a>
       </div>
       <div class="hero-stats">
@@ -52,7 +53,7 @@
     <div class="hero-right">
       <div class="av-wrap">
         <div class="av-ring r1"></div><div class="av-ring r2"></div><div class="av-ring r3"></div>
-        <div class="av-img"><img src="{% static 'img/karib.jpeg' %}" alt="Karib Shams" onerror="this.src='{% static 'img/placeholder.svg' %}'"/></div>
+        <div class="av-img"><img src="{% static 'img/karib.jpg' %}" alt="Karib Shams" onerror="this.src='{% static 'img/placeholder.svg' %}'"/></div>
         <a href="{{ data.award_url }}" target="_blank" class="av-badge">🏆 Best Paper Award<br/><span>AII 2025 · Washington D.C.</span></a>
       </div>
       <div class="socials">
@@ -249,6 +250,7 @@
             {% if pub.award %}<a href="{{ pub.award_url }}" target="_blank" class="pub-award">{{ pub.award }}</a>{% endif %}
             {% if pub.cited > 0 %}<span class="pub-cited">{{ pub.cited }} citation{{ pub.cited|pluralize }}</span>{% endif %}
             {% if pub.doi %}<a href="https://doi.org/{{ pub.doi }}" target="_blank" class="pub-doi">DOI →</a>{% endif %}
+            {% if pub.scholar_url %}<a href="{{ pub.scholar_url }}" target="_blank" class="pub-doi" style="background:rgba(34,211,238,.08);border-color:rgba(34,211,238,.3);color:var(--acc2)">Scholar →</a>{% endif %}
           </div>
         </div>
       </div>
@@ -256,6 +258,202 @@
     </div>
   </div>
 </section>
+<!-- ═══ ACHIEVEMENT TIMELINE ═══ -->
+<section id="timeline" class="sec">
+  <div class="container">
+    <div class="sec-hdr reveal"><span class="sn">⭐</span><h2>My Journey</h2><div class="sl"></div></div>
+    <p class="muted sm reveal" style="margin-bottom:2.5rem">From student to researcher to award-winning AI developer — every milestone that shaped Karib Shams.</p>
+    <div class="tl-journey">
+
+      <div class="tlj-item reveal">
+        <div class="tlj-dot" style="background:var(--acc)"></div>
+        <div class="tlj-card">
+          <span class="tlj-year">2016</span>
+          <span class="tlj-badge" style="background:rgba(0,255,194,.1);color:var(--acc)">🎓 Education</span>
+          <h3>SSC — GPA 5.00</h3>
+          <p class="muted sm">Motijheel Model School And College — Perfect GPA, laying the academic foundation.</p>
+        </div>
+      </div>
+
+      <div class="tlj-item reveal">
+        <div class="tlj-dot" style="background:var(--acc2)"></div>
+        <div class="tlj-card">
+          <span class="tlj-year">2019</span>
+          <span class="tlj-badge" style="background:rgba(34,211,238,.1);color:var(--acc2)">🎓 Education</span>
+          <h3>HSC — GPA 4.67</h3>
+          <p class="muted sm">National Ideal College — Strong performance, setting the path for CSE.</p>
+        </div>
+      </div>
+
+      <div class="tlj-item reveal">
+        <div class="tlj-dot" style="background:var(--acc)"></div>
+        <div class="tlj-card">
+          <span class="tlj-year">2020</span>
+          <span class="tlj-badge" style="background:rgba(0,255,194,.1);color:var(--acc)">🏫 University</span>
+          <h3>BSc in CSE — East West University</h3>
+          <p class="muted sm">Began Computer Science journey. Built first AI projects, discovered passion for Machine Learning and Deep Learning.</p>
+        </div>
+      </div>
+
+      <div class="tlj-item reveal">
+        <div class="tlj-dot" style="background:var(--gold)"></div>
+        <div class="tlj-card">
+          <span class="tlj-year">2024</span>
+          <span class="tlj-badge" style="background:rgba(245,158,11,.1);color:var(--gold)">📚 Research</span>
+          <h3>First Publication — Springer</h3>
+          <p class="muted sm">Published first paper on Histopathology-based Deep Learning for Lung Cancer prognosis in ICDMIS 2024, Springer.</p>
+        </div>
+      </div>
+
+      <div class="tlj-item reveal">
+        <div class="tlj-dot" style="background:var(--acc2)"></div>
+        <div class="tlj-card">
+          <span class="tlj-year">2024</span>
+          <span class="tlj-badge" style="background:rgba(34,211,238,.1);color:var(--acc2)">🎓 MSc</span>
+          <h3>BSc Completed — CGPA 3.58 · MSc Begins</h3>
+          <p class="muted sm">Completed BSc CSE and immediately enrolled in MSc specialising in Data Science. Joined as GTA and Research Assistant.</p>
+        </div>
+      </div>
+
+      <div class="tlj-item reveal">
+        <div class="tlj-dot" style="background:var(--acc)"></div>
+        <div class="tlj-card">
+          <span class="tlj-year">2025</span>
+          <span class="tlj-badge" style="background:rgba(0,255,194,.1);color:var(--acc)">💼 Career</span>
+          <h3>GTA + Research Assistant — East West University</h3>
+          <p class="muted sm">Taught Statistics, AI, and Machine Learning. Simultaneously contributed to multiple research projects across medical AI and computer vision.</p>
+        </div>
+      </div>
+
+      <div class="tlj-item reveal">
+        <div class="tlj-dot" style="background:var(--gold)"></div>
+        <div class="tlj-card">
+          <span class="tlj-year">2025</span>
+          <span class="tlj-badge" style="background:rgba(245,158,11,.15);color:var(--gold)">🏆 Award</span>
+          <h3>🏆 Best Paper Award — Washington D.C., USA</h3>
+          <p class="muted sm">Received the Best Paper Award at AII 2025 (Springer-Nature CCIS) in Washington D.C. for CodeMixEcom-Emotion — Bangla-English emotion detection research.</p>
+          <a href="https://ewubd.edu/achievement-details/ewu-researchers-win-best-paper-award-international-ai-conference-washington-dc" target="_blank" class="tlj-link">View EWU Announcement →</a>
+        </div>
+      </div>
+
+      <div class="tlj-item reveal">
+        <div class="tlj-dot" style="background:var(--acc)"></div>
+        <div class="tlj-card">
+          <span class="tlj-year">2025</span>
+          <span class="tlj-badge" style="background:rgba(0,255,194,.1);color:var(--acc)">💼 Leadership</span>
+          <h3>Senior Data Scientist & Team Leader — JVai</h3>
+          <p class="muted sm">Joined JVai (Betopia Group) as Senior Executive Data Scientist. Leads AI Stream team — 60+ web and mobile AI products delivered.</p>
+        </div>
+      </div>
+
+      <div class="tlj-item reveal">
+        <div class="tlj-dot" style="background:var(--acc2)"></div>
+        <div class="tlj-card">
+          <span class="tlj-year">2025</span>
+          <span class="tlj-badge" style="background:rgba(34,211,238,.1);color:var(--acc2)">📊 Research</span>
+          <h3>16 Publications · 9 Citations · h-index 2</h3>
+          <p class="muted sm">16 papers published across IEEE, Springer, Elsevier, and Nature Portfolio. Research spans Medical AI, Agriculture AI, NLP, Computer Vision, and XAI.</p>
+          <a href="https://scholar.google.com/citations?user=C26dtwMAAAAJ&hl=en" target="_blank" class="tlj-link">View Google Scholar →</a>
+        </div>
+      </div>
+
+      <div class="tlj-item reveal">
+        <div class="tlj-dot pulse-gold"></div>
+        <div class="tlj-card" style="border-color:rgba(0,255,194,.3)">
+          <span class="tlj-year">Now</span>
+          <span class="tlj-badge" style="background:rgba(0,255,194,.15);color:var(--acc)">🚀 Future</span>
+          <h3>MSc Completion · PhD & Global Research</h3>
+          <p class="muted sm">Completing MSc (CGPA 3.91). Planning PhD research in AI. Building more impactful AI products and expanding global research collaborations.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ LIVE RESEARCH IMPACT COUNTER ═══ -->
+<section id="impact" class="sec sec-alt">
+  <div class="container">
+    <div class="sec-hdr reveal"><span class="sn">📈</span><h2>Research Impact</h2><div class="sl"></div></div>
+    <div class="impact-grid">
+      <div class="impact-card reveal">
+        <div class="impact-icon">📚</div>
+        <div class="impact-num" id="imp1">0</div>
+        <div class="impact-label">Total Publications</div>
+        <div class="impact-sub">IEEE · Springer · Elsevier · Nature</div>
+      </div>
+      <div class="impact-card reveal">
+        <div class="impact-icon">🏛️</div>
+        <div class="impact-num" id="imp2">0</div>
+        <div class="impact-label">Total Citations</div>
+        <div class="impact-sub">Google Scholar verified</div>
+      </div>
+      <div class="impact-card reveal">
+        <div class="impact-icon">📊</div>
+        <div class="impact-num" id="imp3">0</div>
+        <div class="impact-label">h-index</div>
+        <div class="impact-sub">Research influence metric</div>
+      </div>
+      <div class="impact-card reveal">
+        <div class="impact-icon">🏆</div>
+        <div class="impact-num" id="imp4">1</div>
+        <div class="impact-label">Best Paper Award</div>
+        <div class="impact-sub">AII 2025 · Washington D.C.</div>
+      </div>
+      <div class="impact-card reveal">
+        <div class="impact-icon">⚡</div>
+        <div class="impact-num" id="imp5">0</div>
+        <div class="impact-label">Team Projects</div>
+        <div class="impact-sub">AI Stream delivered</div>
+      </div>
+      <div class="impact-card reveal">
+        <div class="impact-icon">🌍</div>
+        <div class="impact-num" id="imp6">0</div>
+        <div class="impact-label">Research Venues</div>
+        <div class="impact-sub">International conferences & journals</div>
+      </div>
+    </div>
+    <div class="impact-ticker reveal">
+      <span class="ticker-label">LIVE</span>
+      <div class="ticker-wrap">
+        <div class="ticker-content" id="tickerContent">
+          🏆 Best Paper Award — AII 2025, Washington D.C. &nbsp;·&nbsp;
+          📚 16 Publications across IEEE, Springer, Nature &nbsp;·&nbsp;
+          ⚡ 60+ AI Projects delivered by AI Stream &nbsp;·&nbsp;
+          🎓 MSc Data Science — EWU, CGPA 3.91 &nbsp;·&nbsp;
+          🔬 Research in Medical AI, AgriAI, NLP, XAI &nbsp;·&nbsp;
+          💼 Senior Data Scientist at JVai, Betopia Group &nbsp;·&nbsp;
+        </div>
+      </div>
+    </div>
+
+    <!-- GitHub Activity -->
+    <div class="github-section reveal">
+      <div class="viz-card-hdr" style="margin-bottom:1.5rem">
+        <span class="viz-icon">💻</span>
+        <div>
+          <h3 style="color:var(--acc2);font-size:.92rem;font-weight:700">GitHub Activity</h3>
+          <p class="muted" style="font-size:.74rem;font-family:var(--mono)">Real contributions from github.com/karibshams</p>
+        </div>
+        <a href="https://github.com/karibshams" target="_blank" class="btn-ghost" style="margin-left:auto;font-size:.76rem;padding:7px 16px">View GitHub →</a>
+      </div>
+      <div class="github-graph">
+        <img src="https://ghchart.rshah.org/00FFC2/karibshams" alt="Karib GitHub contribution graph"
+             class="github-img" loading="lazy"
+             onerror="this.parentElement.innerHTML='<div class=gh-fallback>GitHub activity graph — <a href=https://github.com/karibshams target=_blank>view on GitHub</a></div>'"/>
+      </div>
+      <div class="github-stats">
+        <a href="https://github.com/karibshams" target="_blank" class="gh-stat">
+          <img src="https://github-readme-stats.vercel.app/api?username=karibshams&show_icons=true&theme=dark&bg_color=242b36&title_color=00FFC2&icon_color=22D3EE&text_color=94a3b8&border_color=00FFC230&hide_border=false&count_private=true" alt="GitHub Stats" loading="lazy" class="gh-stats-img" onerror="this.style.display='none'"/>
+        </a>
+        <a href="https://github.com/karibshams" target="_blank" class="gh-stat">
+          <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=karibshams&layout=compact&theme=dark&bg_color=242b36&title_color=00FFC2&text_color=94a3b8&border_color=00FFC230" alt="Top Languages" loading="lazy" class="gh-stats-img" onerror="this.style.display='none'"/>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ═══ DATA VISUALISATION ═══ -->
 <section id="dataviz" class="sec sec-alt">
   <div class="container">
