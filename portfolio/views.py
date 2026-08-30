@@ -3,7 +3,9 @@ import re
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from .models import Feedback, ChatLog
+from .models import Feedback, ChatLog, VisitorCount
+from django.utils import timezone
+from django.db.models import Sum
 
 # ══════════════════════════════════════════════════════════════════
 #  PORTFOLIO DATA — KARIB SHAMS v3
@@ -763,10 +765,27 @@ def _respond(msg: str) -> str:
 def index(request):
     feedbacks = Feedback.objects.order_by('-created_at')[:8]
     pub_count = len(DATA["publications"])
+
+    # Track visitor
+    try:
+        today = timezone.now().date()
+        visitor, _ = VisitorCount.objects.get_or_create(date=today)
+        if not request.session.get(f'visited_{today}'):
+            visitor.count += 1
+            visitor.save()
+            request.session[f'visited_{today}'] = True
+        total_visitors = VisitorCount.objects.aggregate(total=Sum('count'))['total'] or 0
+        today_visitors = visitor.count
+    except Exception:
+        total_visitors = 0
+        today_visitors = 0
+
     return render(request, 'portfolio/index.html', {
         'data': DATA,
         'pub_count': pub_count,
         'feedbacks': feedbacks,
+        'total_visitors': total_visitors,
+        'today_visitors': today_visitors,
     })
 
 
