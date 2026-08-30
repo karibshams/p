@@ -1194,3 +1194,101 @@ function switchGame(name) {
   // Stop typing game if switching away
   if (name !== 'typing' && tgActive) { clearInterval(tgTimer); tgActive = false; }
 }
+
+/* ═══════════════════════════════════════════════
+   TEXT-TO-SPEECH — Robot Voice
+═══════════════════════════════════════════════ */
+let robotMuted = false;
+
+function toggleMute() {
+  robotMuted = !robotMuted;
+  const btn = document.getElementById('muteBtn');
+  if (btn) btn.textContent = robotMuted ? '🔇' : '🔊';
+  if (robotMuted && window.speechSynthesis) window.speechSynthesis.cancel();
+}
+
+function speakText(text) {
+  if (!window.speechSynthesis || robotMuted) return;
+  window.speechSynthesis.cancel();
+
+  // Clean text — remove emojis and symbols
+  const clean = text
+    .replace(/[^\w\s,.!?'-]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, 250);
+
+  if (!clean) return;
+
+  const utter = new SpeechSynthesisUtterance(clean);
+  utter.rate   = 0.92;
+  utter.pitch  = 1.0;
+  utter.volume = 1.0;
+  utter.lang   = 'en-US';
+
+  const speak = () => {
+    const voices = window.speechSynthesis.getVoices();
+    const voice  = voices.find(v => v.lang === 'en-US' && v.name.includes('Google'))
+                || voices.find(v => v.lang === 'en-US')
+                || voices.find(v => v.lang.startsWith('en'))
+                || null;
+    if (voice) utter.voice = voice;
+    setTimeout(() => window.speechSynthesis.speak(utter), 100);
+  };
+
+  const voices = window.speechSynthesis.getVoices();
+  if (voices.length > 0) {
+    speak();
+  } else {
+    window.speechSynthesis.onvoiceschanged = () => {
+      window.speechSynthesis.onvoiceschanged = null;
+      speak();
+    };
+  }
+}
+
+// Pre-load voices on page load (Chrome fix)
+window.addEventListener('load', () => {
+  if (window.speechSynthesis) window.speechSynthesis.getVoices();
+});
+
+// Override addRobotMsg to speak bot replies
+const _origAddRobotMsg = addRobotMsg;
+// Patch: speak when bot replies in robot chat
+const origSendRobotMsg = sendRobotMsg;
+async function sendRobotMsg() {
+  const inp = document.getElementById('rcInput');
+  const msg = inp.value.trim();
+  if (!msg) return;
+  inp.value = '';
+
+  addRobotMsg(msg, 'user');
+  const tid = 'rt' + Date.now(); addRobotTyping(tid);
+
+  try {
+    const res = await fetch('/api/chat/', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrf() },
+      body:    JSON.stringify({ message: msg }),
+    });
+    const data = await res.json();
+    removeRobotTyping(tid);
+    const reply = data.reply || 'No response.';
+    addRobotMsg(reply, 'bot');
+    speakText(reply); // 🔊 SPEAK the reply
+  } catch {
+    removeRobotTyping(tid);
+    addRobotMsg('Connection error. Please try again.', 'bot');
+  }
+}
+
+// Re-bind Enter key for robot chat
+const rcInputEl = document.getElementById('rcInput');
+if (rcInputEl) {
+  // Remove old listener by cloning
+  const newRcInput = rcInputEl.cloneNode(true);
+  rcInputEl.parentNode.replaceChild(newRcInput, rcInputEl);
+  newRcInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter') sendRobotMsg();
+  });
+}
