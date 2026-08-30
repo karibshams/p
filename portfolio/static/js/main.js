@@ -866,3 +866,331 @@ if (impactSec) impactObs.observe(impactSec);
 ═══════════════════════════════════════════════ */
 ROBOT_MSGS['timeline'] = "⭐ This is Karib's journey — from GPA 5.00 in SSC all the way to Best Paper Award in Washington D.C.!";
 ROBOT_MSGS['impact']   = "📈 16 papers, 9 citations, h-index 2, and 60+ AI products — Karib's research impact in numbers!";
+
+/* ═══════════════════════════════════════════════
+   P5: DARK / LIGHT MODE TOGGLE
+═══════════════════════════════════════════════ */
+function toggleTheme() {
+  const body = document.body;
+  const btn  = document.getElementById('themeToggle');
+  const isLight = body.classList.toggle('light-mode');
+  btn.textContent = isLight ? '☀️' : '🌙';
+  btn.title = isLight ? 'Switch to Dark Mode' : 'Switch to Light Mode';
+  localStorage.setItem('theme', isLight ? 'light' : 'dark');
+}
+(function applySavedTheme() {
+  const saved = localStorage.getItem('theme');
+  if (saved === 'light') {
+    document.body.classList.add('light-mode');
+    const btn = document.getElementById('themeToggle');
+    if (btn) { btn.textContent = '☀️'; btn.title = 'Switch to Dark Mode'; }
+  }
+})();
+
+/* ═══════════════════════════════════════════════
+   P6: VISITOR COUNTER (display only — backend handles counting)
+═══════════════════════════════════════════════ */
+// Counters are rendered server-side via Django template
+
+/* ═══════════════════════════════════════════════
+   P7: TYPING SPEED GAME
+═══════════════════════════════════════════════ */
+const TYPING_WORDS = [
+  'neural','network','machine','learning','deep','python',
+  'transformer','attention','embedding','dataset','training',
+  'gradient','backprop','dropout','softmax','sigmoid','relu',
+  'convolution','pooling','encoder','decoder','tokenizer',
+  'classification','regression','clustering','overfitting',
+  'accuracy','precision','recall','xgboost','random','forest',
+  'ensemble','boosting','computer','vision','yolo','detection',
+  'segmentation','language','model','chatbot','inference',
+  'pipeline','retrieval','augmented','generation','vector',
+  'explainable','shapley','interpretable','karib','aistream',
+];
+
+let tgWords=[], tgIdx=0, tgCorrect=0, tgWrong=0;
+let tgTimer=null, tgTimeLeft=30, tgActive=false;
+
+function startTypingGame() {
+  tgWords=shuffle([...TYPING_WORDS]);
+  tgIdx=0; tgCorrect=0; tgWrong=0; tgTimeLeft=30; tgActive=true;
+  document.getElementById('tgStartBtn').style.display='none';
+  document.getElementById('tgResult').textContent='';
+  document.getElementById('tgInput').disabled=false;
+  document.getElementById('tgInput').value='';
+  document.getElementById('tgInput').focus();
+  document.getElementById('tgProgFill').style.width='100%';
+  updateTgStats(); showTgWord();
+  tgTimer=setInterval(()=>{
+    tgTimeLeft--;
+    document.getElementById('tgTime').textContent=tgTimeLeft;
+    document.getElementById('tgProgFill').style.width=(tgTimeLeft/30*100)+'%';
+    if(tgTimeLeft<=0) endTypingGame();
+  },1000);
+}
+function showTgWord() {
+  if(tgIdx>=tgWords.length) tgIdx=0;
+  const d=document.getElementById('tgWordDisplay');
+  d.textContent=tgWords[tgIdx]; d.className='tg-word-display';
+}
+function updateTgStats() {
+  const elapsed=30-tgTimeLeft;
+  const wpm=elapsed>0?Math.round((tgCorrect/elapsed)*60):0;
+  const total=tgCorrect+tgWrong;
+  const acc=total>0?Math.round((tgCorrect/total)*100):100;
+  document.getElementById('tgWpm').textContent=wpm;
+  document.getElementById('tgAcc').textContent=acc;
+  document.getElementById('tgScore').textContent=tgCorrect;
+}
+function endTypingGame() {
+  clearInterval(tgTimer); tgActive=false;
+  document.getElementById('tgInput').disabled=true;
+  const wpm=Math.round((tgCorrect/30)*60);
+  const total=tgCorrect+tgWrong;
+  const acc=total>0?Math.round((tgCorrect/total)*100):0;
+  const grade=wpm>=60?'🏆 Expert!':wpm>=40?'⭐ Great!':wpm>=20?'👍 Good!':'📚 Keep Practicing!';
+  document.getElementById('tgResult').textContent=`${grade} WPM:${wpm} · Accuracy:${acc}% · Words:${tgCorrect}`;
+  document.getElementById('tgWordDisplay').textContent='Game Over!';
+  const btn=document.getElementById('tgStartBtn');
+  btn.textContent='🔄 Play Again'; btn.style.display='inline-flex';
+}
+const tgInputEl=document.getElementById('tgInput');
+if(tgInputEl){
+  tgInputEl.addEventListener('input',function(){
+    if(!tgActive) return;
+    const typed=this.value.trim().toLowerCase();
+    const target=tgWords[tgIdx].toLowerCase();
+    const d=document.getElementById('tgWordDisplay');
+    if(typed===target){
+      tgCorrect++; tgIdx++; this.value='';
+      d.className='tg-word-display correct';
+      showTgWord(); updateTgStats();
+    } else if(target.startsWith(typed)){
+      d.className='tg-word-display';
+    } else {
+      d.className='tg-word-display wrong';
+    }
+  });
+}
+
+/* ═══════════════════════════════════════════════
+   P8: MOBILE APP FEEL
+═══════════════════════════════════════════════ */
+// Bottom nav active state
+function setMbnActive(el) {
+  document.querySelectorAll('.mbn-item').forEach(i=>i.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// Update bottom nav on scroll
+window.addEventListener('scroll', () => {
+  let cur = '';
+  document.querySelectorAll('section[id]').forEach(s => {
+    if (window.scrollY >= s.offsetTop - 120) cur = s.id;
+  });
+  const map = { hero:'#hero', about:'#hero', skills:'#hero', projects:'#projects', publications:'#publications', aichat:'#aichat', contact:'#contact' };
+  const href = map[cur] || '#hero';
+  document.querySelectorAll('.mbn-item').forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === href);
+  });
+}, { passive: true });
+
+// Swipe gestures between sections
+let touchStartY = 0, touchStartX = 0;
+document.addEventListener('touchstart', e => {
+  touchStartY = e.touches[0].clientY;
+  touchStartX = e.touches[0].clientX;
+}, { passive: true });
+
+document.addEventListener('touchend', e => {
+  const dy = touchStartY - e.changedTouches[0].clientY;
+  const dx = touchStartX - e.changedTouches[0].clientX;
+  if (Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > 60) {
+    // Vertical swipe — natural scroll, handled by browser
+  }
+}, { passive: true });
+
+// Pull to refresh
+let pullStart = 0, pulling = false;
+const pullEl = document.getElementById('pullRefresh');
+
+document.addEventListener('touchstart', e => {
+  if (window.scrollY === 0) { pullStart = e.touches[0].clientY; pulling = true; }
+}, { passive: true });
+
+document.addEventListener('touchmove', e => {
+  if (!pulling || !pullEl) return;
+  const dist = e.touches[0].clientY - pullStart;
+  if (dist > 80) {
+    pullEl.classList.add('visible');
+    if (pullEl) pullEl.style.display = 'block';
+  }
+}, { passive: true });
+
+document.addEventListener('touchend', () => {
+  if (!pullEl) return;
+  const wasVisible = pullEl.classList.contains('visible');
+  pullEl.classList.remove('visible');
+  setTimeout(() => { if(pullEl) pullEl.style.display='none'; }, 300);
+  if (wasVisible) setTimeout(() => location.reload(), 400);
+  pulling = false;
+}, { passive: true });
+
+// CV Download animation
+const cvBtn = document.getElementById('cvDownloadBtn');
+if (cvBtn) {
+  cvBtn.addEventListener('click', () => {
+    const main = cvBtn.querySelector('.cv-main');
+    const arrow = cvBtn.querySelector('.cv-arrow');
+    if (!main || !arrow) return;
+    main.textContent = 'Downloading...';
+    arrow.textContent = '✓';
+    cvBtn.style.borderColor = '#22c55e';
+    setTimeout(() => {
+      main.textContent = 'Download CV';
+      arrow.textContent = '↓';
+      cvBtn.style.borderColor = '';
+    }, 2500);
+  });
+}
+
+// Journey animation
+const journeyObs2 = new IntersectionObserver(entries => {
+  if (entries[0].isIntersecting) {
+    setTimeout(() => {
+      const fill = document.getElementById('jpFill');
+      if (fill) fill.style.width = '100%';
+    }, 300);
+    journeyObs2.disconnect();
+  }
+}, { threshold: .1 });
+const journeySec2 = document.getElementById('timeline');
+if (journeySec2) journeyObs2.observe(journeySec2);
+
+document.querySelectorAll('.journey-card').forEach(card => {
+  const o = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) { card.classList.add('vis'); o.disconnect(); }
+  }, { threshold: .2 });
+  o.observe(card);
+});
+
+/* ═══════════════════════════════════════════════
+   P9: 3D PARTICLES (Three.js)
+═══════════════════════════════════════════════ */
+(function init3D() {
+  if (typeof THREE === 'undefined') return;
+
+  const canvas3d = document.getElementById('three-canvas');
+  if (!canvas3d) return;
+
+  const renderer = new THREE.WebGLRenderer({ canvas: canvas3d, alpha: true, antialias: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(window.innerWidth, window.innerHeight);
+
+  const scene  = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 1000);
+  camera.position.z = 5;
+
+  // Create particles
+  const count = 1200;
+  const geo   = new THREE.BufferGeometry();
+  const pos   = new Float32Array(count * 3);
+  const col   = new Float32Array(count * 3);
+
+  for (let i = 0; i < count; i++) {
+    pos[i*3]   = (Math.random()-0.5) * 20;
+    pos[i*3+1] = (Math.random()-0.5) * 20;
+    pos[i*3+2] = (Math.random()-0.5) * 20;
+    // Neon cyan / teal colours
+    const r = Math.random();
+    if (r < 0.5) {
+      col[i*3]=0; col[i*3+1]=1; col[i*3+2]=0.76; // #00FFC2
+    } else {
+      col[i*3]=0.13; col[i*3+1]=0.83; col[i*3+2]=0.93; // #22D3EE
+    }
+  }
+
+  geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  geo.setAttribute('color',    new THREE.BufferAttribute(col, 3));
+
+  const mat = new THREE.PointsMaterial({
+    size: 0.04,
+    vertexColors: true,
+    transparent: true,
+    opacity: 0.7,
+    sizeAttenuation: true,
+  });
+
+  const particles = new THREE.Points(geo, mat);
+  scene.add(particles);
+
+  // Mouse influence
+  let mouseX = 0, mouseY = 0;
+  document.addEventListener('mousemove', e => {
+    mouseX = (e.clientX / window.innerWidth  - 0.5) * 2;
+    mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+  });
+
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+
+  // Show Three.js canvas, hide old neural canvas
+  canvas3d.classList.add('active');
+  document.body.classList.add('three-active');
+
+  let t = 0;
+  (function animate3d() {
+    requestAnimationFrame(animate3d);
+    t += 0.003;
+    particles.rotation.y = t * 0.15 + mouseX * 0.1;
+    particles.rotation.x = t * 0.08 + mouseY * 0.05;
+    // Gentle pulsing scale
+    const scale = 1 + Math.sin(t * 1.5) * 0.02;
+    particles.scale.set(scale, scale, scale);
+    renderer.render(scene, camera);
+  })();
+})();
+
+/* ═══════════════════════════════════════════════
+   P9: PAGE TRANSITION ON LOAD
+═══════════════════════════════════════════════ */
+(function pageTransitionInit() {
+  const overlay = document.getElementById('pageTransition');
+  if (!overlay) return;
+
+  // Entry animation — slide out on load
+  overlay.classList.add('active');
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      overlay.classList.remove('active');
+      overlay.classList.add('exit');
+      setTimeout(() => { overlay.classList.remove('exit'); }, 600);
+    }, 100);
+  });
+
+  // Exit animation on nav link clicks
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', () => {
+      // Subtle flash effect on internal links
+      overlay.style.background = 'linear-gradient(135deg,rgba(0,255,194,.08),transparent)';
+      overlay.classList.add('active');
+      setTimeout(() => { overlay.classList.remove('active'); }, 250);
+    });
+  });
+})();
+
+/* ═══════════════════════════════════════════════
+   GAME SWITCHER (handles all 4 games)
+═══════════════════════════════════════════════ */
+function switchGame(name) {
+  document.querySelectorAll('.game-panel').forEach(p => p.classList.add('hidden'));
+  document.querySelectorAll('.gtab').forEach(t => t.classList.remove('active'));
+  const panel = document.getElementById('game-' + name);
+  if (panel) panel.classList.remove('hidden');
+  if (event && event.target) event.target.classList.add('active');
+  // Stop typing game if switching away
+  if (name !== 'typing' && tgActive) { clearInterval(tgTimer); tgActive = false; }
+}
