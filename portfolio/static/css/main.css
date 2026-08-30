@@ -1152,7 +1152,7 @@ body.light-mode .robot-chat{background:#ffffff}
 body.light-mode .rc-msg.bot .rc-bubble{background:#f1f5f9}
 
 /* ═══ P6: VISITOR COUNTER ═══ */
-.visitor-counter{position:absolute;bottom:80px;left:50%;transform:translateX(-50%);z-index:2}
+.visitor-counter{position:relative;display:flex;justify-content:center;margin-top:1.5rem;z-index:2}
 .vc-inner{display:flex;align-items:center;gap:8px;background:rgba(26,30,35,.7);border:1px solid rgba(0,255,194,.2);backdrop-filter:blur(10px);border-radius:20px;padding:6px 14px;white-space:nowrap}
 .vc-dot{width:7px;height:7px;border-radius:50%;background:#22c55e;animation:pulse .8s ease infinite;box-shadow:0 0 8px #22c55e}
 .vc-text{font-family:var(--mono);font-size:.7rem;color:var(--muted)}
@@ -1311,3 +1311,17 @@ body.three-active #neural-bg { opacity: 0; }
     0%{opacity:0} 20%{opacity:1} 80%{opacity:1} 100%{opacity:0}
   }
 }
+
+/* ── MUTE BUTTON ── */
+.rc-mute {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: .8rem;
+  transition: var(--tr);
+  display: flex; align-items: center; justify-content: center;
+}
+.rc-mute:hover { border-color: var(--acc); color: var(--acc); }
