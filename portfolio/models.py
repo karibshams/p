@@ -14,3 +14,9 @@ class ChatLog(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return f"Chat @ {self.timestamp.strftime('%Y-%m-%d %H:%M')}"
+
+class VisitorCount(models.Model):
+    date = models.DateField(auto_now_add=True, unique=True)
+    count = models.IntegerField(default=0)
+    def __str__(self):
+        return f"{self.date}: {self.count} visitors"
