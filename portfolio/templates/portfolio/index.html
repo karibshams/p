@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="{% static 'css/main.css' %}"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 </head>
 <body>
 <!-- PAGE TRANSITION -->
@@ -30,27 +31,27 @@
   </ul>
   <div class="nav-right">
     <button class="theme-toggle" id="themeToggle" title="Toggle Dark/Light Mode" onclick="toggleTheme()">🌙</button>
-    <a href="{{ data.scholar }}" target="_blank" class="nav-scholar">🎓 Scholar</a>
-    <a href="https://wa.me/{{ data.whatsapp }}" target="_blank" class="nav-cta">Hire Me →</a>
+    <a href="{{ data.scholar }}" target="_blank" class="nav-scholar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg> Scholar</a>
+    <a href="https://wa.me/{{ data.whatsapp }}" target="_blank" class="nav-cta">Hire Me <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
     <button class="nav-toggle" id="navToggle">☰</button>
   </div>
 </nav>
 <section id="hero">
   <div class="hero-wrap">
     <div class="hero-left">
-      <div class="hero-badge"><span class="pdot"></span>Available for AI Projects &amp; Collaborations</div>
+      <div class="hero-badge"><span class="pdot"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg> Available for AI Projects &amp; Collaborations</div>
       <h1 class="hero-name"><span class="hn1">KARIB</span><span class="hn2">SHAMS</span></h1>
       <div class="hero-role"><span id="typedEl"></span><span class="tc">|</span></div>
       <p class="hero-bio">{{ data.about }}</p>
       <div class="hero-btns">
         <a href="#projects" class="btn-primary">View Projects</a>
-        <a href="{{ data.award_url }}" target="_blank" class="btn-award">🏆 Best Paper Award</a>
-        <a href="{% static 'img/KARIB_SHAMS_FINAL.pdf' %}" download="KARIB_SHAMS_CV.pdf" class="btn-cv" id="cvDownloadBtn">
-          <span class="cv-icon">📄</span>
-          <span class="cv-text"><span class="cv-main">Download CV</span><span class="cv-sub">PDF · Updated 2026</span></span>
+        <a href="{{ data.award_url }}" target="_blank" class="btn-award"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg> Best Paper Award</a>
+        <a href="{% static 'img/KARIB_SHAMS_latest.pdf' %}" download="KARIB_SHAMS_CV.pdf" class="btn-cv" id="cvDownloadBtn">
+          <span class="cv-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></span>
+          <span class="cv-text"><span class="cv-main">Download CV</span><span class="cv-sub">PDF · Updated 2025</span></span>
           <span class="cv-arrow">↓</span>
         </a>
-        <a href="{{ data.scholar }}" target="_blank" class="btn-ghost">🎓 Scholar</a>
+        <a href="{{ data.scholar }}" target="_blank" class="btn-ghost"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg> Scholar</a>
       </div>
       <div class="hero-stats">
         <div class="hs"><span class="hn" data-count="{{ pub_count }}">0</span><span class="hl">Publications</span></div>
@@ -70,8 +71,8 @@
     <div class="hero-right">
       <div class="av-wrap">
         <div class="av-ring r1"></div><div class="av-ring r2"></div><div class="av-ring r3"></div>
-        <div class="av-img"><img src="{% static 'img/karib.jpeg' %}" alt="Karib Shams" onerror="this.src='{% static 'img/placeholder.svg' %}'"/></div>
-        <a href="{{ data.award_url }}" target="_blank" class="av-badge">🏆 Best Paper Award<br/><span>AII 2025 · Washington D.C.</span></a>
+        <div class="av-img"><img src="{% static 'img/karib.jpg' %}" alt="Karib Shams" onerror="this.src='{% static 'img/placeholder.svg' %}'"/></div>
+        <a href="{{ data.award_url }}" target="_blank" class="av-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg> Best Paper Award<br/><span>AII 2025 · Washington D.C.</span></a>
       </div>
       <div class="socials">
         <a href="{{ data.github }}" target="_blank" class="sc" title="GitHub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg></a>
@@ -81,7 +82,7 @@
       </div>
     </div>
   </div>
-  <div class="scroll-cue"><div class="scl"></div><span>scroll</span></div>
+  <div class="scroll-cue"><div class="scl"></div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12" style="opacity:.5"><polyline points="7 13 12 18 17 13"/><polyline points="7 6 12 11 17 6"/></svg></div>
 </section>
 <section id="about" class="sec">
   <div class="container">
@@ -90,10 +91,10 @@
       <div class="reveal">
         <p class="about-lead">I build <span class="ac">intelligent systems</span> that understand, learn, and predict — turning raw data into real-world impact.</p>
         <p class="muted sm">{{ data.about }}</p>
-        <div class="tag-row"><span class="itag">📊 Data Science</span><span class="itag">🧠 AI Research</span><span class="itag">✈️ Travelling</span><span class="itag">⚽ Football</span></div>
+        <div class="tag-row"><span class="itag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Data Science</span><span class="itag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-1.66z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-1.66z"/></svg> AI Research</span><span class="itag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21 4 19 2c-2-2-4-2-5.5-.5L10 5 1.8 6.2c-.5.1-.9.5-.9 1 0 .3.1.6.3.8l2.2 2.2c.5.5 1.3.6 2 .3l5.1-1.7 1.7 5.1c-.3.7-.2 1.5.3 2l2.2 2.2c.2.2.5.3.8.3.5 0 .9-.4 1-.9z"/></svg> Travelling</span><span class="itag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg> Football</span></div>
         <div class="team-card">
           <div class="tc-hdr">
-            <span class="tc-icon">⚡</span>
+            <span class="tc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
             <div><h3>{{ data.team.name }} — My AI Team</h3><span class="tc-count">{{ data.team.projects_count }} Projects Delivered</span></div>
             <a href="{{ data.team.drive }}" target="_blank" class="tc-link">View All →</a>
           </div>
@@ -124,7 +125,7 @@
     </div>
     <div class="quiz-wrap reveal">
       <div class="quiz-hdr">
-        <span style="font-size:1.5rem">🧠</span>
+        <span class="sec-svg-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="28" height="28"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-1.66z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-1.66z"/></svg></span>
         <div><h3>AI & Data Science Quiz</h3><p class="muted" style="font-size:.74rem;font-family:var(--mono)">30 questions · Random · No repeats · Beat Karib's AI!</p></div>
         <div id="qscore" class="qscore"></div>
       </div>
@@ -135,7 +136,7 @@
     <!-- SKILL RADAR CHART -->
     <div class="radar-wrap reveal">
       <div class="viz-card-hdr" style="margin-bottom:1.2rem">
-        <span class="viz-icon">🎯</span>
+        <span class="viz-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="24" height="24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>
         <div>
           <h3 style="color:var(--acc2);font-size:.92rem;font-weight:700">AI Skill Radar</h3>
           <p class="muted" style="font-size:.74rem;font-family:var(--mono)">Visual breakdown of Karib core competencies</p>
@@ -161,7 +162,7 @@
     <!-- AI MINI GAMES -->
     <div class="games-section reveal">
       <div class="games-hdr">
-        <span style="font-size:1.5rem">🎮</span>
+        <span class="sec-svg-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="26" height="26"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="18" y1="11" x2="18.01" y2="11"/><rect x="2" y="6" width="20" height="12" rx="2"/></svg></span>
         <div><h3>AI Mini Games</h3><p class="muted" style="font-size:.74rem;font-family:var(--mono)">3 fun games to test your AI knowledge</p></div>
       </div>
       <div class="games-tabs">
@@ -248,7 +249,7 @@
       {% endfor %}
     </div>
     <div class="upload-zone reveal" id="uploadZone">
-      <span style="font-size:2rem;display:block;margin-bottom:.5rem">📁</span>
+      <span style="display:block;margin-bottom:.8rem;color:var(--acc)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="36" height="36"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/><polyline points="12 11 12 17"/><polyline points="9 14 12 11 15 14"/></svg></span>
       <p class="muted sm">Drop your project file or <label for="fileInput" style="color:var(--acc);cursor:pointer;text-decoration:underline">browse</label> to showcase</p>
       <input type="file" id="fileInput" hidden/>
       <div id="uploadResult"></div>
@@ -259,7 +260,7 @@
   <div class="container">
     <div class="sec-hdr reveal"><span class="sn">05</span><h2>Publications</h2><div class="sl"></div></div>
     <a href="{{ data.award_url }}" target="_blank" class="award-highlight reveal">
-      <div class="aw-icon">🏆</div>
+      <div class="aw-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="40" height="40" style="color:var(--gold)"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg></div>
       <div class="aw-body">
         <h3>Best Paper Award — AII 2025, Washington D.C., USA</h3>
         <p>CodeMixEcom-Emotion: A Large-Scale Bangla–English Review Corpus and Transformer-Based Benchmark for Fine-Grained Emotion Detection</p>
@@ -297,7 +298,7 @@
 <!-- ═══ ACHIEVEMENT TIMELINE ═══ -->
 <section id="timeline" class="sec">
   <div class="container">
-    <div class="sec-hdr reveal"><span class="sn">⭐</span><h2>My Journey</h2><div class="sl"></div></div>
+    <div class="sec-hdr reveal"><span class="sn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span><h2>My Journey</h2><div class="sl"></div></div>
     <p class="muted sm reveal" style="margin-bottom:3rem">From a perfect GPA student to an award-winning AI researcher — every milestone, visualised.</p>
     <div class="journey-progress reveal">
       <div class="jp-track"><div class="jp-fill" id="jpFill"></div></div>
@@ -306,7 +307,7 @@
     <div class="journey-grid">
       <div class="journey-card reveal" data-color="#00FFC2">
         <div class="jc-year-badge">2016</div>
-        <div class="jc-icon-wrap" style="background:rgba(0,255,194,.12);border-color:rgba(0,255,194,.4)">🏫</div>
+        <div class="jc-icon-wrap" style="background:rgba(0,255,194,.12);border-color:rgba(0,255,194,.4)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--acc)" stroke-width="1.5" width="22" height="22"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
         <div class="jc-type" style="color:var(--acc)">Education</div>
         <h3 class="jc-title">SSC</h3>
         <div class="jc-score">GPA <span style="color:var(--acc);font-size:1.4rem;font-weight:800">5.00</span></div>
@@ -315,7 +316,7 @@
       </div>
       <div class="journey-card reveal" data-color="#22D3EE">
         <div class="jc-year-badge">2019</div>
-        <div class="jc-icon-wrap" style="background:rgba(34,211,238,.12);border-color:rgba(34,211,238,.4)">🎓</div>
+        <div class="jc-icon-wrap" style="background:rgba(34,211,238,.12);border-color:rgba(34,211,238,.4)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--acc2)" stroke-width="1.5" width="22" height="22"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
         <div class="jc-type" style="color:var(--acc2)">Education</div>
         <h3 class="jc-title">HSC</h3>
         <div class="jc-score">GPA <span style="color:var(--acc2);font-size:1.4rem;font-weight:800">4.67</span></div>
@@ -324,7 +325,7 @@
       </div>
       <div class="journey-card reveal" data-color="#00FFC2">
         <div class="jc-year-badge">2020</div>
-        <div class="jc-icon-wrap" style="background:rgba(0,255,194,.12);border-color:rgba(0,255,194,.4)">💻</div>
+        <div class="jc-icon-wrap" style="background:rgba(0,255,194,.12);border-color:rgba(0,255,194,.4)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--acc)" stroke-width="1.5" width="22" height="22"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
         <div class="jc-type" style="color:var(--acc)">University</div>
         <h3 class="jc-title">BSc in CSE</h3>
         <div class="jc-score">CGPA <span style="color:var(--acc);font-size:1.4rem;font-weight:800">3.58</span></div>
@@ -333,7 +334,7 @@
       </div>
       <div class="journey-card reveal" data-color="#F59E0B">
         <div class="jc-year-badge">2024</div>
-        <div class="jc-icon-wrap" style="background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.4)">📄</div>
+        <div class="jc-icon-wrap" style="background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.4)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" width="22" height="22"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="8" y2="18"/><line x1="12" y1="14" x2="8" y2="14"/></svg></div>
         <div class="jc-type" style="color:var(--gold)">Research</div>
         <h3 class="jc-title">1st Publication</h3>
         <div class="jc-score"><span style="color:var(--gold);font-size:1.1rem;font-weight:800">Springer</span></div>
@@ -342,7 +343,7 @@
       </div>
       <div class="journey-card reveal" data-color="#22D3EE">
         <div class="jc-year-badge">2024</div>
-        <div class="jc-icon-wrap" style="background:rgba(34,211,238,.12);border-color:rgba(34,211,238,.4)">🎓</div>
+        <div class="jc-icon-wrap" style="background:rgba(34,211,238,.12);border-color:rgba(34,211,238,.4)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--acc2)" stroke-width="1.5" width="22" height="22"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
         <div class="jc-type" style="color:var(--acc2)">MSc Begins</div>
         <h3 class="jc-title">MSc + GTA</h3>
         <div class="jc-score">CGPA <span style="color:var(--acc2);font-size:1.4rem;font-weight:800">3.91</span></div>
@@ -351,17 +352,17 @@
       </div>
       <div class="journey-card reveal award-card" data-color="#F59E0B">
         <div class="jc-year-badge" style="background:var(--gold);color:#000">2025</div>
-        <div class="jc-icon-wrap" style="background:rgba(245,158,11,.2);border-color:var(--gold)">🏆</div>
+        <div class="jc-icon-wrap" style="background:rgba(245,158,11,.2);border-color:var(--gold)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" width="22" height="22"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg></div>
         <div class="jc-type" style="color:var(--gold)">Best Paper Award</div>
         <h3 class="jc-title">Washington D.C.</h3>
         <div class="jc-score"><span style="color:var(--gold);font-size:1rem;font-weight:800">AII 2025 · Springer</span></div>
         <p class="jc-desc">Best Paper Award — CodeMixEcom-Emotion: Bangla-English emotion detection benchmark.</p>
         <a href="https://ewubd.edu/achievement-details/ewu-researchers-win-best-paper-award-international-ai-conference-washington-dc" target="_blank" class="jc-link">EWU Announcement →</a>
-        <div class="award-sparkle">✨</div>
+        <div class="award-sparkle"><svg viewBox="0 0 24 24" fill="var(--gold)" width="18" height="18"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
       </div>
       <div class="journey-card reveal" data-color="#00FFC2">
         <div class="jc-year-badge">2025</div>
-        <div class="jc-icon-wrap" style="background:rgba(0,255,194,.12);border-color:rgba(0,255,194,.4)">⚡</div>
+        <div class="jc-icon-wrap" style="background:rgba(0,255,194,.12);border-color:rgba(0,255,194,.4)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--acc)" stroke-width="1.5" width="22" height="22"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
         <div class="jc-type" style="color:var(--acc)">Leadership</div>
         <h3 class="jc-title">AI Stream Lead</h3>
         <div class="jc-score"><span style="color:var(--acc);font-size:1.4rem;font-weight:800">60+</span> Projects</div>
@@ -370,7 +371,7 @@
       </div>
       <div class="journey-card reveal" data-color="#22D3EE">
         <div class="jc-year-badge">2025</div>
-        <div class="jc-icon-wrap" style="background:rgba(34,211,238,.12);border-color:rgba(34,211,238,.4)">📚</div>
+        <div class="jc-icon-wrap" style="background:rgba(34,211,238,.12);border-color:rgba(34,211,238,.4)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--acc2)" stroke-width="1.5" width="22" height="22"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
         <div class="jc-type" style="color:var(--acc2)">Research Impact</div>
         <h3 class="jc-title">16 Publications</h3>
         <div class="jc-score"><span style="color:var(--acc2);font-size:1.4rem;font-weight:800">9</span> Citations</div>
@@ -379,7 +380,7 @@
       </div>
       <div class="journey-card reveal future-card" data-color="#00FFC2">
         <div class="jc-year-badge" style="background:rgba(0,255,194,.2);color:var(--acc);border:1px solid var(--acc)">Future</div>
-        <div class="jc-icon-wrap" style="background:rgba(0,255,194,.12);border-color:rgba(0,255,194,.4)">🚀</div>
+        <div class="jc-icon-wrap" style="background:rgba(0,255,194,.12);border-color:rgba(0,255,194,.4)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--acc)" stroke-width="1.5" width="22" height="22"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg></div>
         <div class="jc-type" style="color:var(--acc)">What's Next</div>
         <h3 class="jc-title">PhD &amp; Global AI</h3>
         <div class="jc-score"><span style="color:var(--acc);font-size:1rem;font-weight:700">Incoming...</span></div>
@@ -393,7 +394,7 @@
 <!-- ═══ GITHUB ACTIVITY ═══ -->
 <section id="impact" class="sec sec-alt">
   <div class="container">
-    <div class="sec-hdr reveal"><span class="sn">💻</span><h2>GitHub Activity</h2><div class="sl"></div></div>
+    <div class="sec-hdr reveal"><span class="sn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></span><h2>GitHub Activity</h2><div class="sl"></div></div>
     <p class="muted sm reveal" style="margin-bottom:2rem">Real-time contributions from <a href="https://github.com/karibshams" target="_blank" style="color:var(--acc)">github.com/karibshams</a></p>
     <div class="github-section reveal">
       <div class="gh-profile-info" style="display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap">
@@ -405,7 +406,7 @@
         <a href="https://github.com/karibshams" target="_blank" class="btn-ghost" style="margin-left:auto;font-size:.76rem;padding:7px 16px">View GitHub →</a>
       </div>
       <div class="gh-contribution-wrap" style="margin-bottom:1.5rem">
-        <p class="muted" style="font-family:var(--mono);font-size:.72rem;margin-bottom:.8rem">📊 Contribution Graph</p>
+        <p class="muted" style="font-family:var(--mono);font-size:.72rem;margin-bottom:.8rem;display:flex;align-items:center;gap:6px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg> Contribution Graph</p>
         <div class="github-graph">
           <img src="https://ghchart.rshah.org/00FFC2/karibshams" alt="GitHub Contributions" class="github-img" loading="lazy" onerror="this.parentElement.innerHTML='<div class=gh-fallback>📊 <a href=https://github.com/karibshams target=_blank style=color:var(--acc)>View on GitHub →</a></div>'"/>
         </div>
@@ -428,13 +429,13 @@
 <!-- ═══ DATA VISUALISATION ═══ -->
 <section id="dataviz" class="sec sec-alt">
   <div class="container">
-    <div class="sec-hdr reveal"><span class="sn">📊</span><h2>Research Analytics</h2><div class="sl"></div></div>
+    <div class="sec-hdr reveal"><span class="sn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span><h2>Research Analytics</h2><div class="sl"></div></div>
     <p class="muted sm reveal" style="margin-bottom:2.5rem">A data-driven view of Karib's research output — because a Data Scientist's portfolio should have data visualisation.</p>
     <div class="viz-grid">
       <!-- Chart 1: Publications by Year -->
       <div class="viz-card reveal">
         <div class="viz-card-hdr">
-          <span class="viz-icon">📅</span>
+          <span class="viz-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="24" height="24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
           <div>
             <h3>Publications by Year</h3>
             <p class="muted" style="font-size:.74rem;font-family:var(--mono)">Research output growth over time</p>
@@ -445,7 +446,7 @@
       <!-- Chart 2: Publications by Venue -->
       <div class="viz-card reveal">
         <div class="viz-card-hdr">
-          <span class="viz-icon">🏛️</span>
+          <span class="viz-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="24" height="24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg></span>
           <div>
             <h3>Publications by Venue</h3>
             <p class="muted" style="font-size:.74rem;font-family:var(--mono)">IEEE, Springer, Elsevier, Nature</p>
@@ -456,7 +457,7 @@
       <!-- Chart 3: Research Topics -->
       <div class="viz-card reveal">
         <div class="viz-card-hdr">
-          <span class="viz-icon">🧠</span>
+          <span class="viz-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="24" height="24"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-1.66z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-1.66z"/></svg></span>
           <div>
             <h3>Research Topics</h3>
             <p class="muted" style="font-size:.74rem;font-family:var(--mono)">Distribution across AI domains</p>
@@ -467,7 +468,7 @@
       <!-- Chart 4: Citations per Paper -->
       <div class="viz-card reveal">
         <div class="viz-card-hdr">
-          <span class="viz-icon">📈</span>
+          <span class="viz-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="24" height="24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span>
           <div>
             <h3>Citations per Paper</h3>
             <p class="muted" style="font-size:.74rem;font-family:var(--mono)">Research impact & reach</p>
@@ -481,18 +482,18 @@
 
 <section id="aichat" class="sec sec-alt">
   <div class="container">
-    <div class="sec-hdr reveal"><span class="sn">AI</span><h2>Talk to My AI</h2><div class="sl"></div></div>
+    <div class="sec-hdr reveal"><span class="sn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span><h2>Talk to My AI</h2><div class="sl"></div></div>
     <p class="muted sm reveal" style="margin-bottom:1.8rem">100% free — no API, no cost, always on. Ask about Karib's research, projects, or any AI/ML concept.</p>
     <div class="chat-box reveal">
       <div class="chat-hdr">
         <div style="display:flex;align-items:center;gap:.8rem">
-          <div class="bot-av-lg">🤖</div>
+          <div class="bot-av-lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="28" height="28" style="color:var(--acc)"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><circle cx="12" cy="5" r="1"/><circle cx="9" cy="15" r="1" fill="currentColor"/><circle cx="15" cy="15" r="1" fill="currentColor"/></svg></div>
           <div><strong style="display:block;font-size:.88rem">Karib's AI Assistant</strong><span style="font-size:.66rem;color:var(--muted);font-family:var(--mono)">Free · Zero API · Built-in Knowledge Base</span></div>
         </div>
         <button onclick="clearChat()" class="chat-clr">Clear</button>
       </div>
       <div class="chat-msgs" id="chatMsgs">
-        <div class="cm bot"><span class="bav">🤖</span><div class="bubble">Hi! I'm Karib's AI — 100% free, zero API. I know his 16 publications (🏆 Best Paper AII 2025, D.C.), 60+ AI Stream projects, and can explain any AI/ML concept. Ask me anything!</div></div>
+        <div class="cm bot"><span class="bav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20" style="color:var(--acc);flex-shrink:0"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><circle cx="9" cy="15" r="1" fill="currentColor"/><circle cx="15" cy="15" r="1" fill="currentColor"/></svg></span><div class="bubble">Hi! I'm Karib's AI — 100% free, zero API. I know his 16 publications (🏆 Best Paper AII 2025, D.C.), 60+ AI Stream projects, and can explain any AI/ML concept. Ask me anything!</div></div>
       </div>
       <div class="chat-sugg" id="chatSugg">
         <span style="font-family:var(--mono);font-size:.64rem;color:var(--sec)">Try:</span>
@@ -512,7 +513,7 @@
 </section>
 <section id="feedback" class="sec">
   <div class="container">
-    <div class="sec-hdr reveal"><span class="sn">FB</span><h2>Feedback</h2><div class="sl"></div></div>
+    <div class="sec-hdr reveal"><span class="sn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span><h2>Feedback</h2><div class="sl"></div></div>
     <div class="fb-wrap">
       <form class="fb-form reveal" id="fbForm" onsubmit="submitFeedback(event)">
         {% csrf_token %}
@@ -534,18 +535,18 @@
   <div class="container">
     <div class="sec-hdr reveal"><span class="sn">06</span><h2>Get In Touch</h2><div class="sl"></div></div>
     <div class="contact-grid">
-      <a href="mailto:{{ data.email }}" class="ci reveal"><span class="ci-ic">✉️</span><div><span class="ci-lb">Email</span><span class="ci-vl">{{ data.email }}</span></div></a>
-      <a href="https://wa.me/{{ data.whatsapp }}" target="_blank" class="ci reveal"><span class="ci-ic">💬</span><div><span class="ci-lb">Phone / WhatsApp</span><span class="ci-vl">{{ data.phone }}</span></div></a>
-      <a href="{{ data.github }}" target="_blank" class="ci reveal"><span class="ci-ic">💻</span><div><span class="ci-lb">GitHub</span><span class="ci-vl">github.com/karibshams</span></div></a>
-      <a href="{{ data.linkedin }}" target="_blank" class="ci reveal"><span class="ci-ic">🔗</span><div><span class="ci-lb">LinkedIn</span><span class="ci-vl">karib-shams-007975305</span></div></a>
-      <a href="{{ data.scholar }}" target="_blank" class="ci reveal"><span class="ci-ic">🎓</span><div><span class="ci-lb">Google Scholar</span><span class="ci-vl">{{ data.citations }} citations · h-index {{ data.h_index }}</span></div></a>
-      <a href="{{ data.award_url }}" target="_blank" class="ci reveal"><span class="ci-ic">🏆</span><div><span class="ci-lb">Best Paper Award</span><span class="ci-vl">AII 2025, Washington D.C.</span></div></a>
+      <a href="mailto:{{ data.email }}" class="ci reveal"><span class="ci-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span><div><span class="ci-lb">Email</span><span class="ci-vl">{{ data.email }}</span></div></a>
+      <a href="https://wa.me/{{ data.whatsapp }}" target="_blank" class="ci reveal"><span class="ci-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span><div><span class="ci-lb">Phone / WhatsApp</span><span class="ci-vl">{{ data.phone }}</span></div></a>
+      <a href="{{ data.github }}" target="_blank" class="ci reveal"><span class="ci-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></span><div><span class="ci-lb">GitHub</span><span class="ci-vl">github.com/karibshams</span></div></a>
+      <a href="{{ data.linkedin }}" target="_blank" class="ci reveal"><span class="ci-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></span><div><span class="ci-lb">LinkedIn</span><span class="ci-vl">karib-shams-007975305</span></div></a>
+      <a href="{{ data.scholar }}" target="_blank" class="ci reveal"><span class="ci-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></span><div><span class="ci-lb">Google Scholar</span><span class="ci-vl">{{ data.citations }} citations · h-index {{ data.h_index }}</span></div></a>
+      <a href="{{ data.award_url }}" target="_blank" class="ci reveal"><span class="ci-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg></span><div><span class="ci-lb">Best Paper Award</span><span class="ci-vl">AII 2025, Washington D.C.</span></div></a>
     </div>
   </div>
 </section>
 <footer id="footer">
   <div class="footer-in">
-    <div style="margin-bottom:1rem"><span class="na" style="font-family:var(--mono);font-size:1.15rem">[</span><span class="nn" style="font-family:var(--mono);font-size:1.15rem;font-weight:700">KS</span><span class="na" style="font-family:var(--mono);font-size:1.15rem">]</span><p class="muted" style="font-size:.76rem;margin-top:4px">Data Scientist & AI Developer · AI Stream Team Lead · 🏆 Best Paper Award AII 2025</p></div>
+    <div style="margin-bottom:1rem"><span class="na" style="font-family:var(--mono);font-size:1.15rem">[</span><span class="nn" style="font-family:var(--mono);font-size:1.15rem;font-weight:700">KS</span><span class="na" style="font-family:var(--mono);font-size:1.15rem">]</span><p class="muted" style="font-size:.76rem;margin-top:4px">Data Scientist & AI Developer · AI Stream Team Lead · <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg> Best Paper Award AII 2025</p></div>
     <div class="footer-links">
       <a href="{{ data.github }}" target="_blank">GitHub</a>
       <a href="{{ data.linkedin }}" target="_blank">LinkedIn</a>
@@ -633,26 +634,26 @@
 <!-- MOBILE BOTTOM NAV -->
 <nav class="mobile-bottom-nav" id="mobileBottomNav">
   <a href="#hero" class="mbn-item active" onclick="setMbnActive(this)">
-    <span class="mbn-icon">🏠</span><span class="mbn-label">Home</span>
+    <span class="mbn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span><span class="mbn-label">Home</span>
   </a>
   <a href="#projects" class="mbn-item" onclick="setMbnActive(this)">
-    <span class="mbn-icon">🚀</span><span class="mbn-label">Projects</span>
+    <span class="mbn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><polygon points="12 2 19 21 12 17 5 21 12 2"/></svg></span><span class="mbn-label">Projects</span>
   </a>
   <a href="#publications" class="mbn-item" onclick="setMbnActive(this)">
-    <span class="mbn-icon">📚</span><span class="mbn-label">Papers</span>
+    <span class="mbn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span><span class="mbn-label">Papers</span>
   </a>
   <a href="#aichat" class="mbn-item" onclick="setMbnActive(this)">
-    <span class="mbn-icon">🤖</span><span class="mbn-label">AI Chat</span>
+    <span class="mbn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><circle cx="12" cy="5" r="1"/></svg></span><span class="mbn-label">AI Chat</span>
   </a>
   <a href="#contact" class="mbn-item" onclick="setMbnActive(this)">
-    <span class="mbn-icon">📞</span><span class="mbn-label">Contact</span>
+    <span class="mbn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.5 19.79 19.79 0 0 1 1.63 5a2 2 0 0 1 1.95-2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span><span class="mbn-label">Contact</span>
   </a>
 </nav>
 
 <!-- PULL TO REFRESH -->
 <div class="pull-refresh" id="pullRefresh">
   <div class="pr-inner">
-    <span class="pr-icon">🔄</span>
+    <span class="pr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg></span>
     <span class="pr-text">Pull to refresh</span>
   </div>
 </div>
