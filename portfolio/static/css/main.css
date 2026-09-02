@@ -1325,3 +1325,84 @@ body.three-active #neural-bg { opacity: 0; }
   display: flex; align-items: center; justify-content: center;
 }
 .rc-mute:hover { border-color: var(--acc); color: var(--acc); }
+
+/* ═══════════════════════════════════════════
+   SVG ICON STYLES
+═══════════════════════════════════════════ */
+.sec-svg-icon {
+  display: flex; align-items: center; justify-content: center;
+  color: var(--acc2);
+}
+.ci-ic svg { display: block; }
+.ci-ic {
+  display: flex; align-items: center; justify-content: center;
+  width: 38px; height: 38px;
+  background: rgba(0,255,194,.06);
+  border: 1px solid rgba(0,255,194,.15);
+  border-radius: 10px;
+  flex-shrink: 0;
+  color: var(--acc);
+}
+.viz-icon {
+  display: flex; align-items: center; justify-content: center;
+  color: var(--acc2);
+}
+.tc-icon {
+  display: flex; align-items: center; justify-content: center;
+  color: var(--acc);
+}
+.aw-icon {
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Navbar SVG icons */
+.nav-scholar svg,
+.nav-cta svg,
+.btn-ghost svg,
+.btn-primary svg { vertical-align: middle; }
+
+/* Hero badge SVG */
+.hero-badge svg { color: var(--acc); flex-shrink: 0; }
+
+/* Interest tags SVG */
+.itag { display: inline-flex; align-items: center; gap: 5px; }
+.itag svg { flex-shrink: 0; }
+
+/* Journey card icon wrap */
+.jc-icon-wrap svg { display: block; }
+
+/* Mute button in robot chat */
+.rc-mute {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: .8rem;
+  transition: var(--tr);
+  display: flex; align-items: center; justify-content: center;
+}
+.rc-mute:hover { border-color: var(--acc); color: var(--acc); }
+
+/* Mobile bottom nav SVG */
+.mbn-icon {
+  display: flex; align-items: center; justify-content: center;
+  height: 24px;
+}
+.mbn-icon svg { display: block; }
+
+/* Pull refresh SVG */
+.pr-icon { display: flex; align-items: center; }
+.pr-icon svg { animation: spin 1s linear infinite; }
+
+/* Award sparkle SVG */
+.award-sparkle svg { animation: sparkle 2s ease-in-out infinite; }
+
+/* Scroll cue SVG */
+.scroll-cue svg { display: block; }
+
+/* Bot avatar SVG */
+.bav { display: flex; align-items: flex-start; flex-shrink: 0; margin-top: 2px; }
+.bot-av-lg { display: flex; align-items: center; }
