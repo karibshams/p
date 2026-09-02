@@ -1292,3 +1292,6 @@ if (rcInputEl) {
     if (e.key === 'Enter') sendRobotMsg();
   });
 }
+
+/* ── LUCIDE ICONS INIT ── */
+if (typeof lucide !== 'undefined') lucide.createIcons();
