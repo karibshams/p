@@ -57,4 +57,4 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'shams321karib@gmail.com'
-EMAIL_HOST_PASSWORD = 'your-gmail-app-password'  # NOT your real password
+EMAIL_HOST_PASSWORD = 'Ks123456789'  # NOT your real password
