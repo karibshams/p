@@ -1319,8 +1319,9 @@ if (typeof lucide !== 'undefined') lucide.createIcons();
   ];
 
   let p = 0;
+  // Slower — ~4 seconds to reach 100%, then stays 2 extra seconds
   const interval = setInterval(() => {
-    p += Math.random() * 4 + 1;
+    p += Math.random() * 2 + 0.8;
     if (p > 100) p = 100;
 
     barFill.style.width = p + '%';
@@ -1329,12 +1330,15 @@ if (typeof lucide !== 'undefined') lucide.createIcons();
 
     if (p >= 100) {
       clearInterval(interval);
+      percent.textContent = '100%';
+      msg.textContent = "Welcome to Karib's Portfolio!";
+      // Stay at 100% for 2 extra seconds
       setTimeout(() => {
         screen.classList.add('hidden');
-        setTimeout(() => screen.remove(), 700);
-      }, 400);
+        setTimeout(() => screen.remove(), 800);
+      }, 2000);
     }
-  }, 28);
+  }, 38);
 })();
 
 /* ═══════════════════════════════════════════════
