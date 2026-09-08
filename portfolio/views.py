@@ -4,6 +4,8 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import Feedback, ChatLog, VisitorCount
+from django.core.mail import send_mail
+from django.conf import settings as django_settings
 from django.utils import timezone
 from django.db.models import Sum
 
@@ -810,12 +812,39 @@ def submit_feedback(request):
     if request.method != 'POST':
         return JsonResponse({'status': 'error'}, status=405)
     try:
-        body = json.loads(request.body)
-        Feedback.objects.create(
-            name=body.get('name', ''),
-            email=body.get('email', ''),
-            message=body.get('message', ''),
-        )
-        return JsonResponse({'status': 'ok', 'msg': '✅ Thank you! Your feedback has been saved.'})
+        body     = json.loads(request.body)
+        name     = body.get('name', '').strip()
+        email    = body.get('email', '').strip()
+        message  = body.get('message', '').strip()
+
+        # Basic validation
+        import re
+        if not name:
+            return JsonResponse({'status': 'error', 'msg': 'Please enter your name.'}, status=400)
+        if not re.match(r'^[^@]+@[^@]+\.[^@]+$', email):
+            return JsonResponse({'status': 'error', 'msg': 'Please enter a valid email address.'}, status=400)
+        if len(message) < 10:
+            return JsonResponse({'status': 'error', 'msg': 'Message must be at least 10 characters.'}, status=400)
+
+        # Save to database
+        Feedback.objects.create(name=name, email=email, message=message)
+
+        # Send email notification to Karib
+        try:
+            send_mail(
+                subject=f'New Portfolio Feedback from {name}',
+                message=f'Name: {name}
+Email: {email}
+
+Message:
+{message}',
+                from_email='noreply@karibportfolio.com',
+                recipient_list=['shams321karib@gmail.com'],
+                fail_silently=True,
+            )
+        except Exception:
+            pass  # Email fails silently — feedback still saved
+
+        return JsonResponse({'status': 'ok', 'msg': 'Thank you! Your message has been received. Karib will get back to you soon.'})
     except Exception as e:
-        return JsonResponse({'status': 'error', 'msg': str(e)}, status=400)
+        return JsonResponse({'status': 'error', 'msg': 'Something went wrong. Please try again.'}, status=400)
