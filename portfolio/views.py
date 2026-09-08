@@ -833,11 +833,7 @@ def submit_feedback(request):
         try:
             send_mail(
                 subject=f'New Portfolio Feedback from {name}',
-                message=f'Name: {name}
-Email: {email}
-
-Message:
-{message}',
+                message=f'Name: {name}\nEmail: {email}\n\nMessage:\n{message}',
                 from_email='noreply@karibportfolio.com',
                 recipient_list=['shams321karib@gmail.com'],
                 fail_silently=True,
