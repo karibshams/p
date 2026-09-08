@@ -1295,3 +1295,291 @@ if (rcInputEl) {
 
 /* ── LUCIDE ICONS INIT ── */
 if (typeof lucide !== 'undefined') lucide.createIcons();
+
+/* ═══════════════════════════════════════════════
+   LOADING SCREEN
+═══════════════════════════════════════════════ */
+(function initLoader() {
+  const screen  = document.getElementById('loadingScreen');
+  const barFill = document.getElementById('lsBarFill');
+  const percent = document.getElementById('lsPercent');
+  const msg     = document.getElementById('lsMsg');
+  if (!screen) return;
+
+  const MSGS = [
+    'Initialising AI Systems...',
+    'Loading Neural Networks...',
+    'Fetching Research Data...',
+    'Connecting to Knowledge Base...',
+    'Calibrating Data Pipelines...',
+    'Loading Publications...',
+    'Preparing AI Chat Engine...',
+    'Almost Ready...',
+    'Welcome to Karib\'s Portfolio!',
+  ];
+
+  let p = 0;
+  const interval = setInterval(() => {
+    p += Math.random() * 4 + 1;
+    if (p > 100) p = 100;
+
+    barFill.style.width = p + '%';
+    percent.textContent = Math.floor(p) + '%';
+    msg.textContent = MSGS[Math.min(Math.floor(p / 12), MSGS.length - 1)];
+
+    if (p >= 100) {
+      clearInterval(interval);
+      setTimeout(() => {
+        screen.classList.add('hidden');
+        setTimeout(() => screen.remove(), 700);
+      }, 400);
+    }
+  }, 28);
+})();
+
+/* ═══════════════════════════════════════════════
+   TILT CARDS — 3D mouse tracking
+═══════════════════════════════════════════════ */
+document.querySelectorAll('.tilt-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect   = card.getBoundingClientRect();
+    const cx     = rect.left + rect.width  / 2;
+    const cy     = rect.top  + rect.height / 2;
+    const dx     = (e.clientX - cx) / (rect.width  / 2);
+    const dy     = (e.clientY - cy) / (rect.height / 2);
+    const rotX   = -dy * 10;
+    const rotY   =  dx * 10;
+    card.style.transform = `perspective(1000px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(1.03)`;
+    card.style.boxShadow = `${-rotY * 2}px ${rotX * 2}px 30px rgba(0,255,194,0.15)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+    card.style.boxShadow = '';
+  });
+});
+
+/* ═══════════════════════════════════════════════
+   MAGNETIC BUTTONS
+═══════════════════════════════════════════════ */
+document.querySelectorAll('.magnetic-btn').forEach(btn => {
+  btn.addEventListener('mousemove', e => {
+    const rect = btn.getBoundingClientRect();
+    const cx   = rect.left + rect.width  / 2;
+    const cy   = rect.top  + rect.height / 2;
+    const dx   = (e.clientX - cx) * 0.25;
+    const dy   = (e.clientY - cy) * 0.25;
+    btn.style.transform = `translate(${dx}px, ${dy}px)`;
+  });
+  btn.addEventListener('mouseleave', () => {
+    btn.style.transform = 'translate(0,0)';
+  });
+});
+
+/* ═══════════════════════════════════════════════
+   PARTICLE CURSOR TRAIL
+═══════════════════════════════════════════════ */
+(function initParticleTrail() {
+  const canvas = document.getElementById('particle-trail');
+  if (!canvas) return;
+  const ctx    = canvas.getContext('2d');
+  let W = canvas.width  = window.innerWidth;
+  let H = canvas.height = window.innerHeight;
+  window.addEventListener('resize', () => {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  });
+
+  const particles = [];
+  let mouseX = -999, mouseY = -999;
+
+  document.addEventListener('mousemove', e => {
+    mouseX = e.clientX; mouseY = e.clientY;
+    // Spawn 2 particles per move
+    for (let i = 0; i < 2; i++) {
+      particles.push({
+        x: mouseX + (Math.random() - .5) * 10,
+        y: mouseY + (Math.random() - .5) * 10,
+        vx: (Math.random() - .5) * 1.5,
+        vy: (Math.random() - .5) * 1.5 - .5,
+        life: 1,
+        size: Math.random() * 3 + 1,
+        color: Math.random() > .5 ? '0,255,194' : '34,211,238',
+      });
+    }
+  });
+
+  (function loop() {
+    ctx.clearRect(0, 0, W, H);
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
+      p.x    += p.vx;
+      p.y    += p.vy;
+      p.life -= 0.035;
+      p.size *= 0.96;
+      if (p.life <= 0) { particles.splice(i, 1); continue; }
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${p.color},${p.life * 0.6})`;
+      ctx.fill();
+    }
+    requestAnimationFrame(loop);
+  })();
+})();
+
+/* ═══════════════════════════════════════════════
+   STAGGERED CARD ANIMATIONS
+═══════════════════════════════════════════════ */
+(function initStagger() {
+  const grid = document.querySelector('.stagger-grid');
+  if (!grid) return;
+  const cards = grid.querySelectorAll('.proj-card');
+
+  const obs = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) {
+      cards.forEach((card, i) => {
+        setTimeout(() => card.classList.add('stagger-vis'), i * 120);
+      });
+      obs.disconnect();
+    }
+  }, { threshold: .1 });
+  obs.observe(grid);
+})();
+
+/* ═══════════════════════════════════════════════
+   PARALLAX SCROLL EFFECT
+═══════════════════════════════════════════════ */
+(function initParallax() {
+  const hero = document.getElementById('hero');
+  if (!hero) return;
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+    if (scrolled < window.innerHeight) {
+      const heroLeft = hero.querySelector('.hero-left');
+      const heroRight = hero.querySelector('.hero-right');
+      if (heroLeft)  heroLeft.style.transform  = `translateY(${scrolled * 0.15}px)`;
+      if (heroRight) heroRight.style.transform = `translateY(${scrolled * 0.08}px)`;
+    }
+  }, { passive: true });
+})();
+
+/* ═══════════════════════════════════════════════
+   FORM VALIDATION (Frontend)
+═══════════════════════════════════════════════ */
+function validateFeedbackForm() {
+  const name    = document.getElementById('fb-name');
+  const email   = document.getElementById('fb-email');
+  const msg     = document.getElementById('fb-msg');
+  let valid = true;
+
+  // Validate name
+  if (!name.value.trim() || name.value.trim().length < 2) {
+    name.classList.add('input-error');
+    name.classList.remove('input-ok');
+    valid = false;
+  } else {
+    name.classList.remove('input-error');
+    name.classList.add('input-ok');
+  }
+
+  // Validate email
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email.value.trim())) {
+    email.classList.add('input-error');
+    email.classList.remove('input-ok');
+    valid = false;
+  } else {
+    email.classList.remove('input-error');
+    email.classList.add('input-ok');
+  }
+
+  // Validate message
+  if (!msg.value.trim() || msg.value.trim().length < 10) {
+    msg.classList.add('input-error');
+    msg.classList.remove('input-ok');
+    valid = false;
+  } else {
+    msg.classList.remove('input-error');
+    msg.classList.add('input-ok');
+  }
+
+  return valid;
+}
+
+// Add live validation on input
+['fb-name','fb-email','fb-msg'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('input', () => validateFeedbackForm());
+});
+
+// Override submitFeedback to validate first
+const _origSubmitFeedback = submitFeedback;
+async function submitFeedback(e) {
+  e.preventDefault();
+  if (!validateFeedbackForm()) {
+    document.getElementById('fb-res').style.color = '#ef4444';
+    document.getElementById('fb-res').style.fontFamily = 'var(--mono)';
+    document.getElementById('fb-res').style.fontSize = '.8rem';
+    document.getElementById('fb-res').textContent = 'Please fix the errors above.';
+    setTimeout(() => document.getElementById('fb-res').textContent = '', 3000);
+    return;
+  }
+
+  const res = document.getElementById('fb-res');
+  res.style.color = 'var(--acc)';
+  res.style.fontFamily = 'var(--mono)';
+  res.style.fontSize = '.8rem';
+  res.style.marginTop = '.5rem';
+
+  try {
+    const r = await fetch('/api/feedback/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrf() },
+      body: JSON.stringify({
+        name:    document.getElementById('fb-name').value,
+        email:   document.getElementById('fb-email').value,
+        message: document.getElementById('fb-msg').value,
+      }),
+    });
+    const d = await r.json();
+    if (d.status === 'ok') {
+      res.style.color = '#22c55e';
+      res.textContent = d.msg || 'Message sent!';
+      document.getElementById('fbForm').reset();
+      ['fb-name','fb-email','fb-msg'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) { el.classList.remove('input-ok','input-error'); }
+      });
+    } else {
+      res.style.color = '#ef4444';
+      res.textContent = d.msg || 'Error. Please try again.';
+    }
+    setTimeout(() => res.textContent = '', 5000);
+  } catch {
+    res.style.color = '#ef4444';
+    res.textContent = 'Connection error. Please try again.';
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   GLITCH TEXT — periodic trigger
+═══════════════════════════════════════════════ */
+(function randomGlitch() {
+  // CSS animation handles it — just ensure data-text is set
+  document.querySelectorAll('.glitch-text').forEach(el => {
+    if (!el.dataset.text) el.dataset.text = el.textContent;
+  });
+})();
+
+/* ═══════════════════════════════════════════════
+   SCROLL PROGRESS BAR (top of page)
+═══════════════════════════════════════════════ */
+(function scrollProgress() {
+  const bar = document.createElement('div');
+  bar.style.cssText = 'position:fixed;top:0;left:0;height:2px;background:linear-gradient(to right,var(--acc),var(--acc2));z-index:9998;width:0%;transition:width .1s linear;pointer-events:none;box-shadow:0 0 6px rgba(0,255,194,.5)';
+  document.body.appendChild(bar);
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+    const total    = document.body.scrollHeight - window.innerHeight;
+    bar.style.width = (scrolled / total * 100) + '%';
+  }, { passive: true });
+})();
