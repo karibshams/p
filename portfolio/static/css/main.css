@@ -1406,3 +1406,197 @@ body.three-active #neural-bg { opacity: 0; }
 /* Bot avatar SVG */
 .bav { display: flex; align-items: flex-start; flex-shrink: 0; margin-top: 2px; }
 .bot-av-lg { display: flex; align-items: center; }
+
+/* ═══════════════════════════════════════════
+   LOADING SCREEN
+═══════════════════════════════════════════ */
+.loading-screen {
+  position: fixed; inset: 0; z-index: 99999;
+  background: #0d1117;
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column;
+  transition: opacity .6s ease, visibility .6s ease;
+}
+.loading-screen.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+
+.ls-content {
+  display: flex; flex-direction: column; align-items: center; gap: 1.2rem;
+  animation: lsFadeIn .6s ease forwards;
+}
+@keyframes lsFadeIn { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+.ls-logo { animation: lsPulse 2s ease infinite; }
+@keyframes lsPulse {
+  0%,100%{ filter:drop-shadow(0 0 8px rgba(0,255,194,.4)); transform:scale(1); }
+  50%    { filter:drop-shadow(0 0 24px rgba(0,255,194,.8)); transform:scale(1.05); }
+}
+.ls-hex  { animation: lsHexSpin 4s linear infinite; transform-origin:50px 50px; }
+@keyframes lsHexSpin { from{stroke-dashoffset:0} to{stroke-dashoffset:200} }
+.ls-dot  { animation: lsDotBlink 1.5s ease-in-out infinite; }
+@keyframes lsDotBlink { 0%,100%{opacity:1} 50%{opacity:.2} }
+
+.ls-name {
+  display: flex; gap: .6rem; align-items: baseline;
+  font-family: var(--font); font-weight: 800; letter-spacing: -2px;
+}
+.ls-first { font-size: 2.4rem; color: var(--text); }
+.ls-last  { font-size: 2.4rem; color: var(--acc); }
+
+.ls-title {
+  font-family: var(--mono); font-size: .78rem;
+  color: var(--acc2); letter-spacing: 3px; text-transform: uppercase;
+}
+
+.ls-bar-wrap {
+  display: flex; align-items: center; gap: 1rem; width: 260px;
+}
+.ls-bar {
+  flex: 1; height: 4px;
+  background: rgba(255,255,255,.08);
+  border-radius: 4px; overflow: hidden;
+}
+.ls-bar-fill {
+  height: 100%; width: 0%;
+  background: linear-gradient(to right, var(--acc), var(--acc2));
+  border-radius: 4px;
+  transition: width .1s linear;
+  box-shadow: 0 0 8px rgba(0,255,194,.5);
+}
+.ls-percent {
+  font-family: var(--mono); font-size: .82rem;
+  color: var(--acc); font-weight: 700; min-width: 36px;
+}
+.ls-msg {
+  font-family: var(--mono); font-size: .7rem;
+  color: var(--muted); letter-spacing: 1px;
+  min-height: 1.2rem; text-align: center;
+}
+
+/* ═══════════════════════════════════════════
+   KS LOGO — NAVBAR
+═══════════════════════════════════════════ */
+.nav-brand {
+  display: flex; align-items: center; gap: .5rem; cursor: pointer;
+}
+.nav-logo {
+  transition: filter .3s, transform .3s;
+  filter: drop-shadow(0 0 6px rgba(0,255,194,.3));
+}
+.nav-logo:hover {
+  filter: drop-shadow(0 0 14px rgba(0,255,194,.7));
+  transform: rotate(10deg) scale(1.05);
+}
+.nav-brand-text {
+  font-family: var(--mono); font-size: .82rem;
+  font-weight: 700; color: var(--text); letter-spacing: 1px;
+}
+
+/* ═══════════════════════════════════════════
+   GLITCH TEXT EFFECT
+═══════════════════════════════════════════ */
+.glitch-text {
+  position: relative;
+  display: block;
+}
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  opacity: 0;
+}
+.glitch-text::before {
+  color: #ff0055;
+  animation: glitchBefore 6s infinite;
+}
+.glitch-text::after {
+  color: #00fff9;
+  animation: glitchAfter 6s infinite;
+}
+@keyframes glitchBefore {
+  0%,85%,100% { opacity:0; transform:translate(0) }
+  86%  { opacity:.8; transform:translate(-3px,1px); clip-path:polygon(0 20%,100% 20%,100% 40%,0 40%) }
+  88%  { opacity:.8; transform:translate(3px,-1px); clip-path:polygon(0 60%,100% 60%,100% 80%,0 80%) }
+  90%  { opacity:0 }
+}
+@keyframes glitchAfter {
+  0%,87%,100% { opacity:0; transform:translate(0) }
+  88%  { opacity:.7; transform:translate(3px,1px); clip-path:polygon(0 40%,100% 40%,100% 60%,0 60%) }
+  90%  { opacity:.7; transform:translate(-3px,-1px); clip-path:polygon(0 10%,100% 10%,100% 30%,0 30%) }
+  92%  { opacity:0 }
+}
+
+/* ═══════════════════════════════════════════
+   TILT CARDS
+═══════════════════════════════════════════ */
+.tilt-card {
+  transform-style: preserve-3d;
+  transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
+  transition: transform .15s ease, box-shadow .3s ease;
+  will-change: transform;
+}
+.tilt-card .pc-glow { transition: opacity .15s; }
+
+/* ═══════════════════════════════════════════
+   MAGNETIC BUTTONS
+═══════════════════════════════════════════ */
+.magnetic-btn {
+  transition: transform .2s cubic-bezier(.4,0,.2,1), box-shadow .2s ease !important;
+  will-change: transform;
+}
+
+/* ═══════════════════════════════════════════
+   STAGGERED CARDS
+═══════════════════════════════════════════ */
+.stagger-grid .proj-card { opacity: 0; transform: translateY(30px); }
+.stagger-grid .proj-card.stagger-vis {
+  opacity: 1; transform: translateY(0);
+  transition: opacity .5s ease, transform .5s ease;
+}
+
+/* ═══════════════════════════════════════════
+   PARALLAX SECTIONS
+═══════════════════════════════════════════ */
+.parallax-bg {
+  will-change: transform;
+  transition: transform .1s linear;
+}
+
+/* ═══════════════════════════════════════════
+   PARTICLE CURSOR TRAIL
+═══════════════════════════════════════════ */
+#particle-trail { opacity: .65; }
+
+/* ═══════════════════════════════════════════
+   FORM VALIDATION STYLES
+═══════════════════════════════════════════ */
+.fb-inp.input-error {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 8px rgba(239,68,68,.2);
+  animation: inputShake .3s ease;
+}
+.fb-inp.input-ok { border-color: #22c55e !important; }
+@keyframes inputShake {
+  0%,100%{ transform:translateX(0) }
+  25%    { transform:translateX(-5px) }
+  75%    { transform:translateX(5px) }
+}
+.fb-validation-msg {
+  font-family: var(--mono); font-size: .72rem;
+  margin-top: -.5rem; margin-bottom: -.3rem;
+  display: none;
+}
+.fb-validation-msg.error { color: #ef4444; display: block; }
+.fb-validation-msg.ok    { color: #22c55e; display: block; }
+
+/* ═══════════════════════════════════════════
+   ENHANCED HOVER EFFECTS
+═══════════════════════════════════════════ */
+.skill-group:hover .sk-tag { transition-delay: calc(var(--i,0) * 30ms); }
+.pub-card:hover .pub-title  { color: var(--text); transition: color .2s; }
+
+/* Glow on hover for key cards */
+.journey-card.award-card:hover {
+  box-shadow: 0 20px 60px rgba(0,0,0,.4), 0 0 40px rgba(245,158,11,.2) !important;
+}
