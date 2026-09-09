@@ -1600,3 +1600,206 @@ body.three-active #neural-bg { opacity: 0; }
 .journey-card.award-card:hover {
   box-shadow: 0 20px 60px rgba(0,0,0,.4), 0 0 40px rgba(245,158,11,.2) !important;
 }
+
+/* ═══════════════════════════════════════════
+   MOTION 1: SPOTLIGHT CURSOR
+═══════════════════════════════════════════ */
+.spotlight {
+  position: fixed; inset: 0; z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(circle 200px at -999px -999px,
+    transparent 0%,
+    rgba(0,0,0,0) 60%,
+    rgba(0,0,0,0.18) 100%
+  );
+  transition: background .05s linear;
+  mix-blend-mode: multiply;
+}
+body.light-mode .spotlight { mix-blend-mode: normal; }
+
+/* ═══════════════════════════════════════════
+   MOTION 2: RIPPLE CLICK EFFECT
+═══════════════════════════════════════════ */
+#ripple-container {
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 9990;
+  overflow: hidden;
+}
+.ripple-wave {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid rgba(0,255,194,.6);
+  transform: translate(-50%,-50%) scale(0);
+  animation: rippleAnim .8s ease-out forwards;
+  pointer-events: none;
+}
+@keyframes rippleAnim {
+  from { width:0; height:0; opacity:.8; transform:translate(-50%,-50%) scale(0) }
+  to   { width:120px; height:120px; opacity:0; transform:translate(-50%,-50%) scale(1) }
+}
+
+/* ═══════════════════════════════════════════
+   MOTION 3: CARD FLIP
+═══════════════════════════════════════════ */
+.proj-card-wrap {
+  perspective: 1000px;
+  height: 280px;
+}
+.proj-card-wrap.hidden { display: none; }
+.flip-card {
+  width: 100%; height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform .6s cubic-bezier(.4,0,.2,1);
+  cursor: pointer;
+}
+.proj-card-wrap:hover .flip-card { transform: rotateY(180deg); }
+.flip-front, .flip-back {
+  position: absolute; inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: var(--r);
+  padding: 1.6rem;
+  display: flex; flex-direction: column;
+}
+.flip-front {
+  background: rgba(36,43,54,.55);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(0,255,194,.18);
+}
+.flip-back {
+  background: linear-gradient(135deg, rgba(0,255,194,.1), rgba(34,211,238,.08));
+  border: 1px solid rgba(0,255,194,.4);
+  transform: rotateY(180deg);
+  justify-content: center;
+  box-shadow: 0 0 30px rgba(0,255,194,.15);
+}
+.flip-hint {
+  font-family: var(--mono);
+  font-size: .65rem;
+  color: var(--sec);
+  margin-top: auto;
+  letter-spacing: 1px;
+  animation: hintPulse 2s ease infinite;
+}
+@keyframes hintPulse { 0%,100%{opacity:.4} 50%{opacity:1} }
+
+/* ═══════════════════════════════════════════
+   MOTION 4: TEXT SCRAMBLE
+═══════════════════════════════════════════ */
+.scramble-text { display: inline-block; }
+
+/* ═══════════════════════════════════════════
+   MOTION 5: FLOATING SKILL BADGES
+═══════════════════════════════════════════ */
+.sk-tag:nth-child(1)  { animation: float1 3s ease-in-out infinite }
+.sk-tag:nth-child(2)  { animation: float1 3.4s ease-in-out infinite .2s }
+.sk-tag:nth-child(3)  { animation: float1 2.8s ease-in-out infinite .4s }
+.sk-tag:nth-child(4)  { animation: float1 3.2s ease-in-out infinite .1s }
+.sk-tag:nth-child(5)  { animation: float1 3.6s ease-in-out infinite .3s }
+.sk-tag:nth-child(6)  { animation: float1 2.9s ease-in-out infinite .5s }
+@keyframes float1 {
+  0%,100% { transform: translateY(0) }
+  50%     { transform: translateY(-4px) }
+}
+
+/* ═══════════════════════════════════════════
+   MOTION 6: ANIMATED GRADIENT BORDER
+═══════════════════════════════════════════ */
+.journey-card:hover,
+.pub-card:hover,
+.impact-card:hover {
+  --border-angle: 0turn;
+  animation: borderRotate 2s linear infinite;
+}
+@property --border-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0turn;
+}
+@keyframes borderRotate {
+  to { --border-angle: 1turn }
+}
+.journey-card:hover::after,
+.pub-card:hover::after {
+  content: '';
+  position: absolute; inset: -1px;
+  border-radius: inherit;
+  background: conic-gradient(from var(--border-angle),
+    #00FFC2, #22D3EE, #F59E0B, #00FFC2);
+  z-index: -1;
+  opacity: .6;
+}
+
+/* ═══════════════════════════════════════════
+   MOTION 7: SECTION WIPE TRANSITIONS
+═══════════════════════════════════════════ */
+.sec:nth-child(odd)  .sec-hdr  { transform: translateX(-40px); opacity: 0; transition: transform .7s ease, opacity .7s ease }
+.sec:nth-child(even) .sec-hdr  { transform: translateX(40px);  opacity: 0; transition: transform .7s ease, opacity .7s ease }
+.sec-hdr.vis { transform: translateX(0) !important; opacity: 1 !important }
+
+/* ═══════════════════════════════════════════
+   MOTION 8: NUMBER ODOMETER
+═══════════════════════════════════════════ */
+.hs-n, .hn {
+  display: inline-block;
+  transition: all .1s ease;
+}
+.odo-rolling {
+  animation: odoRoll .08s ease;
+}
+@keyframes odoRoll {
+  0%  { transform: translateY(-8px); opacity: 0 }
+  100%{ transform: translateY(0);    opacity: 1 }
+}
+
+/* ═══════════════════════════════════════════
+   MOTION 9: TYPEWRITER HIGHLIGHT
+═══════════════════════════════════════════ */
+.highlight-word {
+  position: relative;
+  display: inline;
+}
+.highlight-word::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0;
+  width: 0; height: 2px;
+  background: var(--acc);
+  border-radius: 2px;
+  transition: width .6s ease;
+  box-shadow: 0 0 6px var(--acc);
+}
+.highlight-word.active::after { width: 100%; }
+
+/* ═══════════════════════════════════════════
+   MOTION 10: MORPHING BLOB
+═══════════════════════════════════════════ */
+.morphing-blob {
+  position: absolute;
+  width: 500px; height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,255,194,.04) 0%, transparent 70%);
+  pointer-events: none;
+  animation: blobMorph 12s ease-in-out infinite;
+  filter: blur(40px);
+  z-index: 0;
+}
+@keyframes blobMorph {
+  0%,100% {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    transform: translate(0,0) scale(1);
+  }
+  25% {
+    border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+    transform: translate(30px,-20px) scale(1.05);
+  }
+  50% {
+    border-radius: 50% 60% 30% 60% / 30% 40% 70% 50%;
+    transform: translate(-20px,30px) scale(.95);
+  }
+  75% {
+    border-radius: 40% 60% 60% 40% / 70% 30% 50% 60%;
+    transform: translate(20px,20px) scale(1.02);
+  }
+}
