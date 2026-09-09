@@ -52,6 +52,10 @@
   </div>
 </div>
 
+<!-- SPOTLIGHT CURSOR -->
+<div id="spotlight" class="spotlight"></div>
+<div id="ripple-container"></div>
+
 <!-- PAGE TRANSITION -->
 <div class="page-transition" id="pageTransition"></div>
 
@@ -138,7 +142,7 @@
 </section>
 <section id="about" class="sec">
   <div class="container">
-    <div class="sec-hdr reveal"><span class="sn">01</span><h2>About Me</h2><div class="sl"></div></div>
+    <div class="sec-hdr reveal"><span class="sn">01</span><h2><span class="scramble-text" data-text="About Me">About Me</span></h2><div class="sl"></div></div>
     <div class="about-grid">
       <div class="reveal">
         <p class="about-lead">I build <span class="ac">intelligent systems</span> that understand, learn, and predict — turning raw data into real-world impact.</p>
@@ -265,7 +269,7 @@
 </section>
 <section id="experience" class="sec">
   <div class="container">
-    <div class="sec-hdr reveal"><span class="sn">03</span><h2>Experience</h2><div class="sl"></div></div>
+    <div class="sec-hdr reveal"><span class="sn">03</span><h2><span class="scramble-text" data-text="Experience">Experience</span></h2><div class="sl"></div></div>
     <div class="timeline">
       {% for xp in data.experience %}
       <div class="tl-item reveal">
@@ -281,7 +285,7 @@
 </section>
 <section id="projects" class="sec sec-alt">
   <div class="container">
-    <div class="sec-hdr reveal"><span class="sn">04</span><h2>Projects</h2><div class="sl"></div></div>
+    <div class="sec-hdr reveal"><span class="sn">04</span><h2><span class="scramble-text" data-text="Projects">Projects</span></h2><div class="sl"></div></div>
     <div class="proj-tabs reveal">
       <button class="ptab active" data-filter="all">All</button>
       <button class="ptab" data-filter="Professional">Professional</button>
@@ -290,13 +294,26 @@
     </div>
     <div class="proj-grid stagger-grid">
       {% for p in data.projects %}
-      <div class="proj-card glass-card reveal tilt-card" data-type="{{ p.type }}">
-        <div class="pc-glow"></div>
-        <div class="pc-type">{{ p.type }}</div>
-        <div class="pc-tags">{% for t in p.tags %}<span class="pc-tag">{{ t }}</span>{% endfor %}</div>
-        <h3>{{ p.name }}</h3>
-        <p class="muted sm" style="margin:.5rem 0 1rem">{{ p.desc }}</p>
-        <a href="{{ p.link }}" target="_blank" class="pc-link">View Project →</a>
+      <div class="proj-card-wrap reveal" data-type="{{ p.type }}">
+        <div class="proj-card glass-card flip-card">
+          <div class="flip-front">
+            <div class="pc-glow"></div>
+            <div class="pc-type">{{ p.type }}</div>
+            <div class="pc-tags">{% for t in p.tags %}<span class="pc-tag">{{ t }}</span>{% endfor %}</div>
+            <h3>{{ p.name }}</h3>
+            <p class="muted sm" style="margin:.5rem 0 .8rem;font-size:.8rem">{{ p.desc|truncatechars:80 }}</p>
+            <span class="flip-hint">Hover to see more →</span>
+          </div>
+          <div class="flip-back">
+            <div class="pc-tags" style="margin-bottom:.8rem">{% for t in p.tags %}<span class="pc-tag">{{ t }}</span>{% endfor %}</div>
+            <h3 style="margin-bottom:.6rem;font-size:.92rem">{{ p.name }}</h3>
+            <p class="muted sm" style="margin-bottom:1.2rem;font-size:.82rem;line-height:1.6">{{ p.desc }}</p>
+            <a href="{{ p.link }}" target="_blank" class="pc-link" style="display:inline-flex;align-items:center;gap:6px">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              View Project
+            </a>
+          </div>
+        </div>
       </div>
       {% endfor %}
     </div>
@@ -310,7 +327,7 @@
 </section>
 <section id="publications" class="sec">
   <div class="container">
-    <div class="sec-hdr reveal"><span class="sn">05</span><h2>Publications</h2><div class="sl"></div></div>
+    <div class="sec-hdr reveal"><span class="sn">05</span><h2><span class="scramble-text" data-text="Publications">Publications</span></h2><div class="sl"></div></div>
     <a href="{{ data.award_url }}" target="_blank" class="award-highlight reveal">
       <div class="aw-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="40" height="40" style="color:var(--gold)"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg></div>
       <div class="aw-body">
@@ -350,7 +367,7 @@
 <!-- ═══ ACHIEVEMENT TIMELINE ═══ -->
 <section id="timeline" class="sec">
   <div class="container">
-    <div class="sec-hdr reveal"><span class="sn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span><h2>My Journey</h2><div class="sl"></div></div>
+    <div class="sec-hdr reveal"><span class="sn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span><h2><span class="scramble-text" data-text="My Journey">My Journey</span></h2><div class="sl"></div></div>
     <p class="muted sm reveal" style="margin-bottom:3rem">From a perfect GPA student to an award-winning AI researcher — every milestone, visualised.</p>
     <div class="journey-progress reveal">
       <div class="jp-track"><div class="jp-fill" id="jpFill"></div></div>
@@ -446,7 +463,7 @@
 <!-- ═══ GITHUB ACTIVITY ═══ -->
 <section id="impact" class="sec sec-alt">
   <div class="container">
-    <div class="sec-hdr reveal"><span class="sn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></span><h2>GitHub Activity</h2><div class="sl"></div></div>
+    <div class="sec-hdr reveal"><span class="sn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></span><h2><span class="scramble-text" data-text="GitHub Activity">GitHub Activity</span></h2><div class="sl"></div></div>
     <p class="muted sm reveal" style="margin-bottom:2rem">Real-time contributions from <a href="https://github.com/karibshams" target="_blank" style="color:var(--acc)">github.com/karibshams</a></p>
     <div class="github-section reveal">
       <div class="gh-profile-info" style="display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap">
@@ -481,7 +498,7 @@
 <!-- ═══ DATA VISUALISATION ═══ -->
 <section id="dataviz" class="sec sec-alt">
   <div class="container">
-    <div class="sec-hdr reveal"><span class="sn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span><h2>Research Analytics</h2><div class="sl"></div></div>
+    <div class="sec-hdr reveal"><span class="sn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span><h2><span class="scramble-text" data-text="Research Analytics">Research Analytics</span></h2><div class="sl"></div></div>
     <p class="muted sm reveal" style="margin-bottom:2.5rem">A data-driven view of Karib's research output — because a Data Scientist's portfolio should have data visualisation.</p>
     <div class="viz-grid">
       <!-- Chart 1: Publications by Year -->
@@ -534,7 +551,7 @@
 
 <section id="aichat" class="sec sec-alt">
   <div class="container">
-    <div class="sec-hdr reveal"><span class="sn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span><h2>Talk to My AI</h2><div class="sl"></div></div>
+    <div class="sec-hdr reveal"><span class="sn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span><h2><span class="scramble-text" data-text="Talk to My AI">Talk to My AI</span></h2><div class="sl"></div></div>
     <p class="muted sm reveal" style="margin-bottom:1.8rem">100% free — no API, no cost, always on. Ask about Karib's research, projects, or any AI/ML concept.</p>
     <div class="chat-box reveal">
       <div class="chat-hdr">
@@ -565,7 +582,7 @@
 </section>
 <section id="feedback" class="sec">
   <div class="container">
-    <div class="sec-hdr reveal"><span class="sn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span><h2>Feedback</h2><div class="sl"></div></div>
+    <div class="sec-hdr reveal"><span class="sn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span><h2><span class="scramble-text" data-text="Feedback">Feedback</span></h2><div class="sl"></div></div>
     <div class="fb-wrap">
       <form class="fb-form reveal" id="fbForm" onsubmit="submitFeedback(event)">
         {% csrf_token %}
@@ -585,7 +602,7 @@
 </section>
 <section id="contact" class="sec sec-alt">
   <div class="container">
-    <div class="sec-hdr reveal"><span class="sn">06</span><h2>Get In Touch</h2><div class="sl"></div></div>
+    <div class="sec-hdr reveal"><span class="sn">06</span><h2><span class="scramble-text" data-text="Get In Touch">Get In Touch</span></h2><div class="sl"></div></div>
     <div class="contact-grid">
       <a href="mailto:{{ data.email }}" class="ci reveal"><span class="ci-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span><div><span class="ci-lb">Email</span><span class="ci-vl">{{ data.email }}</span></div></a>
       <a href="https://wa.me/{{ data.whatsapp }}" target="_blank" class="ci reveal"><span class="ci-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span><div><span class="ci-lb">Phone / WhatsApp</span><span class="ci-vl">{{ data.phone }}</span></div></a>
