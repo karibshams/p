@@ -125,7 +125,7 @@ document.querySelectorAll('.ptab').forEach(btn => {
     document.querySelectorAll('.ptab').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     const f = btn.dataset.filter;
-    document.querySelectorAll('.proj-card').forEach(c => c.classList.toggle('hidden', f!=='all' && c.dataset.type!==f));
+    document.querySelectorAll('.proj-card-wrap').forEach(c => c.classList.toggle('hidden', f!=='all' && c.dataset.type!==f));
   });
 });
 
@@ -1319,9 +1319,9 @@ if (typeof lucide !== 'undefined') lucide.createIcons();
   ];
 
   let p = 0;
-  // Slower — ~4 seconds to reach 100%, then stays 2 extra seconds
+  // ~8 seconds to reach 100%, then stays 2 extra seconds = ~10 seconds total
   const interval = setInterval(() => {
-    p += Math.random() * 2 + 0.8;
+    p += Math.random() * 0.8 + 0.4;
     if (p > 100) p = 100;
 
     barFill.style.width = p + '%';
@@ -1338,7 +1338,7 @@ if (typeof lucide !== 'undefined') lucide.createIcons();
         setTimeout(() => screen.remove(), 800);
       }, 2000);
     }
-  }, 38);
+  }, 48);
 })();
 
 /* ═══════════════════════════════════════════════
@@ -1436,7 +1436,7 @@ document.querySelectorAll('.magnetic-btn').forEach(btn => {
 (function initStagger() {
   const grid = document.querySelector('.stagger-grid');
   if (!grid) return;
-  const cards = grid.querySelectorAll('.proj-card');
+  const cards = grid.querySelectorAll('.proj-card-wrap');
 
   const obs = new IntersectionObserver(entries => {
     if (entries[0].isIntersecting) {
@@ -1585,5 +1585,221 @@ async function submitFeedback(e) {
     const scrolled = window.scrollY;
     const total    = document.body.scrollHeight - window.innerHeight;
     bar.style.width = (scrolled / total * 100) + '%';
+  }, { passive: true });
+})();
+
+/* ═══════════════════════════════════════════════
+   MOTION 1: SPOTLIGHT CURSOR
+═══════════════════════════════════════════════ */
+(function initSpotlight() {
+  const spotlight = document.getElementById('spotlight');
+  if (!spotlight) return;
+  document.addEventListener('mousemove', e => {
+    spotlight.style.background = `radial-gradient(circle 220px at ${e.clientX}px ${e.clientY}px,
+      transparent 0%,
+      rgba(0,0,0,0) 55%,
+      rgba(0,0,0,0.15) 100%)`;
+  });
+})();
+
+/* ═══════════════════════════════════════════════
+   MOTION 2: RIPPLE CLICK EFFECT
+═══════════════════════════════════════════════ */
+(function initRipple() {
+  const container = document.getElementById('ripple-container');
+  if (!container) return;
+  document.addEventListener('click', e => {
+    const ripple = document.createElement('div');
+    ripple.className = 'ripple-wave';
+    ripple.style.left = e.clientX + 'px';
+    ripple.style.top  = e.clientY + 'px';
+    container.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 900);
+  });
+})();
+
+/* ═══════════════════════════════════════════════
+   MOTION 3: TEXT SCRAMBLE
+═══════════════════════════════════════════════ */
+class TextScramble {
+  constructor(el) {
+    this.el    = el;
+    this.chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&';
+    this.frame = 0;
+  }
+  setText(newText) {
+    const old    = this.el.innerText;
+    const length = Math.max(old.length, newText.length);
+    return new Promise(resolve => {
+      let frame = 0;
+      const update = () => {
+        let output = '';
+        for (let i = 0; i < length; i++) {
+          if (i < newText.length) {
+            if (frame / length > i / newText.length * 2) {
+              output += newText[i];
+            } else {
+              output += this.chars[Math.floor(Math.random() * this.chars.length)];
+            }
+          }
+        }
+        this.el.innerText = output;
+        frame++;
+        if (frame < length * 2.5) requestAnimationFrame(update);
+        else { this.el.innerText = newText; resolve(); }
+      };
+      requestAnimationFrame(update);
+    });
+  }
+}
+
+// Trigger scramble when section headers come into view
+document.querySelectorAll('.scramble-text').forEach(el => {
+  const scrambler = new TextScramble(el);
+  const original  = el.dataset.text || el.innerText;
+  let triggered   = false;
+
+  const obs = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting && !triggered) {
+      triggered = true;
+      scrambler.setText(original);
+      obs.disconnect();
+    }
+  }, { threshold: .5 });
+  obs.observe(el);
+});
+
+/* ═══════════════════════════════════════════════
+   MOTION 4: FLOATING SKILL BADGES
+   (CSS handles animation — just add --i index)
+═══════════════════════════════════════════════ */
+document.querySelectorAll('.skill-tags').forEach(group => {
+  group.querySelectorAll('.sk-tag').forEach((tag, i) => {
+    tag.style.setProperty('--i', i);
+  });
+});
+
+/* ═══════════════════════════════════════════════
+   MOTION 5: SECTION WIPE — observe sec-hdr
+═══════════════════════════════════════════════ */
+const hdrObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('vis'); hdrObs.unobserve(e.target); }
+  });
+}, { threshold: .3 });
+document.querySelectorAll('.sec-hdr').forEach(h => hdrObs.observe(h));
+
+/* ═══════════════════════════════════════════════
+   MOTION 6: NUMBER ODOMETER
+═══════════════════════════════════════════════ */
+function odoCount(el, target, suffix) {
+  let cur = 0;
+  const step = Math.ceil(target / 60);
+  const timer = setInterval(() => {
+    cur = Math.min(cur + step, target);
+    el.textContent = cur + suffix;
+    el.classList.add('odo-rolling');
+    setTimeout(() => el.classList.remove('odo-rolling'), 80);
+    if (cur >= target) clearInterval(timer);
+  }, 30);
+}
+
+const odoObs = new IntersectionObserver(entries => {
+  if (entries[0].isIntersecting) {
+    document.querySelectorAll('.hs-n[data-count]').forEach(el => {
+      const target = +el.dataset.count;
+      const suffix = target >= 10 ? '+' : '';
+      odoCount(el, target, suffix);
+    });
+    odoObs.disconnect();
+  }
+}, { threshold: .4 });
+const heroStatEl = document.querySelector('.hero-stats');
+if (heroStatEl) odoObs.observe(heroStatEl);
+
+/* ═══════════════════════════════════════════════
+   MOTION 7: TYPEWRITER HIGHLIGHT on about-lead
+═══════════════════════════════════════════════ */
+(function initHighlight() {
+  const lead = document.querySelector('.about-lead');
+  if (!lead) return;
+
+  // Wrap key words with highlight spans
+  const keywords = ['intelligent systems', 'real-world impact', 'data'];
+  let html = lead.innerHTML;
+  keywords.forEach(word => {
+    html = html.replace(
+      new RegExp(`(${word})`, 'gi'),
+      '<span class="highlight-word">$1</span>'
+    );
+  });
+  lead.innerHTML = html;
+
+  // Trigger highlights on scroll
+  const obs = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) {
+      const words = lead.querySelectorAll('.highlight-word');
+      words.forEach((w, i) => setTimeout(() => w.classList.add('active'), i * 400));
+      obs.disconnect();
+    }
+  }, { threshold: .6 });
+  obs.observe(lead);
+})();
+
+/* ═══════════════════════════════════════════════
+   MOTION 8: MORPHING BLOB in hero
+═══════════════════════════════════════════════ */
+(function initBlob() {
+  const hero = document.getElementById('hero');
+  if (!hero) return;
+  const blob = document.createElement('div');
+  blob.className = 'morphing-blob';
+  blob.style.cssText = 'top:10%;right:5%;position:absolute';
+  hero.appendChild(blob);
+
+  const blob2 = document.createElement('div');
+  blob2.className = 'morphing-blob';
+  blob2.style.cssText = 'bottom:10%;left:5%;position:absolute;animation-delay:-6s;width:300px;height:300px;background:radial-gradient(circle,rgba(34,211,238,.04) 0%,transparent 70%)';
+  hero.appendChild(blob2);
+})();
+
+/* ═══════════════════════════════════════════════
+   MOTION 9: ANIMATED GRADIENT BORDER
+   (CSS @property handles it — just ensure position:relative)
+═══════════════════════════════════════════════ */
+document.querySelectorAll('.journey-card, .pub-card').forEach(el => {
+  el.style.position = 'relative';
+  el.style.overflow = 'hidden';
+});
+
+/* ═══════════════════════════════════════════════
+   MOTION 10: CURSOR RING COLOUR CHANGE BY SECTION
+═══════════════════════════════════════════════ */
+(function initCursorColor() {
+  const ring = document.getElementById('cRing');
+  if (!ring) return;
+
+  const SECTION_COLORS = {
+    hero:         '#00FFC2',
+    about:        '#22D3EE',
+    skills:       '#00FFC2',
+    experience:   '#22D3EE',
+    projects:     '#00FFC2',
+    publications: '#F59E0B',
+    timeline:     '#F59E0B',
+    dataviz:      '#22D3EE',
+    aichat:       '#00FFC2',
+    feedback:     '#22D3EE',
+    contact:      '#00FFC2',
+  };
+
+  window.addEventListener('scroll', () => {
+    let cur = 'hero';
+    document.querySelectorAll('section[id]').forEach(s => {
+      if (window.scrollY >= s.offsetTop - 120) cur = s.id;
+    });
+    const color = SECTION_COLORS[cur] || '#00FFC2';
+    ring.style.borderColor  = color;
+    ring.style.boxShadow    = `0 0 8px ${color}40`;
   }, { passive: true });
 })();
