@@ -3,6 +3,50 @@
    Free AI · 30-Question Quiz · No API · No Cost
 ═══════════════════════════════════════════════ */
 
+/* ═══════════════════════════════════════════════
+   LOADING SCREEN — runs immediately
+═══════════════════════════════════════════════ */
+(function initLoader() {
+  const screen  = document.getElementById('loadingScreen');
+  const barFill = document.getElementById('lsBarFill');
+  const percent = document.getElementById('lsPercent');
+  const msg     = document.getElementById('lsMsg');
+  if (!screen || !barFill || !percent || !msg) return;
+
+  const MSGS = [
+    'Initialising AI Systems...',
+    'Loading Neural Networks...',
+    'Fetching Research Data...',
+    'Connecting Knowledge Base...',
+    'Calibrating Data Pipelines...',
+    'Loading 17 Publications...',
+    'Preparing AI Chat Engine...',
+    'Loading Projects...',
+    'Almost Ready...',
+    "Welcome to Karib's Portfolio!",
+  ];
+
+  let p = 0;
+  const interval = setInterval(() => {
+    p += Math.random() * 0.8 + 0.4;
+    if (p > 100) p = 100;
+
+    barFill.style.width = p + '%';
+    percent.textContent = Math.floor(p) + '%';
+    msg.textContent = MSGS[Math.min(Math.floor(p / 11), MSGS.length - 1)];
+
+    if (p >= 100) {
+      clearInterval(interval);
+      percent.textContent = '100%';
+      msg.textContent = "Welcome to Karib's Portfolio!";
+      setTimeout(() => {
+        screen.classList.add('hidden');
+        setTimeout(() => { if(screen.parentNode) screen.remove(); }, 900);
+      }, 2000);
+    }
+  }, 48);
+})();
+
 // ── CURSOR ────────────────────────────────────
 const cDot  = document.getElementById('cDot');
 const cRing = document.getElementById('cRing');
