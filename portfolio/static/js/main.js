@@ -28,7 +28,7 @@
 
   let p = 0;
   const interval = setInterval(() => {
-    p += Math.random() * 0.8 + 0.4;
+    p += Math.random() * 1.5 + 0.8;
     if (p > 100) p = 100;
 
     barFill.style.width = p + '%';
@@ -42,9 +42,9 @@
       setTimeout(() => {
         screen.classList.add('hidden');
         setTimeout(() => { if(screen.parentNode) screen.remove(); }, 900);
-      }, 2000);
+      }, 1500);
     }
-  }, 48);
+  }, 38);
 })();
 
 // ── CURSOR ────────────────────────────────────
