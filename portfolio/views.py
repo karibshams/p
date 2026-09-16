@@ -30,12 +30,15 @@ DATA = {
         "Strong foundation in AI, machine learning, and deep learning with hands-on experience "
         "in computer vision, NLP, knowledge graphs, and explainable AI. Experienced in building "
         "AI-powered automation systems using LLMs, RAG pipelines, and workflow orchestration "
-        "tools like n8n. Team Leader of AI Stream — delivering 60+ real-world AI products. "
+        "tools like n8n. Team Leader of AI Stream — delivering 60+ real-world AI products "
+        "with a 20+ member team. 17 peer-reviewed publications across IEEE, Springer, Elsevier & Nature. "
         "Committed to continuous learning and pushing the frontier of AI innovation."
     ),
     "team": {
         "name": "AI Stream",
         "projects_count": "60+",
+        "team_members": "20+",
+        "systems_delivered": "13+",
         "desc": (
             "I lead AI Stream — a dedicated AI & software team delivering 60+ web and mobile "
             "products. Our work spans RAG systems, voice AI, healthcare platforms, education apps, "
@@ -59,24 +62,25 @@ DATA = {
             "role": "Senior Executive Data Scientist | Team Leader",
             "period": "06/2025 – Present",
             "location": "Dhaka, Bangladesh",
-            "desc": ("Led R&D efforts and managed the night team while developing AI-driven solutions "
-                     "— chatbots, RAG-based NLP systems, n8n automation workflows — and collaborating "
-                     "with sales to boost lead generation and workflow orchestration."),
+            "role": "Data Scientist & Team Leader",
+            "desc": ("Spearheaded 13+ production AI and n8n automation systems including RAG-based NLP chatbots "
+                     "and LLM pipelines, cutting client response handling time by ~40%. Directed a 20+ member AI team "
+                     "across R&D sprints and delivery. Streamlined n8n workflows eliminating ~10 hours/week of manual processing."),
         },
         {
             "company": "East West University",
             "role": "Graduate Teaching Assistant (GTA)",
             "period": "10/2024 – 12/2025",
             "location": "Dhaka, Bangladesh",
-            "desc": ("Taught Statistics, AI, and Machine Learning. Led discussions and mentored "
-                     "students in advanced ML, data analysis, and research methodology."),
+            "desc": ("Taught lectures and lab sessions for Statistics, AI, and Machine Learning to 70+ graduate students per semester. "
+                     "Mentored 90+ students in advanced ML projects and data analysis, improving student performance outcomes."),
         },
         {
             "company": "East West University",
             "role": "Research Assistant",
             "period": "10/2024 – 12/2025",
             "location": "Dhaka, Bangladesh",
-            "desc": "Contributed to academic research in Data Science, AI, and Machine Learning.",
+            "desc": "Co-authored 17 peer-reviewed publications in Data Science, Computer Vision, and NLP. Supported development of the TFP-BD dataset published in Data in Brief (Vol. 59, 2025).",
         },
     ],
     "projects": [
@@ -110,10 +114,28 @@ DATA = {
         {"name": "Sunflower & Rice Panicle Detection", "type": "Academic",
          "desc": "Self-supervised visual representation learning for precision agriculture — published in Smart Agricultural Technology.",
          "link": "#", "tags": ["Self-Supervised", "AgriAI", "Vision", "Published"]},
+        {"name": "HealthRide – AI NEMT Platform", "type": "Professional",
+         "desc": "24/7 GPT-4o voice receptionist and AI dispatch engine with real-time driver matching across 6 event triggers for Non-Emergency Medical Transport.",
+         "link": "#", "tags": ["Voice AI", "GPT-4o", "Dispatch AI", "Healthcare"]},
+        {"name": "AI Invoice Voucher Processing", "type": "Professional",
+         "desc": "GPT-4o Vision pipeline extracting invoice data, classifying GL accounts and profit centres, generating payment vouchers with confidence-based review.",
+         "link": "#", "tags": ["GPT-4o Vision", "OCR", "Finance AI", "Freelance"]},
+        {"name": "Eat at Home – Meal Cost Estimator", "type": "Professional",
+         "desc": "GPT-4o meal-cost estimation pipeline with store-tier blending and ZIP-code regional pricing multipliers for accurate home cooking cost prediction.",
+         "link": "#", "tags": ["GPT-4o", "Computer Vision", "Pricing AI"]},
+        {"name": "Hebrew/Yiddish Handwriting OCR", "type": "Professional",
+         "desc": "OCR pipeline for cursive handwriting transcription using GPT-4o and Claude Vision APIs with CER-based accuracy evaluation.",
+         "link": "#", "tags": ["OCR", "Claude Vision", "GPT-4o", "NLP"]},
+        {"name": "Nory0929 – Auto Video Marketplace", "type": "Professional",
+         "desc": "Multimodal video generation agent using Kling 2.5 and OpenAI — transforms 5+ vehicle images into 10-second 720p marketing videos automatically.",
+         "link": "#", "tags": ["Video AI", "Multimodal", "Kling 2.5", "OpenAI"]},
+        {"name": "LawyerCity – Legal RAG Advisor", "type": "Professional",
+         "desc": "Bilingual RAG-based legal advisor system for LawyerCity Ethiopia — answers legal questions in English and Amharic using FAISS embeddings.",
+         "link": "#", "tags": ["RAG", "Bilingual", "Legal AI", "FAISS"]},
         {"name": "AI Stream — 60+ Delivered Projects", "type": "Team",
-         "desc": "Team Lead of AI Stream: 60+ web & mobile AI products across healthcare, education, e-commerce, and automation.",
+         "desc": "Team Lead of AI Stream: 60+ web & mobile AI products across healthcare, education, e-commerce, and automation. 20+ member team.",
          "link": "https://docs.google.com/spreadsheets/d/1fthxg82tjNCc3PP6Ik9e2B1BkEmryOysXDD7Hh_XgoU/edit",
-         "tags": ["Team Lead", "60+ Projects", "Full-Stack", "AI Products"]},
+         "tags": ["Team Lead", "20+ Members", "60+ Projects", "AI Products"]},
     ],
     "publications": [
         {"title": "CodeMixEcom-Emotion: A Large-Scale Bangla–English Review Corpus and Transformer-Based Benchmark for Fine-Grained Emotion Detection",
@@ -188,13 +210,13 @@ DATA = {
 # ══════════════════════════════════════════════════════════════════
 
 KB = {
-    "greeting": "Hello! 👋 I'm Karib Shams's AI assistant — 100% free, zero API cost. I know everything about his 16 publications, 60+ team projects, Best Paper Award, and can explain any AI/ML concept. What would you like to explore?",
+    "greeting": "Hello! 👋 I'm Karib Shams's AI assistant — 100% free, zero API cost. I know everything about his 17 publications, 60+ team projects, Best Paper Award, and can explain any AI/ML concept. What would you like to explore?",
 
     "who": ("Karib Shams is a Data Scientist & AI Developer based in Dhaka, Bangladesh.\n\n"
             "🎓 Education:\n• MSc CSE — East West University (CGPA 3.91, Data Science major)\n• BSc CSE — East West University (CGPA 3.58)\n\n"
             "💼 Current Role: Senior Executive Data Scientist & Team Leader at JVai (Betopia Group)\n"
             "🏆 Award: Best Paper Award — AII 2025, Washington D.C., USA\n"
-            "📊 Research: 16 publications, 9 citations, h-index 2\n"
+            "📊 Research: 17 publications, 9 citations, h-index 2\n"
             "⚡ Team: Leads AI Stream — 60+ delivered AI projects"),
 
     "contact": ("📧 Email: shams321karib@gmail.com\n"
