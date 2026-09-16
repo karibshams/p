@@ -1311,3 +1311,69 @@ body.three-active #neural-bg { opacity: 0; }
     0%{opacity:0} 20%{opacity:1} 80%{opacity:1} 100%{opacity:0}
   }
 }
+/* ═══════════════════════════════════════════
+   LOADING SCREEN
+═══════════════════════════════════════════ */
+.loading-screen {
+  position: fixed; inset: 0; z-index: 99999;
+  background: #0d1117;
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column;
+  transition: opacity .8s ease, visibility .8s ease;
+}
+.loading-screen.hidden {
+  opacity: 0; visibility: hidden; pointer-events: none;
+}
+.ls-content {
+  display: flex; flex-direction: column;
+  align-items: center; gap: 1.4rem;
+  animation: lsFadeIn .6s ease forwards;
+}
+@keyframes lsFadeIn {
+  from { opacity:0; transform:translateY(20px) }
+  to   { opacity:1; transform:translateY(0) }
+}
+.ls-logo {
+  animation: lsPulse 2s ease-in-out infinite;
+}
+@keyframes lsPulse {
+  0%,100% { filter:drop-shadow(0 0 8px rgba(0,255,194,.4)); transform:scale(1); }
+  50%     { filter:drop-shadow(0 0 28px rgba(0,255,194,.9)); transform:scale(1.08); }
+}
+.ls-name {
+  display: flex; gap: .6rem; align-items: baseline;
+  font-weight: 800; letter-spacing: -2px;
+}
+.ls-first { font-size: 2.6rem; color: #ffffff; }
+.ls-last  { font-size: 2.6rem; color: #00FFC2; }
+.ls-title {
+  font-family: monospace; font-size: .8rem;
+  color: #22D3EE; letter-spacing: 3px;
+  text-transform: uppercase;
+}
+.ls-bar-wrap {
+  display: flex; align-items: center;
+  gap: 1rem; width: 280px;
+}
+.ls-bar {
+  flex: 1; height: 5px;
+  background: rgba(255,255,255,.08);
+  border-radius: 5px; overflow: hidden;
+}
+.ls-bar-fill {
+  height: 100%; width: 0%;
+  background: linear-gradient(to right, #00FFC2, #22D3EE);
+  border-radius: 5px;
+  transition: width .1s linear;
+  box-shadow: 0 0 10px rgba(0,255,194,.6);
+}
+.ls-percent {
+  font-family: monospace; font-size: .88rem;
+  color: #00FFC2; font-weight: 700;
+  min-width: 40px; text-align: right;
+}
+.ls-msg {
+  font-family: monospace; font-size: .72rem;
+  color: #64748b; letter-spacing: 1px;
+  min-height: 1.2rem; text-align: center;
+}
