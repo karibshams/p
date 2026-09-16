@@ -196,8 +196,8 @@ DATA = {
     "education": [
         {"degree": "MSc. in CSE", "institution": "East West University", "period": "01/2025 – 12/2025", "detail": "CGPA: 3.91 | Major: Data Science"},
         {"degree": "B.Sc. in CSE", "institution": "East West University", "period": "01/2020 – 07/2024", "detail": "CGPA: 3.58"},
-        {"degree": "HSC", "institution": "National Ideal College", "period": "2017 – 2019", "detail": "GPA: 4.67"},
-        {"degree": "SSC", "institution": "Motijheel Model School And College", "period": "2016 – 2017", "detail": "GPA: 5.00"},
+        {"degree": "HSC", "institution": "National Ideal College", "period": "2017 – 2019", "detail": ""},
+        {"degree": "SSC", "institution": "Motijheel Model School And College", "period": "2016 – 2017", "detail": ""},
     ],
     "references": [
         {"name": "Mohammad Rifat Ahmmad Rashid", "title": "Associate Professor, East West University", "email": "rifat.rashid@ewubd.edu"},
@@ -248,8 +248,7 @@ KB = {
     "education": ("🎓 Karib's Education:\n\n"
                   "• MSc in CSE — East West University (2025)\n  CGPA: 3.91 | Major: Data Science\n\n"
                   "• BSc in CSE — East West University (2020–2024)\n  CGPA: 3.58\n\n"
-                  "• HSC — National Ideal College (2017–2019)\n  GPA: 4.67\n\n"
-                  "• SSC — Motijheel Model School And College (2016–2017)\n  GPA: 5.00"),
+                  ""),
 
     "experience": ("💼 Karib's Professional Experience:\n\n"
                    "1️⃣ Senior Executive Data Scientist & Team Leader\n"
