@@ -3,50 +3,6 @@
    Free AI · 30-Question Quiz · No API · No Cost
 ═══════════════════════════════════════════════ */
 
-/* ═══════════════════════════════════════════════
-   LOADING SCREEN — runs immediately
-═══════════════════════════════════════════════ */
-(function initLoader() {
-  const screen  = document.getElementById('loadingScreen');
-  const barFill = document.getElementById('lsBarFill');
-  const percent = document.getElementById('lsPercent');
-  const msg     = document.getElementById('lsMsg');
-  if (!screen || !barFill || !percent || !msg) return;
-
-  const MSGS = [
-    'Initialising AI Systems...',
-    'Loading Neural Networks...',
-    'Fetching Research Data...',
-    'Connecting Knowledge Base...',
-    'Calibrating Data Pipelines...',
-    'Loading 17 Publications...',
-    'Preparing AI Chat Engine...',
-    'Loading Projects...',
-    'Almost Ready...',
-    "Welcome to Karib's Portfolio!",
-  ];
-
-  let p = 0;
-  const interval = setInterval(() => {
-    p += Math.random() * 1.5 + 0.8;
-    if (p > 100) p = 100;
-
-    barFill.style.width = p + '%';
-    percent.textContent = Math.floor(p) + '%';
-    msg.textContent = MSGS[Math.min(Math.floor(p / 11), MSGS.length - 1)];
-
-    if (p >= 100) {
-      clearInterval(interval);
-      percent.textContent = '100%';
-      msg.textContent = "Welcome to Karib's Portfolio!";
-      setTimeout(() => {
-        screen.classList.add('hidden');
-        setTimeout(() => { if(screen.parentNode) screen.remove(); }, 900);
-      }, 1500);
-    }
-  }, 38);
-})();
-
 // ── CURSOR ────────────────────────────────────
 const cDot  = document.getElementById('cDot');
 const cRing = document.getElementById('cRing');
@@ -1238,3 +1194,201 @@ function switchGame(name) {
   // Stop typing game if switching away
   if (name !== 'typing' && tgActive) { clearInterval(tgTimer); tgActive = false; }
 }
+/* ═══════════════════════════════════════════════
+   MOTION 1: SCROLL PROGRESS BAR
+═══════════════════════════════════════════════ */
+(function initScrollProgress() {
+  const bar = document.getElementById('scroll-progress-bar');
+  if (!bar) return;
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+    const total = document.body.scrollHeight - window.innerHeight;
+    bar.style.width = (scrolled / total * 100) + '%';
+  }, { passive: true });
+})();
+
+/* ═══════════════════════════════════════════════
+   MOTION 2: GLITCH TEXT
+═══════════════════════════════════════════════ */
+document.querySelectorAll('.glitch-text').forEach(el => {
+  if (!el.dataset.text) el.dataset.text = el.textContent;
+});
+
+/* ═══════════════════════════════════════════════
+   MOTION 3: TILT CARDS
+═══════════════════════════════════════════════ */
+function initTiltCards() {
+  document.querySelectorAll('.tilt-card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const cx   = rect.left + rect.width  / 2;
+      const cy   = rect.top  + rect.height / 2;
+      const dx   = (e.clientX - cx) / (rect.width  / 2);
+      const dy   = (e.clientY - cy) / (rect.height / 2);
+      const rotX = -dy * 10;
+      const rotY =  dx * 10;
+      card.style.transform   = `perspective(1000px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(1.03)`;
+      card.style.boxShadow   = `${-rotY * 2}px ${rotX * 2}px 30px rgba(0,255,194,0.15)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+      card.style.boxShadow = '';
+    });
+  });
+}
+initTiltCards();
+
+/* ═══════════════════════════════════════════════
+   MOTION 4: MAGNETIC BUTTON
+═══════════════════════════════════════════════ */
+document.querySelectorAll('.magnetic-btn').forEach(btn => {
+  btn.addEventListener('mousemove', e => {
+    const rect = btn.getBoundingClientRect();
+    const cx   = rect.left + rect.width  / 2;
+    const cy   = rect.top  + rect.height / 2;
+    const dx   = (e.clientX - cx) * 0.25;
+    const dy   = (e.clientY - cy) * 0.25;
+    btn.style.transform = `translate(${dx}px, ${dy}px)`;
+  });
+  btn.addEventListener('mouseleave', () => {
+    btn.style.transform = 'translate(0,0)';
+  });
+});
+
+/* ═══════════════════════════════════════════════
+   MOTION 5: PARTICLE CURSOR TRAIL
+═══════════════════════════════════════════════ */
+(function initParticleTrail() {
+  const canvas = document.getElementById('particle-trail');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let W = canvas.width  = window.innerWidth;
+  let H = canvas.height = window.innerHeight;
+  window.addEventListener('resize', () => {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  });
+  const particles = [];
+  document.addEventListener('mousemove', e => {
+    for (let i = 0; i < 2; i++) {
+      particles.push({
+        x:     e.clientX + (Math.random() - .5) * 10,
+        y:     e.clientY + (Math.random() - .5) * 10,
+        vx:    (Math.random() - .5) * 1.5,
+        vy:    (Math.random() - .5) * 1.5 - .5,
+        life:  1,
+        size:  Math.random() * 3 + 1,
+        color: Math.random() > .5 ? '0,255,194' : '34,211,238',
+      });
+    }
+  });
+  (function loop() {
+    ctx.clearRect(0, 0, W, H);
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
+      p.x    += p.vx;
+      p.y    += p.vy;
+      p.life -= 0.035;
+      p.size *= 0.96;
+      if (p.life <= 0) { particles.splice(i, 1); continue; }
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${p.color},${p.life * 0.6})`;
+      ctx.fill();
+    }
+    requestAnimationFrame(loop);
+  })();
+})();
+
+/* ═══════════════════════════════════════════════
+   MOTION 6: RIPPLE CLICK EFFECT
+═══════════════════════════════════════════════ */
+(function initRipple() {
+  const container = document.getElementById('ripple-container');
+  if (!container) return;
+  document.addEventListener('click', e => {
+    const ripple = document.createElement('div');
+    ripple.className = 'ripple-wave';
+    ripple.style.left = e.clientX + 'px';
+    ripple.style.top  = e.clientY + 'px';
+    container.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 900);
+  });
+})();
+
+/* ═══════════════════════════════════════════════
+   MOTION 7: STAGGERED CARD ANIMATIONS
+═══════════════════════════════════════════════ */
+(function initStagger() {
+  const grid = document.querySelector('.stagger-grid');
+  if (!grid) return;
+  const cards = grid.querySelectorAll('.proj-card');
+  const obs = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) {
+      cards.forEach((card, i) => {
+        setTimeout(() => card.classList.add('stagger-vis'), i * 120);
+      });
+      obs.disconnect();
+    }
+  }, { threshold: .1 });
+  obs.observe(grid);
+})();
+
+/* ═══════════════════════════════════════════════
+   MOTION 8: PARALLAX SCROLL
+═══════════════════════════════════════════════ */
+(function initParallax() {
+  const hero = document.getElementById('hero');
+  if (!hero) return;
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+    if (scrolled < window.innerHeight) {
+      const heroLeft  = hero.querySelector('.hero-left');
+      const heroRight = hero.querySelector('.hero-right');
+      if (heroLeft)  heroLeft.style.transform  = `translateY(${scrolled * 0.15}px)`;
+      if (heroRight) heroRight.style.transform = `translateY(${scrolled * 0.08}px)`;
+    }
+  }, { passive: true });
+})();
+
+/* ═══════════════════════════════════════════════
+   LOADING SCREEN
+═══════════════════════════════════════════════ */
+(function initLoader() {
+  const screen  = document.getElementById('loadingScreen');
+  const barFill = document.getElementById('lsBarFill');
+  const percent = document.getElementById('lsPercent');
+  const msg     = document.getElementById('lsMsg');
+  if (!screen || !barFill || !percent || !msg) return;
+
+  const MSGS = [
+    'Initialising AI Systems...',
+    'Loading Neural Networks...',
+    'Fetching Research Data...',
+    'Connecting Knowledge Base...',
+    'Calibrating Data Pipelines...',
+    'Loading 17 Publications...',
+    'Preparing AI Chat Engine...',
+    'Loading Projects...',
+    'Almost Ready...',
+    "Welcome to Karib's Portfolio!",
+  ];
+
+  let p = 0;
+  const interval = setInterval(() => {
+    p += Math.random() * 1.5 + 0.8;
+    if (p > 100) p = 100;
+    barFill.style.width    = p + '%';
+    percent.textContent    = Math.floor(p) + '%';
+    msg.textContent        = MSGS[Math.min(Math.floor(p / 11), MSGS.length - 1)];
+    if (p >= 100) {
+      clearInterval(interval);
+      percent.textContent = '100%';
+      msg.textContent     = "Welcome to Karib's Portfolio!";
+      setTimeout(() => {
+        screen.classList.add('hidden');
+        setTimeout(() => { if (screen.parentNode) screen.remove(); }, 900);
+      }, 1500);
+    }
+  }, 38);
+})();
