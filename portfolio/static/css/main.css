@@ -1152,7 +1152,7 @@ body.light-mode .robot-chat{background:#ffffff}
 body.light-mode .rc-msg.bot .rc-bubble{background:#f1f5f9}
 
 /* ═══ P6: VISITOR COUNTER ═══ */
-.visitor-counter{display:flex;justify-content:center;margin-top:1.2rem;z-index:2;position:relative}
+.visitor-counter{position:absolute;bottom:80px;left:50%;transform:translateX(-50%);z-index:2}
 .vc-inner{display:flex;align-items:center;gap:8px;background:rgba(26,30,35,.7);border:1px solid rgba(0,255,194,.2);backdrop-filter:blur(10px);border-radius:20px;padding:6px 14px;white-space:nowrap}
 .vc-dot{width:7px;height:7px;border-radius:50%;background:#22c55e;animation:pulse .8s ease infinite;box-shadow:0 0 8px #22c55e}
 .vc-text{font-family:var(--mono);font-size:.7rem;color:var(--muted)}
@@ -1312,6 +1312,108 @@ body.three-active #neural-bg { opacity: 0; }
   }
 }
 /* ═══════════════════════════════════════════
+   MOTION 1: GLITCH TEXT — KARIB SHAMS
+═══════════════════════════════════════════ */
+.glitch-text {
+  position: relative;
+  display: block;
+}
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  opacity: 0;
+}
+.glitch-text::before {
+  color: #ff0055;
+  animation: glitchBefore 6s infinite;
+}
+.glitch-text::after {
+  color: #00fff9;
+  animation: glitchAfter 6s infinite;
+}
+@keyframes glitchBefore {
+  0%,85%,100%{ opacity:0; transform:translate(0) }
+  86%{ opacity:.8; transform:translate(-3px,1px); clip-path:polygon(0 20%,100% 20%,100% 40%,0 40%) }
+  88%{ opacity:.8; transform:translate(3px,-1px); clip-path:polygon(0 60%,100% 60%,100% 80%,0 80%) }
+  90%{ opacity:0 }
+}
+@keyframes glitchAfter {
+  0%,87%,100%{ opacity:0; transform:translate(0) }
+  88%{ opacity:.7; transform:translate(3px,1px); clip-path:polygon(0 40%,100% 40%,100% 60%,0 60%) }
+  90%{ opacity:.7; transform:translate(-3px,-1px); clip-path:polygon(0 10%,100% 10%,100% 30%,0 30%) }
+  92%{ opacity:0 }
+}
+
+/* ═══════════════════════════════════════════
+   MOTION 2: TILT CARDS
+═══════════════════════════════════════════ */
+.tilt-card {
+  transform-style: preserve-3d;
+  transition: transform .15s ease, box-shadow .3s ease;
+  will-change: transform;
+}
+
+/* ═══════════════════════════════════════════
+   MOTION 3: MAGNETIC BUTTON
+═══════════════════════════════════════════ */
+.magnetic-btn {
+  transition: transform .2s cubic-bezier(.4,0,.2,1), box-shadow .2s ease !important;
+  will-change: transform;
+}
+
+/* ═══════════════════════════════════════════
+   MOTION 4: PARTICLE CURSOR TRAIL
+═══════════════════════════════════════════ */
+#particle-trail { opacity: .65; }
+
+/* ═══════════════════════════════════════════
+   MOTION 5: STAGGERED CARDS
+═══════════════════════════════════════════ */
+.stagger-grid .proj-card {
+  opacity: 0;
+  transform: translateY(30px);
+}
+.stagger-grid .proj-card.stagger-vis {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity .5s ease, transform .5s ease;
+}
+
+/* ═══════════════════════════════════════════
+   MOTION 6: RIPPLE CLICK
+═══════════════════════════════════════════ */
+.ripple-wave {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid rgba(0,255,194,.6);
+  transform: translate(-50%,-50%) scale(0);
+  animation: rippleAnim .8s ease-out forwards;
+  pointer-events: none;
+}
+@keyframes rippleAnim {
+  from { width:0; height:0; opacity:.8; transform:translate(-50%,-50%) scale(0) }
+  to   { width:120px; height:120px; opacity:0; transform:translate(-50%,-50%) scale(1) }
+}
+
+/* ═══════════════════════════════════════════
+   MOTION 7: SCROLL PROGRESS BAR
+═══════════════════════════════════════════ */
+#scroll-progress-bar {
+  position: fixed;
+  top: 0; left: 0;
+  height: 2px;
+  background: linear-gradient(to right, var(--acc), var(--acc2));
+  z-index: 9999;
+  width: 0%;
+  transition: width .1s linear;
+  pointer-events: none;
+  box-shadow: 0 0 6px rgba(0,255,194,.5);
+}
+
+/* ═══════════════════════════════════════════
    LOADING SCREEN
 ═══════════════════════════════════════════ */
 .loading-screen {
@@ -1321,9 +1423,7 @@ body.three-active #neural-bg { opacity: 0; }
   flex-direction: column;
   transition: opacity .8s ease, visibility .8s ease;
 }
-.loading-screen.hidden {
-  opacity: 0; visibility: hidden; pointer-events: none;
-}
+.loading-screen.hidden { opacity:0; visibility:hidden; pointer-events:none; }
 .ls-content {
   display: flex; flex-direction: column;
   align-items: center; gap: 1.4rem;
@@ -1333,47 +1433,17 @@ body.three-active #neural-bg { opacity: 0; }
   from { opacity:0; transform:translateY(20px) }
   to   { opacity:1; transform:translateY(0) }
 }
-.ls-logo {
-  animation: lsPulse 2s ease-in-out infinite;
-}
+.ls-logo { animation: lsPulse 2s ease-in-out infinite; }
 @keyframes lsPulse {
-  0%,100% { filter:drop-shadow(0 0 8px rgba(0,255,194,.4)); transform:scale(1); }
-  50%     { filter:drop-shadow(0 0 28px rgba(0,255,194,.9)); transform:scale(1.08); }
+  0%,100% { filter:drop-shadow(0 0 8px rgba(0,255,194,.4)); transform:scale(1) }
+  50%     { filter:drop-shadow(0 0 28px rgba(0,255,194,.9)); transform:scale(1.08) }
 }
-.ls-name {
-  display: flex; gap: .6rem; align-items: baseline;
-  font-weight: 800; letter-spacing: -2px;
-}
-.ls-first { font-size: 2.6rem; color: #ffffff; }
-.ls-last  { font-size: 2.6rem; color: #00FFC2; }
-.ls-title {
-  font-family: monospace; font-size: .8rem;
-  color: #22D3EE; letter-spacing: 3px;
-  text-transform: uppercase;
-}
-.ls-bar-wrap {
-  display: flex; align-items: center;
-  gap: 1rem; width: 280px;
-}
-.ls-bar {
-  flex: 1; height: 5px;
-  background: rgba(255,255,255,.08);
-  border-radius: 5px; overflow: hidden;
-}
-.ls-bar-fill {
-  height: 100%; width: 0%;
-  background: linear-gradient(to right, #00FFC2, #22D3EE);
-  border-radius: 5px;
-  transition: width .1s linear;
-  box-shadow: 0 0 10px rgba(0,255,194,.6);
-}
-.ls-percent {
-  font-family: monospace; font-size: .88rem;
-  color: #00FFC2; font-weight: 700;
-  min-width: 40px; text-align: right;
-}
-.ls-msg {
-  font-family: monospace; font-size: .72rem;
-  color: #64748b; letter-spacing: 1px;
-  min-height: 1.2rem; text-align: center;
-}
+.ls-name { display:flex; gap:.6rem; align-items:baseline; font-weight:800; letter-spacing:-2px; }
+.ls-first { font-size:2.6rem; color:#fff; }
+.ls-last  { font-size:2.6rem; color:#00FFC2; }
+.ls-title { font-family:monospace; font-size:.8rem; color:#22D3EE; letter-spacing:3px; text-transform:uppercase; }
+.ls-bar-wrap { display:flex; align-items:center; gap:1rem; width:280px; }
+.ls-bar { flex:1; height:5px; background:rgba(255,255,255,.08); border-radius:5px; overflow:hidden; }
+.ls-bar-fill { height:100%; width:0%; background:linear-gradient(to right,#00FFC2,#22D3EE); border-radius:5px; transition:width .1s linear; box-shadow:0 0 10px rgba(0,255,194,.6); }
+.ls-percent { font-family:monospace; font-size:.88rem; color:#00FFC2; font-weight:700; min-width:40px; text-align:right; }
+.ls-msg { font-family:monospace; font-size:.72rem; color:#64748b; letter-spacing:1px; min-height:1.2rem; text-align:center; }
