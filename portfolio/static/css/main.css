@@ -1449,3 +1449,29 @@ body.three-active #neural-bg { opacity: 0; }
 .ls-msg { font-family:monospace; font-size:.72rem; color:#64748b; letter-spacing:1px; min-height:1.2rem; text-align:center; }
 
 .hero-visitor-wrap{display:flex;justify-content:center;padding:.8rem 0;z-index:2}
+
+/* ═══════════════════════════════════════════
+   VISITOR COUNTER — Contact Section
+═══════════════════════════════════════════ */
+.contact-vc {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+.vc-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0,255,194,.06);
+  border: 1px solid rgba(0,255,194,.2);
+  border-radius: 30px;
+  padding: 8px 20px;
+  font-family: var(--mono);
+  font-size: .78rem;
+  color: var(--muted);
+  backdrop-filter: blur(10px);
+}
+.vc-pill strong { color: var(--acc); font-weight: 700; }
+.vc-pill .vc-total { color: var(--acc2); font-weight: 700; }
+.vc-pill svg { color: var(--acc); flex-shrink: 0; }
+.vc-sep { color: var(--border); }
