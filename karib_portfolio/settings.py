@@ -40,21 +40,33 @@ TEMPLATES = [{
 }]
 
 WSGI_APPLICATION = 'karib_portfolio.wsgi.application'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# ── Session (required for visitor counter) ──
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+SESSION_COOKIE_AGE = 86400  # 1 day
+
+# ── Static files ──
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIRS = []
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-# Email settings (Gmail)
+
+# ── Email settings (Gmail) ──
+# Get App Password from: myaccount.google.com → Security → App passwords
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'shams321karib@gmail.com'
-EMAIL_HOST_PASSWORD = 'Ks123456789'  # NOT your real password
+EMAIL_HOST_PASSWORD = 'your-16-char-app-password-here'  # Replace with real app password
