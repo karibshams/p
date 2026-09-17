@@ -1447,3 +1447,5 @@ body.three-active #neural-bg { opacity: 0; }
 .ls-bar-fill { height:100%; width:0%; background:linear-gradient(to right,#00FFC2,#22D3EE); border-radius:5px; transition:width .1s linear; box-shadow:0 0 10px rgba(0,255,194,.6); }
 .ls-percent { font-family:monospace; font-size:.88rem; color:#00FFC2; font-weight:700; min-width:40px; text-align:right; }
 .ls-msg { font-family:monospace; font-size:.72rem; color:#64748b; letter-spacing:1px; min-height:1.2rem; text-align:center; }
+
+.hero-visitor-wrap{display:flex;justify-content:center;padding:.8rem 0;z-index:2}
