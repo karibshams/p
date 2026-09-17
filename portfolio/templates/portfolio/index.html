@@ -55,7 +55,10 @@
 <!-- PAGE TRANSITION -->
 <div class="page-transition" id="pageTransition"></div>
 
+<div id="scroll-progress-bar"></div>
 <canvas id="neural-bg"></canvas>
+<canvas id="particle-trail" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:none;opacity:.7"></canvas>
+<div id="ripple-container" style="position:fixed;inset:0;pointer-events:none;z-index:9990;overflow:hidden"></div>
 <canvas id="particle-trail" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:none;opacity:.7"></canvas>
 <canvas id="three-canvas"></canvas>
 <div class="cursor-dot" id="cDot"></div>
@@ -106,7 +109,7 @@
         <a href="{{ data.scholar }}" target="_blank" class="btn-ghost"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg> Scholar</a>
       </div>
       <div class="hero-stats">
-        <div class="hs"><span class="hn" data-count="17">17+</span><span class="hl">Publications</span></div>
+        <div class="hs"><span class="hn" data-count="{{ pub_count }}">0</span><span class="hl">Publications</span></div>
         <div class="hs"><span class="hn" data-count="{{ data.citations }}">0</span><span class="hl">Citations</span></div>
         <div class="hs"><span class="hn" data-count="{{ data.h_index }}">0</span><span class="hl">h-index</span></div>
         <div class="hs"><span class="hn" data-count="60">0</span><span class="hl">+ Team Projects</span></div>
@@ -362,14 +365,18 @@
         <div class="jc-icon-wrap" style="background:rgba(0,255,194,.12);border-color:rgba(0,255,194,.4)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--acc)" stroke-width="1.5" width="22" height="22"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
         <div class="jc-type" style="color:var(--acc)">Education</div>
         <h3 class="jc-title">SSC</h3>
-        <p class="jc-desc">Motijheel Model School And College — The beginning of academic excellence.</p>
+        <div class="jc-score">GPA <span style="color:var(--acc);font-size:1.4rem;font-weight:800">5.00</span></div>
+        <p class="jc-desc">Motijheel Model School — Perfect score, the beginning of excellence.</p>
+        <div class="jc-bar"><div class="jc-bar-fill" style="width:100%;background:var(--acc)"></div></div>
       </div>
       <div class="journey-card reveal" data-color="#22D3EE">
         <div class="jc-year-badge">2019</div>
         <div class="jc-icon-wrap" style="background:rgba(34,211,238,.12);border-color:rgba(34,211,238,.4)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--acc2)" stroke-width="1.5" width="22" height="22"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
         <div class="jc-type" style="color:var(--acc2)">Education</div>
         <h3 class="jc-title">HSC</h3>
+        <div class="jc-score">GPA <span style="color:var(--acc2);font-size:1.4rem;font-weight:800">4.67</span></div>
         <p class="jc-desc">National Ideal College — Strong academic performance setting the path for CSE.</p>
+        <div class="jc-bar"><div class="jc-bar-fill" style="width:93%;background:var(--acc2)"></div></div>
       </div>
       <div class="journey-card reveal" data-color="#00FFC2">
         <div class="jc-year-badge">2020</div>
