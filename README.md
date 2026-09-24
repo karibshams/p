@@ -44,7 +44,7 @@ This is the personal portfolio website of **Karib Shams** — Data Scientist, AI
 - 30+ topic coverage: RAG, transformers, XAI, YOLO, LLM, n8n, and more
 
 ### Research & Publications
-- 16 publications across IEEE, Springer, Elsevier, Nature Portfolio
+- 17 publications across IEEE, Springer, Elsevier, Nature Portfolio
 - 9 citations · h-index: 2
 - Google Scholar links on every paper
 - Best Paper Award highlighted with EWU official link
@@ -121,7 +121,8 @@ p/
 │       ├── js/main.js      # All JavaScript (1300+ lines)
 │       └── img/
 │           ├── karib.jpeg              # Profile photo
-│           ├── KARIB_SHAMS_latest.pdf  # CV download
+│           ├── karib_ser_78.pdf        # CV download (Classic Format)
+│           ├── karib_ace_78.pdf        # CV download (Modern Format)
 │           └── placeholder.svg         # Fallback avatar
 ├── manage.py
 ├── requirements.txt
@@ -164,10 +165,9 @@ Admin: **http://127.0.0.1:8080/admin**
 ## Update CV
 
 To update the downloadable CV anytime:
-1. Replace `portfolio/static/img/KARIB_SHAMS_latest.pdf` with your new PDF
-2. Keep the same filename
-3. Run `python manage.py collectstatic --noinput`
-4. No code changes needed
+1. Replace `portfolio/static/img/karib_ser_78.pdf` (Classic format) and `portfolio/static/img/karib_ace_78.pdf` (Modern format) with your new PDFs
+2. Run `python manage.py collectstatic --noinput`
+3. No code changes needed
 
 ---
 
