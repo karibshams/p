@@ -864,8 +864,8 @@ if (impactSec) impactObs.observe(impactSec);
 /* ═══════════════════════════════════════════════
    ROBOT MSG FOR NEW SECTIONS
 ═══════════════════════════════════════════════ */
-ROBOT_MSGS['timeline'] = "⭐ This is Karib's journey — from GPA 5.00 in SSC all the way to Best Paper Award in Washington D.C.!";
-ROBOT_MSGS['impact']   = "📈 16 papers, 9 citations, h-index 2, and 60+ AI products — Karib's research impact in numbers!";
+ROBOT_MSGS['timeline'] = "⭐ This is Karib's journey — from SSC all the way to Best Paper Award in Washington D.C.!";
+ROBOT_MSGS['impact']   = "📈 17 papers, 9 citations, h-index 2, and 60+ AI products — Karib's research impact in numbers!";
 
 /* ═══════════════════════════════════════════════
    P5: DARK / LIGHT MODE TOGGLE
@@ -1037,22 +1037,23 @@ document.addEventListener('touchend', () => {
 }, { passive: true });
 
 // CV Download animation
-const cvBtn = document.getElementById('cvDownloadBtn');
-if (cvBtn) {
+// CV Download animation for both buttons
+document.querySelectorAll('.btn-cv').forEach(cvBtn => {
   cvBtn.addEventListener('click', () => {
     const main = cvBtn.querySelector('.cv-main');
     const arrow = cvBtn.querySelector('.cv-arrow');
     if (!main || !arrow) return;
+    const origText = main.textContent;
     main.textContent = 'Downloading...';
     arrow.textContent = '✓';
     cvBtn.style.borderColor = '#22c55e';
     setTimeout(() => {
-      main.textContent = 'Download CV';
+      main.textContent = origText;
       arrow.textContent = '↓';
       cvBtn.style.borderColor = '';
     }, 2500);
   });
-}
+});
 
 // Journey animation
 const journeyObs2 = new IntersectionObserver(entries => {
