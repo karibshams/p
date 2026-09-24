@@ -22,22 +22,22 @@ DATA = {
     "github": "https://github.com/karibshams",
     "linkedin": "https://linkedin.com/in/karib-shams-007975305",
     "scholar": "https://scholar.google.com/citations?user=C26dtwMAAAAJ&hl=en",
-    "portfolio_url": "https://shams123.pythonanywhere.com",
+    "portfolio_url": "https://karib.pythonanywhere.com",
     "award_url": "https://ewubd.edu/achievement-details/ewu-researchers-win-best-paper-award-international-ai-conference-washington-dc",
     "citations": 9,
     "h_index": 2,
     "about": (
-        "Strong foundation in AI, machine learning, and deep learning with hands-on experience "
-        "in computer vision, NLP, knowledge graphs, and explainable AI. Experienced in building "
-        "AI-powered automation systems using LLMs, RAG pipelines, and workflow orchestration "
-        "tools like n8n. Team Leader of AI Stream — delivering 60+ real-world AI products "
-        "with a 20+ member team. 17 peer-reviewed publications across IEEE, Springer, Elsevier & Nature. "
-        "Committed to continuous learning and pushing the frontier of AI innovation."
+        "AI/ML engineer with hands-on experience in deep learning, computer vision, NLP, and RAG "
+        "pipelines. Skilled in Python, TensorFlow, PyTorch, Django, and n8n automation, with a "
+        "track record of leading teams to build and ship production AI systems. Backed by 17 peer-reviewed "
+        "publications, including a Best Paper Award, with a sustained research focus on agricultural "
+        "computer vision and graph neural networks. Senior Executive Data Scientist & Team Leader "
+        "at Join Venture Ai (JVai) — delivering 60+ real-world AI products with a 45+ member team."
     ),
     "team": {
         "name": "AI Stream",
         "projects_count": "60+",
-        "team_members": "20+",
+        "team_members": "45+",
         "systems_delivered": "13+",
         "desc": (
             "I lead AI Stream — a dedicated AI & software team delivering 60+ web and mobile "
@@ -47,45 +47,78 @@ DATA = {
         "drive": "https://docs.google.com/spreadsheets/d/1fthxg82tjNCc3PP6Ik9e2B1BkEmryOysXDD7Hh_XgoU/edit",
     },
     "skills": {
-        "Programming": ["Python", "JavaScript", "HTML/CSS", "SQL", "C/C++", "Java", "Django"],
-        "AI & ML": ["Deep Learning", "Computer Vision", "NLP", "Explainable AI (XAI)",
+        "Programming": ["Python", "JavaScript", "HTML/CSS", "SQL", "C/C++", "Java", "Django", "FastAPI"],
+        "AI & ML": ["Deep Learning", "Computer Vision", "NLP", "Explainable AI (XAI / SHAP)",
                     "Knowledge Graphs", "Sentiment Analysis", "Semi-Supervised Learning",
-                    "Self-Supervised Learning", "RAG Pipelines", "LLM Integration"],
-        "Automation & AI Ops": ["n8n Workflows", "Webhook Systems", "API Orchestration",
-                                 "Prompt Engineering", "AI Workflow Integration"],
-        "Tools & Platforms": ["PyTorch / TensorFlow", "HuggingFace", "Roboflow", "Kaggle",
-                               "Jupyter / Colab", "Oracle APEX", "VS Code", "Linux Admin"],
+                    "Self-Supervised Learning", "RAG Pipelines", "LLMs & Generative AI", "OCR"],
+        "Automation & AI Ops": ["n8n Workflows", "LLM Chaining", "Webhook Systems", "API Orchestration",
+                                 "Prompt Engineering", "AI Workflow Integration", "OpenAI API", "FAISS"],
+        "Tools & Platforms": ["PyTorch / TensorFlow", "Scikit-learn", "Streamlit", "HuggingFace", "Roboflow", "Kaggle",
+                               "Jupyter / Colab", "Oracle APEX", "VS Code", "Git", "Linux Admin"],
     },
     "experience": [
         {
-            "company": "Join Venture AI (JVai), Betopia Group",
-            "role": "Senior Executive Data Scientist | Team Leader",
-            "period": "06/2025 – Present",
+            "company": "Join Venture Ai (JVai)",
+            "role": "Senior Executive Data Scientist & Team Leader",
+            "period": "Jun. 2025 – Oct. 2026",
             "location": "Dhaka, Bangladesh",
-            "role": "Data Scientist & Team Leader",
-            "desc": ("Spearheaded 13+ production AI and n8n automation systems including RAG-based NLP chatbots "
-                     "and LLM pipelines, cutting client response handling time by ~40%. Directed a 20+ member AI team "
-                     "across R&D sprints and delivery. Streamlined n8n workflows eliminating ~10 hours/week of manual processing."),
+            "desc": (
+                "AI System Development: Developed 13+ production AI systems, including RAG-based NLP chatbots, cutting client response time by 40%. "
+                "Team Leadership: Led a 45+ member AI team across R&D sprints, technical planning, and delivery, completing client-facing features on schedule. "
+                "Workflow Automation: Automated n8n workflows with webhook triggers and OpenAI/email APIs, cutting manual processing by 10 hrs/week. "
+                "Sales Enablement: Created AI-enabled lead generation tools with the sales team, improving pipeline efficiency and prospect qualification."
+            ),
+            "points": [
+                "AI System Development: Developed 13+ production AI systems, including RAG-based NLP chatbots, cutting client response time by 40%.",
+                "Team Leadership: Led a 45+ member AI team across R&D sprints, technical planning, and delivery, completing client-facing features on schedule.",
+                "Workflow Automation: Automated n8n workflows with webhook triggers and OpenAI/email APIs, cutting manual processing by 10 hrs/week.",
+                "Sales Enablement: Created AI-enabled lead generation tools with the sales team, improving pipeline efficiency and prospect qualification.",
+            ],
         },
         {
             "company": "East West University",
             "role": "Graduate Teaching Assistant (GTA)",
-            "period": "10/2024 – 12/2025",
+            "period": "Oct. 2024 – Dec. 2025",
             "location": "Dhaka, Bangladesh",
-            "desc": ("Taught lectures and lab sessions for Statistics, AI, and Machine Learning to 70+ graduate students per semester. "
-                     "Mentored 90+ students in advanced ML projects and data analysis, improving student performance outcomes."),
+            "desc": (
+                "Instruction: Taught lectures and lab sessions for Statistics, AI, and Machine Learning courses to a cohort of 70+ graduate students per semester. "
+                "Mentorship: Guided 90+ students in advanced ML projects and data analysis assignments, contributing to improved student performance outcomes."
+            ),
+            "points": [
+                "Instruction: Taught lectures and lab sessions for Statistics, AI, and Machine Learning courses to a cohort of 70+ graduate students per semester.",
+                "Mentorship: Guided 90+ students in advanced ML projects and data analysis assignments, contributing to improved student performance outcomes.",
+            ],
         },
         {
             "company": "East West University",
             "role": "Research Assistant",
-            "period": "10/2024 – 12/2025",
+            "period": "Oct. 2024 – Dec. 2025",
             "location": "Dhaka, Bangladesh",
-            "desc": "Co-authored 17 peer-reviewed publications in Data Science, Computer Vision, and NLP. Supported development of the TFP-BD dataset published in Data in Brief (Vol. 59, 2025).",
+            "desc": (
+                "Academic Research: Co-authored 17 peer-reviewed publications in Data Science, Computer Vision, and NLP, with 1 Best Paper Award at an international conference. "
+                "Dataset Contribution: Supported development of the TFP-BD dataset for traffic flow and pedestrian analysis, published in Data in Brief (Vol. 59, 2025)."
+            ),
+            "points": [
+                "Academic Research: Co-authored 17 peer-reviewed publications in Data Science, Computer Vision, and NLP, with 1 Best Paper Award at an international conference.",
+                "Dataset Contribution: Supported development of the TFP-BD dataset for traffic flow and pedestrian analysis, published in Data in Brief (Vol. 59, 2025).",
+            ],
         },
     ],
     "projects": [
-        {"name": "EmoThrive – AI Therapy Assistant", "type": "Professional",
-         "desc": "AI therapeutic assistant with voice interaction, LLM therapy, and PDF-backed RAG knowledge retrieval for mental health support.",
+        {"name": "BhromonGhuri – Full-Stack Travel & Tour Platform", "type": "Professional",
+         "desc": "Built a full-scale tourism platform (Django 5, HTMX, Alpine.js) with zero-reload filtering, instant pricing, and bKash/Nagad payment verification. [Live on October]",
+         "link": "https://github.com/karibshams", "tags": ["Full-Stack", "Django 5", "HTMX", "Alpine.js", "bKash/Nagad"]},
+        {"name": "AI-Powered Invoice Voucher Processing System", "type": "Professional",
+         "desc": "Architected a GPT-4o Vision pipeline that extracts invoice data, classifies GL accounts and profit centres, and generates payment vouchers with confidence-based review (Freelance / Fiverr).",
+         "link": "#", "tags": ["GPT-4o Vision", "OCR", "Finance AI", "Fiverr Freelance"]},
+        {"name": "HealthRide – AI-Driven NEMT Platform", "type": "Professional",
+         "desc": "Delivered a 24/7 GPT-4o voice receptionist and AI dispatch engine with real-time driver matching across 6 event triggers for Non-Emergency Medical Transport.",
+         "link": "#", "tags": ["Voice AI", "GPT-4o", "Dispatch AI", "Healthcare"]},
+        {"name": "Eat at Home – AI Meal Cost Estimator", "type": "Professional",
+         "desc": "Designed a GPT-4o meal-cost estimation model with store-tier blending and ZIP-code regional pricing multipliers.",
+         "link": "#", "tags": ["GPT-4o", "Computer Vision", "Pricing AI"]},
+        {"name": "EmoThrive – AI Therapeutic Assistant", "type": "Professional",
+         "desc": "Launched a voice-enabled LLM therapy assistant with PDF-backed knowledge retrieval, integrating speech recognition and a RAG workflow.",
          "link": "https://emothrive.net/", "tags": ["Voice AI", "RAG", "Healthcare", "LLM"]},
         {"name": "OP Mental Performance AI Coach", "type": "Professional",
          "desc": "AI coaching platform for athletes and professionals targeting optimal mental performance and excellence.",
@@ -96,46 +129,43 @@ DATA = {
         {"name": "EduGPT – PDF Academic Chatbot", "type": "Professional",
          "desc": "PDF-powered RAG academic chatbot serving CSE and EEE students at East West University with instant answers.",
          "link": "https://github.com/karibshams/cseeeegpt1.0.git", "tags": ["RAG", "Chatbot", "Education"]},
+        {"name": "RAG-Based AI System", "type": "Professional",
+         "desc": "Deployed a Retrieval-Augmented Generation pipeline using FAISS embeddings and OpenAI LLMs, delivering context-aware responses across 500+ document chunks.",
+         "link": "#", "tags": ["RAG", "FAISS", "OpenAI LLM", "Embeddings"]},
+        {"name": "n8n AI Video Generation Automation", "type": "Professional",
+         "desc": "Orchestrated end-to-end AI video creation using n8n, cutting manual production effort by ~80% through API-chained workflows.",
+         "link": "#", "tags": ["n8n", "Workflow Automation", "Video AI", "APIs"]},
+        {"name": "Hebrew/Yiddish Handwriting Transcription System", "type": "Professional",
+         "desc": "Engineered an OCR pipeline for cursive handwriting using GPT-4o and Claude Vision APIs with CER-based accuracy evaluation.",
+         "link": "#", "tags": ["OCR", "Claude Vision", "GPT-4o", "NLP"]},
         {"name": "OCR Text Extraction System", "type": "Professional",
-         "desc": "Robust OCR pipeline for extracting and processing text from scanned documents and images using deep learning.",
-         "link": "https://github.com/karibshams/simple_ocr.git", "tags": ["OCR", "Computer Vision", "Python"]},
+         "desc": "Assembled a scalable OCR engine supporting multi-format document ingestion and structured text output.",
+         "link": "https://github.com/karibshams/simple_ocr.git", "tags": ["OCR", "Computer Vision", "Python", "Deep Learning"]},
+        {"name": "Nory0929 – Video-Based Auto Marketplace", "type": "Professional",
+         "desc": "Produced a multimodal video generation agent using Kling 2.5 and OpenAI that transforms 5+ vehicle images and an optional prompt into 25-second, 720p marketing videos.",
+         "link": "#", "tags": ["Video AI", "Multimodal", "Kling 2.5", "OpenAI"]},
         {"name": "MystudyBuddy App", "type": "Professional",
          "desc": "Smart AI study companion enhancing student productivity through personalised learning paths and AI-driven insights.",
          "link": "#", "tags": ["EdTech", "AI", "Productivity"]},
-        {"name": "n8n AI Video Generation Pipeline", "type": "Professional",
-         "desc": "Fully automated pipeline for AI-based video creation using n8n, Runway ML, and external APIs — zero manual effort.",
-         "link": "#", "tags": ["n8n", "Automation", "Video AI", "Runway ML"]},
-        {"name": "RAG-Based Enterprise AI System", "type": "Professional",
-         "desc": "Context-aware enterprise RAG pipeline for intelligent knowledge retrieval using vector embeddings and LLMs.",
-         "link": "#", "tags": ["RAG", "LLM", "Embeddings", "Enterprise"]},
-        {"name": "Vehicle Detection & Traffic Prediction", "type": "Academic",
-         "desc": "Deep learning system for real-time vehicle detection and traffic flow prediction on Bangladeshi urban roads.",
-         "link": "#", "tags": ["Computer Vision", "YOLO", "Traffic AI"]},
-        {"name": "Sunflower & Rice Panicle Detection", "type": "Academic",
-         "desc": "Self-supervised visual representation learning for precision agriculture — published in Smart Agricultural Technology.",
-         "link": "#", "tags": ["Self-Supervised", "AgriAI", "Vision", "Published"]},
-        {"name": "HealthRide – AI NEMT Platform", "type": "Professional",
-         "desc": "24/7 GPT-4o voice receptionist and AI dispatch engine with real-time driver matching across 6 event triggers for Non-Emergency Medical Transport.",
-         "link": "#", "tags": ["Voice AI", "GPT-4o", "Dispatch AI", "Healthcare"]},
-        {"name": "AI Invoice Voucher Processing", "type": "Professional",
-         "desc": "GPT-4o Vision pipeline extracting invoice data, classifying GL accounts and profit centres, generating payment vouchers with confidence-based review.",
-         "link": "#", "tags": ["GPT-4o Vision", "OCR", "Finance AI", "Freelance"]},
-        {"name": "Eat at Home – Meal Cost Estimator", "type": "Professional",
-         "desc": "GPT-4o meal-cost estimation pipeline with store-tier blending and ZIP-code regional pricing multipliers for accurate home cooking cost prediction.",
-         "link": "#", "tags": ["GPT-4o", "Computer Vision", "Pricing AI"]},
-        {"name": "Hebrew/Yiddish Handwriting OCR", "type": "Professional",
-         "desc": "OCR pipeline for cursive handwriting transcription using GPT-4o and Claude Vision APIs with CER-based accuracy evaluation.",
-         "link": "#", "tags": ["OCR", "Claude Vision", "GPT-4o", "NLP"]},
-        {"name": "Nory0929 – Auto Video Marketplace", "type": "Professional",
-         "desc": "Multimodal video generation agent using Kling 2.5 and OpenAI — transforms 5+ vehicle images into 10-second 720p marketing videos automatically.",
-         "link": "#", "tags": ["Video AI", "Multimodal", "Kling 2.5", "OpenAI"]},
         {"name": "LawyerCity – Legal RAG Advisor", "type": "Professional",
          "desc": "Bilingual RAG-based legal advisor system for LawyerCity Ethiopia — answers legal questions in English and Amharic using FAISS embeddings.",
          "link": "#", "tags": ["RAG", "Bilingual", "Legal AI", "FAISS"]},
+        {"name": "Vehicle Detection and Traffic Flow Prediction", "type": "Academic",
+         "desc": "Trained deep learning models on the TFP-BD dataset for vehicle detection and traffic flow prediction on Bangladeshi urban roads.",
+         "link": "#", "tags": ["Computer Vision", "TFP-BD", "Traffic AI", "Deep Learning"]},
+        {"name": "Sunflower & Rice Panicle Detection", "type": "Academic",
+         "desc": "Self-supervised visual representation learning for precision agriculture — published in Smart Agricultural Technology.",
+         "link": "#", "tags": ["Self-Supervised", "AgriAI", "Vision", "Published"]},
+        {"name": "M.Sc. Thesis – SSL & Graph-Refined Detection", "type": "Academic",
+         "desc": "Self-Supervised Learning and Graph-Refined Object Detection Framework for Precision Agriculture.",
+         "link": "https://github.com/karibshams", "tags": ["Self-Supervised", "Graph Neural Networks", "AgriAI", "MSc Thesis"]},
+        {"name": "B.Sc. Thesis – Tuberculosis Diagnosis", "type": "Academic",
+         "desc": "Tuberculosis Diagnosis from Chest X-Ray Image Using Deep Learning Techniques (Published in IEEE ICAECT 2025).",
+         "link": "https://doi.org/10.1109/ICAECT63952.2025.10958925", "tags": ["Deep Learning", "Medical AI", "Computer Vision", "BSc Thesis"]},
         {"name": "AI Stream — 60+ Delivered Projects", "type": "Team",
-         "desc": "Team Lead of AI Stream: 60+ web & mobile AI products across healthcare, education, e-commerce, and automation. 20+ member team.",
+         "desc": "Team Lead of AI Stream: 60+ web & mobile AI products across healthcare, education, e-commerce, and automation. 45+ member team.",
          "link": "https://docs.google.com/spreadsheets/d/1fthxg82tjNCc3PP6Ik9e2B1BkEmryOysXDD7Hh_XgoU/edit",
-         "tags": ["Team Lead", "20+ Members", "60+ Projects", "AI Products"]},
+         "tags": ["Team Lead", "45+ Members", "60+ Projects", "AI Products"]},
     ],
     "publications": [
         {"title": "CodeMixEcom-Emotion: A Large-Scale Bangla–English Review Corpus and Transformer-Based Benchmark for Fine-Grained Emotion Detection",
@@ -203,6 +233,11 @@ DATA = {
         {"name": "Mohammad Rifat Ahmmad Rashid", "title": "Associate Professor, East West University", "email": "rifat.rashid@ewubd.edu"},
         {"name": "Musharrat Khan", "title": "Senior Lecturer, East West University", "email": "musharrat.khan@ewubd.edu"},
     ],
+    "languages": [
+        {"name": "English", "level": "Advanced (C1)"},
+        {"name": "Bengali", "level": "Native"},
+    ],
+    "interests": ["Data science and analytics", "Traveling", "Football"],
 }
 
 # ══════════════════════════════════════════════════════════════════
@@ -214,10 +249,10 @@ KB = {
 
     "who": ("Karib Shams is a Data Scientist & AI Developer based in Dhaka, Bangladesh.\n\n"
             "🎓 Education:\n• MSc CSE — East West University (CGPA 3.91, Data Science major)\n• BSc CSE — East West University (CGPA 3.58)\n\n"
-            "💼 Current Role: Senior Executive Data Scientist & Team Leader at JVai (Betopia Group)\n"
+            "💼 Current Role: Senior Executive Data Scientist & Team Leader at Join Venture Ai (JVai)\n"
             "🏆 Award: Best Paper Award — AII 2025, Washington D.C., USA\n"
             "📊 Research: 17 publications, 9 citations, h-index 2\n"
-            "⚡ Team: Leads AI Stream — 60+ delivered AI projects"),
+            "⚡ Team: Leads AI Stream — 60+ delivered AI products with 45+ members"),
 
     "contact": ("📧 Email: shams321karib@gmail.com\n"
                 "📱 Phone/WhatsApp: +880 1797470717\n"
@@ -225,7 +260,7 @@ KB = {
                 "💻 GitHub: github.com/karibshams\n"
                 "🔗 LinkedIn: linkedin.com/in/karib-shams-007975305\n"
                 "🎓 Google Scholar: scholar.google.com/citations?user=C26dtwMAAAAJ\n"
-                "🌐 Portfolio: shams123.pythonanywhere.com"),
+                "🌐 Portfolio: karib.pythonanywhere.com"),
 
     "award": ("🏆 BEST PAPER AWARD — AII 2025, Washington D.C., USA!\n\n"
               "Karib Shams received the Best Paper Award at the 5th International Conference on "
@@ -235,7 +270,7 @@ KB = {
               "Published in Springer-Nature CCIS proceedings.\n"
               "🔗 EWU Official: ewubd.edu/achievement-details/ewu-researchers-win-best-paper-award-international-ai-conference-washington-dc"),
 
-    "publications": ("📚 Karib has 16 publications across IEEE, Springer, Elsevier, and Nature Portfolio:\n\n"
+    "publications": ("📚 Karib has 17 publications across IEEE, Springer, Elsevier, and Nature Portfolio:\n\n"
                      "📊 Stats: 9 citations | h-index: 2\n\n"
                      "🏆 Best Paper: CodeMixEcom-Emotion (AII 2025, Springer)\n"
                      "🫁 Medical: TB X-Ray, Lung Cancer, Kidney CT, Bone Metastases, CT+MRI\n"
@@ -246,42 +281,52 @@ KB = {
                      "View profile: scholar.google.com/citations?user=C26dtwMAAAAJ"),
 
     "education": ("🎓 Karib's Education:\n\n"
-                  "• MSc in CSE — East West University (2025)\n  CGPA: 3.91 | Major: Data Science\n\n"
-                  "• BSc in CSE — East West University (2020–2024)\n  CGPA: 3.58\n\n"
-                  ""),
+                  "• MSc in CSE — East West University (Jan 2025 – Dec 2025)\n  CGPA: 3.91 | Major: Data Science\n\n"
+                  "• BSc in CSE — East West University (Jan 2020 – Jul 2024)\n  CGPA: 3.58\n\n"
+                  "• Higher Secondary Certificate (HSC) — National Ideal College (2017–2019)\n\n"
+                  "• Secondary School Certificate (SSC) — Motijheel Model School And College (2016–2017)"),
 
     "experience": ("💼 Karib's Professional Experience:\n\n"
                    "1️⃣ Senior Executive Data Scientist & Team Leader\n"
-                   "   JVai (Betopia Group) — Jun 2025–Present\n"
-                   "   → Builds chatbots, RAG NLP systems, n8n automation workflows\n\n"
+                   "   Join Venture Ai (JVai) — Jun 2025 – Oct 2026 | Dhaka, Bangladesh\n"
+                   "   • AI System Development: Developed 13+ production AI systems, including RAG-based NLP chatbots, cutting client response time by 40%.\n"
+                   "   • Team Leadership: Led a 45+ member AI team across R&D sprints, technical planning, and delivery, completing client-facing features on schedule.\n"
+                   "   • Workflow Automation: Automated n8n workflows with webhook triggers and OpenAI/email APIs, cutting manual processing by 10 hrs/week.\n"
+                   "   • Sales Enablement: Created AI-enabled lead generation tools with the sales team, improving pipeline efficiency and prospect qualification.\n\n"
                    "2️⃣ Graduate Teaching Assistant (GTA)\n"
-                   "   East West University — Oct 2024–Dec 2025\n"
-                   "   → Taught Statistics, AI, Machine Learning\n\n"
+                   "   East West University — Oct 2024 – Dec 2025 | Dhaka, Bangladesh\n"
+                   "   • Instruction: Taught lectures and lab sessions for Statistics, AI, and Machine Learning courses to a cohort of 70+ graduate students per semester.\n"
+                   "   • Mentorship: Guided 90+ students in advanced ML projects and data analysis assignments, contributing to improved student performance outcomes.\n\n"
                    "3️⃣ Research Assistant\n"
-                   "   East West University — Oct 2024–Dec 2025\n"
-                   "   → Academic research in Data Science and AI"),
+                   "   East West University — Oct 2024 – Dec 2025 | Dhaka, Bangladesh\n"
+                   "   • Academic Research: Co-authored 17 peer-reviewed publications in Data Science, Computer Vision, and NLP, with 1 Best Paper Award at an international conference.\n"
+                   "   • Dataset Contribution: Supported development of the TFP-BD dataset for traffic flow and pedestrian analysis, published in Data in Brief (Vol. 59, 2025)."),
 
     "skills": ("⚙️ Karib's Technical Skills:\n\n"
-               "Programming: Python, JavaScript, HTML/CSS, SQL, C/C++, Java, Django\n\n"
-               "AI & ML: Deep Learning, Computer Vision, NLP, XAI, Knowledge Graphs, "
-               "Sentiment Analysis, Semi-Supervised Learning, Self-Supervised Learning, RAG Pipelines\n\n"
-               "Automation: n8n Workflows, API Orchestration, Prompt Engineering\n\n"
-               "Tools: PyTorch, TensorFlow, HuggingFace, Roboflow, Kaggle, Jupyter, Colab, Linux"),
+               "Languages: Python, JavaScript, SQL, C, C++, Java, HTML, CSS\n"
+               "Frameworks: Django, FastAPI, TensorFlow, PyTorch, Scikit-learn, Streamlit\n"
+               "AI & ML: Deep Learning, NLP, Computer Vision, OCR, RAG Pipelines, LLMs, Generative AI, Explainable AI (SHAP), Knowledge Graphs\n"
+               "Automation & MLOps: n8n, LLM Chaining, Webhook Systems, OpenAI API, FAISS, Prompt Engineering\n"
+               "Tools: Jupyter Notebook, Google Colab, Roboflow, Kaggle, Oracle APEX, VS Code, Git"),
 
     "projects": ("🚀 Karib's Key Projects:\n\n"
-                 "• EmoThrive (emothrive.net) — AI therapy with voice + RAG\n"
+                 "• BhromonGhuri — Full-Stack Travel & Tour Booking Platform (Django 5, HTMX, Alpine.js, bKash/Nagad)\n"
+                 "• AI-Powered Invoice Voucher Processing System — Freelance (Fiverr) GPT-4o Vision pipeline\n"
+                 "• HealthRide — AI-driven NEMT Platform with 24/7 GPT-4o voice receptionist and dispatch engine\n"
+                 "• Eat at Home — AI Meal Cost Estimator with ZIP-code pricing multipliers\n"
+                 "• EmoThrive (emothrive.net) — Voice-enabled AI therapeutic assistant with PDF-backed RAG\n"
                  "• OP Mental Performance AI Coach (optimalperformanceai.com)\n"
-                 "• VoiceMind AI Mental Wellness App\n"
-                 "• EduGPT — PDF academic chatbot for CSE/EEE students\n"
-                 "• OCR Text Extraction System (github.com/karibshams/simple_ocr)\n"
-                 "• n8n AI Video Generation Pipeline\n"
-                 "• RAG-Based Enterprise AI System\n"
-                 "• Vehicle Detection & Traffic Prediction (published)\n"
-                 "• Sunflower & Rice Panicle Detection (published)"),
+                 "• RAG-Based AI System — FAISS embeddings + OpenAI LLMs across 500+ document chunks\n"
+                 "• Hebrew/Yiddish Handwriting Transcription System — GPT-4o and Claude Vision OCR\n"
+                 "• OCR Text Extraction System (github.com/karibshams/simple_ocr.git)\n"
+                 "• Nory0929 — Video-Based Auto Marketplace with Kling 2.5 and OpenAI (25s 720p videos)\n"
+                 "• Vehicle Detection & Traffic Flow Prediction on TFP-BD dataset\n"
+                 "• M.Sc. Thesis — SSL and Graph-Refined Object Detection for Precision Agriculture\n"
+                 "• B.Sc. Thesis — Tuberculosis Diagnosis from Chest X-Ray Image (IEEE ICAECT 2025)"),
 
     "team": ("⚡ AI Stream — Karib's Team:\n\n"
              "Karib leads AI Stream, a dedicated AI & software team that has delivered "
-             "60+ web and mobile projects.\n\n"
+             "60+ web and mobile projects with a 45+ member team.\n\n"
              "Project types: RAG systems, voice AI apps, healthcare platforms, education tools, "
              "e-commerce automation, full-stack SaaS products.\n\n"
              "Industries: Healthcare, Education, Agriculture, Business Automation, Entertainment\n\n"
