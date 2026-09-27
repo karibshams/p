@@ -1,749 +1,1269 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Karib Shams | Data Scientist & AI Developer</title>
-<meta name="description" content="Karib Shams — Data Scientist, AI Developer, Best Paper Award AII 2025 Washington D.C., 16 publications, AI Stream Team Lead, 60+ projects."/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="{% static 'css/main.css' %}"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Karib Shams | Data Scientist &amp; AI Developer</title>
+  <meta name="description"
+    content="Karib Shams — Data Scientist, AI Developer, Best Paper Award AII 2025 Washington D.C., 17 publications, AI Stream Team Lead, 60+ projects." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&amp;family=JetBrains+Mono:wght@300;400;500&amp;display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 </head>
+
 <body>
-<!-- LOADING SCREEN -->
-<div id="loadingScreen" class="loading-screen">
-  <div class="ls-content">
-    <div class="ls-logo">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" width="80" height="80">
+  <!-- LOADING SCREEN -->
+  <div id="loadingScreen" class="loading-screen">
+    <div class="ls-content">
+      <div class="ls-logo">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" width="80" height="80">
+          <defs>
+            <linearGradient id="ksGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#00FFC2" />
+              <stop offset="100%" style="stop-color:#22D3EE" />
+            </linearGradient>
+          </defs>
+          <polygon points="50,4 93,28 93,72 50,96 7,72 7,28" stroke="url(#ksGrad2)" stroke-width="2"
+            fill="rgba(0,255,194,0.06)" class="ls-hex" />
+          <polygon points="50,14 83,32 83,68 50,86 17,68 17,32" stroke="rgba(0,255,194,0.2)" stroke-width="1"
+            fill="none" />
+          <circle cx="50" cy="4" r="2.5" fill="#00FFC2" class="ls-dot" />
+          <circle cx="93" cy="28" r="2.5" fill="#22D3EE" class="ls-dot" />
+          <circle cx="93" cy="72" r="2.5" fill="#00FFC2" class="ls-dot" />
+          <circle cx="50" cy="96" r="2.5" fill="#22D3EE" class="ls-dot" />
+          <circle cx="7" cy="72" r="2.5" fill="#00FFC2" class="ls-dot" />
+          <circle cx="7" cy="28" r="2.5" fill="#22D3EE" class="ls-dot" />
+          <line x1="24" y1="32" x2="24" y2="68" stroke="url(#ksGrad2)" stroke-width="5" stroke-linecap="round" />
+          <line x1="24" y1="50" x2="44" y2="32" stroke="url(#ksGrad2)" stroke-width="5" stroke-linecap="round" />
+          <line x1="24" y1="50" x2="44" y2="68" stroke="url(#ksGrad2)" stroke-width="5" stroke-linecap="round" />
+          <path d="M74 36 Q74 32 68 32 L60 32 Q54 32 54 40 Q54 48 68 50 Q76 52 76 60 Q76 68 68 68 L58 68 Q52 68 52 64"
+            stroke="url(#ksGrad2)" stroke-width="4.5" stroke-linecap="round" fill="none" />
+        </svg>
+      </div>
+      <div class="ls-name">
+        <span class="ls-first">KARIB</span>
+        <span class="ls-last">SHAMS</span>
+      </div>
+      <div class="ls-title">Data Scientist &amp; AI Developer</div>
+      <div class="ls-bar-wrap">
+        <div class="ls-bar">
+          <div class="ls-bar-fill" id="lsBarFill"></div>
+        </div>
+        <div class="ls-percent" id="lsPercent">0%</div>
+      </div>
+      <div class="ls-msg" id="lsMsg">Initialising AI Systems...</div>
+    </div>
+  </div>
+
+  <!-- PAGE TRANSITION -->
+  <div class="page-transition" id="pageTransition"></div>
+
+  <div id="scroll-progress-bar"></div>
+  <canvas id="neural-bg"></canvas>
+  <canvas id="particle-trail"
+    style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:none;opacity:.7"></canvas>
+  <div id="ripple-container" style="position:fixed;inset:0;pointer-events:none;z-index:9990;overflow:hidden"></div>
+  <canvas id="particle-trail"
+    style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:none;opacity:.7"></canvas>
+  <canvas id="three-canvas"></canvas>
+  <div class="cursor-dot" id="cDot"></div>
+  <div class="cursor-ring" id="cRing"></div>
+  <nav id="navbar">
+    <div class="nav-brand">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" width="36" height="36" class="nav-logo">
         <defs>
-          <linearGradient id="ksGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style="stop-color:#00FFC2"/>
-            <stop offset="100%" style="stop-color:#22D3EE"/>
+          <linearGradient id="navKsGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#00FFC2" />
+            <stop offset="100%" style="stop-color:#22D3EE" />
           </linearGradient>
         </defs>
-        <polygon points="50,4 93,28 93,72 50,96 7,72 7,28" stroke="url(#ksGrad2)" stroke-width="2" fill="rgba(0,255,194,0.06)" class="ls-hex"/>
-        <polygon points="50,14 83,32 83,68 50,86 17,68 17,32" stroke="rgba(0,255,194,0.2)" stroke-width="1" fill="none"/>
-        <circle cx="50" cy="4"  r="2.5" fill="#00FFC2" class="ls-dot"/>
-        <circle cx="93" cy="28" r="2.5" fill="#22D3EE" class="ls-dot"/>
-        <circle cx="93" cy="72" r="2.5" fill="#00FFC2" class="ls-dot"/>
-        <circle cx="50" cy="96" r="2.5" fill="#22D3EE" class="ls-dot"/>
-        <circle cx="7"  cy="72" r="2.5" fill="#00FFC2" class="ls-dot"/>
-        <circle cx="7"  cy="28" r="2.5" fill="#22D3EE" class="ls-dot"/>
-        <line x1="24" y1="32" x2="24" y2="68" stroke="url(#ksGrad2)" stroke-width="5" stroke-linecap="round"/>
-        <line x1="24" y1="50" x2="44" y2="32" stroke="url(#ksGrad2)" stroke-width="5" stroke-linecap="round"/>
-        <line x1="24" y1="50" x2="44" y2="68" stroke="url(#ksGrad2)" stroke-width="5" stroke-linecap="round"/>
-        <path d="M74 36 Q74 32 68 32 L60 32 Q54 32 54 40 Q54 48 68 50 Q76 52 76 60 Q76 68 68 68 L58 68 Q52 68 52 64" stroke="url(#ksGrad2)" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+        <polygon points="50,4 93,28 93,72 50,96 7,72 7,28" stroke="url(#navKsGrad)" stroke-width="2.5"
+          fill="rgba(0,255,194,0.08)" />
+        <line x1="24" y1="32" x2="24" y2="68" stroke="url(#navKsGrad)" stroke-width="6" stroke-linecap="round" />
+        <line x1="24" y1="50" x2="44" y2="32" stroke="url(#navKsGrad)" stroke-width="6" stroke-linecap="round" />
+        <line x1="24" y1="50" x2="44" y2="68" stroke="url(#navKsGrad)" stroke-width="6" stroke-linecap="round" />
+        <path d="M74 36 Q74 32 68 32 L60 32 Q54 32 54 40 Q54 48 68 50 Q76 52 76 60 Q76 68 68 68 L58 68 Q52 68 52 64"
+          stroke="url(#navKsGrad)" stroke-width="5" stroke-linecap="round" fill="none" />
+      </svg>
+      <span class="nav-brand-text">Karib Shams</span>
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">XP</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#publications">Papers</a></li>
+      <li><a href="#timeline">Journey</a></li>
+      <li><a href="#dataviz">Analytics</a></li>
+      <li><a href="#aichat">AI Chat</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="theme-toggle" id="themeToggle" title="Toggle Dark/Light Mode" onclick="toggleTheme()">🌙</button>
+      <a href="{{ data.scholar }}" target="_blank" class="nav-scholar"><svg viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" width="15" height="15">
+          <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+          <path d="M6 12v5c3 3 9 3 12 0v-5" />
+        </svg> Scholar</a>
+      <a href="https://wa.me/{{ data.whatsapp }}" target="_blank" class="nav-cta">Hire Me <svg viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+          <path d="M5 12h14M12 5l7 7-7 7" />
+        </svg></a>
+      <button class="nav-toggle" id="navToggle">☰</button>
+    </div>
+  </nav>
+  <section id="hero">
+    <div class="hero-wrap">
+      <div class="hero-left">
+        <div class="hero-badge"><span class="pdot"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" width="12" height="12">
+            <circle cx="12" cy="12" r="3" />
+            <path
+              d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83" />
+          </svg> Available for AI Projects &amp; Collaborations</div>
+        <h1 class="hero-name">
+          <span class="hn1 glitch-text" data-text="KARIB">KARIB</span>
+          <span class="hn2 glitch-text" data-text="SHAMS">SHAMS</span>
+        </h1>
+        <div class="hero-role"><span id="typedEl"></span><span class="tc">|</span></div>
+        <p class="hero-bio">{{ data.about }}</p>
+        <div class="hero-btns">
+          <a href="#projects" class="btn-primary magnetic-btn">View Projects</a>
+          <a href="{{ data.award_url }}" target="_blank" class="btn-award"><svg viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" width="15" height="15">
+              <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+              <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+              <path d="M4 22h16" />
+              <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" />
+              <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" />
+              <path d="M18 2H6v7a6 6 0 0 0 12 0V2z" />
+            </svg> Best Paper Award</a>
+          <a href="{% static 'img/karib_ser_78.pdf' %}" download="KARIB_SHAMS_CV.pdf" class="btn-cv" id="cvDownloadBtn">
+            <span class="cv-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20"
+                height="20">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg></span>
+            <span class="cv-text"><span class="cv-main">Download CV</span><span class="cv-sub">PDF · Updated
+                2026</span></span>
+            <span class="cv-arrow">↓</span>
+          </a>
+          <a href="{% static 'img/karib_ace_78.pdf' %}" download="KARIB_SHAMS_CV_2.pdf" class="btn-cv"
+            id="cvDownloadBtn2">
+            <span class="cv-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20"
+                height="20">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg></span>
+            <span class="cv-text"><span class="cv-main">Download CV 2</span><span class="cv-sub">PDF · Updated
+                2026</span></span>
+            <span class="cv-arrow">↓</span>
+          </a>
+          <a href="{{ data.scholar }}" target="_blank" class="btn-ghost"><svg viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" width="15" height="15">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+              <path d="M6 12v5c3 3 9 3 12 0v-5" />
+            </svg> Scholar</a>
+        </div>
+        <div class="hero-stats">
+          <div class="hs"><span class="hn" id="heroPapers" data-count="{{ pub_count }}">0</span><span
+              class="hl">Publications</span></div>
+          <div class="hs"><span class="hn" id="heroCitations" data-count="{{ data.citations }}">0</span><span
+              class="hl">Citations</span></div>
+          <div class="hs"><span class="hn" id="heroHIndex" data-count="{{ data.h_index }}">0</span><span
+              class="hl">h-index</span></div>
+          <div class="hs"><span class="hn" data-count="60">0</span><span class="hl">+ Team Projects</span></div>
+          <div class="hs"><span class="hn" data-count="3">0</span><span class="hl">Years XP</span></div>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="av-wrap">
+          <div class="av-ring r1"></div>
+          <div class="av-ring r2"></div>
+          <div class="av-ring r3"></div>
+          <div class="av-img"><img src="{% static 'img/karib.jpeg' %}" alt="Karib Shams"
+              onerror="this.src='{% static 'img/placeholder.svg'%}'" /></div>
+          <a href="{{ data.award_url }}" target="_blank" class="av-badge"><svg viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" width="15" height="15">
+              <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+              <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+              <path d="M4 22h16" />
+              <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" />
+              <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" />
+              <path d="M18 2H6v7a6 6 0 0 0 12 0V2z" />
+            </svg> Best Paper Award<br /><span>AII 2025 · Washington D.C.</span></a>
+        </div>
+        <div class="socials">
+          <a href="{{ data.github }}" target="_blank" class="sc" title="GitHub"><svg viewBox="0 0 24 24"
+              fill="currentColor">
+              <path
+                d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+            </svg></a>
+          <a href="{{ data.linkedin }}" target="_blank" class="sc" title="LinkedIn"><svg viewBox="0 0 24 24"
+              fill="currentColor">
+              <path
+                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+            </svg></a>
+          <a href="{{ data.scholar }}" target="_blank" class="sc" title="Scholar"><svg viewBox="0 0 24 24"
+              fill="currentColor">
+              <path
+                d="M12 0L0 6.9v.2l4.6 2.7V18l7.4 4.3 7.4-4.3V9.8L24 7.1V6.9L12 0zm5.8 17.4L12 20.7l-5.8-3.3v-7l5.8 3.3 5.8-3.3v7zM12 13.4L2.4 7.8 12 2.2l9.6 5.6L12 13.4z" />
+            </svg></a>
+          <a href="https://wa.me/{{ data.whatsapp }}" target="_blank" class="sc" title="WhatsApp"><svg
+              viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+            </svg></a>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-cue">
+      <div class="scl"></div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12"
+        height="12" style="opacity:.5">
+        <polyline points="7 13 12 18 17 13" />
+        <polyline points="7 6 12 11 17 6" />
       </svg>
     </div>
-    <div class="ls-name">
-      <span class="ls-first">KARIB</span>
-      <span class="ls-last">SHAMS</span>
-    </div>
-    <div class="ls-title">Data Scientist &amp; AI Developer</div>
-    <div class="ls-bar-wrap">
-      <div class="ls-bar"><div class="ls-bar-fill" id="lsBarFill"></div></div>
-      <div class="ls-percent" id="lsPercent">0%</div>
-    </div>
-    <div class="ls-msg" id="lsMsg">Initialising AI Systems...</div>
-  </div>
-</div>
-
-<!-- PAGE TRANSITION -->
-<div class="page-transition" id="pageTransition"></div>
-
-<div id="scroll-progress-bar"></div>
-<canvas id="neural-bg"></canvas>
-<canvas id="particle-trail" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:none;opacity:.7"></canvas>
-<div id="ripple-container" style="position:fixed;inset:0;pointer-events:none;z-index:9990;overflow:hidden"></div>
-<canvas id="particle-trail" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:none;opacity:.7"></canvas>
-<canvas id="three-canvas"></canvas>
-<div class="cursor-dot" id="cDot"></div>
-<div class="cursor-ring" id="cRing"></div>
-<nav id="navbar">
-  <div class="nav-brand">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" width="36" height="36" class="nav-logo">
-      <defs><linearGradient id="navKsGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#00FFC2"/><stop offset="100%" style="stop-color:#22D3EE"/></linearGradient></defs>
-      <polygon points="50,4 93,28 93,72 50,96 7,72 7,28" stroke="url(#navKsGrad)" stroke-width="2.5" fill="rgba(0,255,194,0.08)"/>
-      <line x1="24" y1="32" x2="24" y2="68" stroke="url(#navKsGrad)" stroke-width="6" stroke-linecap="round"/>
-      <line x1="24" y1="50" x2="44" y2="32" stroke="url(#navKsGrad)" stroke-width="6" stroke-linecap="round"/>
-      <line x1="24" y1="50" x2="44" y2="68" stroke="url(#navKsGrad)" stroke-width="6" stroke-linecap="round"/>
-      <path d="M74 36 Q74 32 68 32 L60 32 Q54 32 54 40 Q54 48 68 50 Q76 52 76 60 Q76 68 68 68 L58 68 Q52 68 52 64" stroke="url(#navKsGrad)" stroke-width="5" stroke-linecap="round" fill="none"/>
-    </svg>
-    <span class="nav-brand-text">Karib Shams</span>
-  </div>
-  <ul class="nav-links" id="navLinks">
-    <li><a href="#about">About</a></li><li><a href="#skills">Skills</a></li>
-    <li><a href="#experience">XP</a></li><li><a href="#projects">Projects</a></li>
-    <li><a href="#publications">Papers</a></li><li><a href="#timeline">Journey</a></li><li><a href="#dataviz">Analytics</a></li><li><a href="#aichat">AI Chat</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-  <div class="nav-right">
-    <button class="theme-toggle" id="themeToggle" title="Toggle Dark/Light Mode" onclick="toggleTheme()">🌙</button>
-    <a href="{{ data.scholar }}" target="_blank" class="nav-scholar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg> Scholar</a>
-    <a href="https://wa.me/{{ data.whatsapp }}" target="_blank" class="nav-cta">Hire Me <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-    <button class="nav-toggle" id="navToggle">☰</button>
-  </div>
-</nav>
-<section id="hero">
-  <div class="hero-wrap">
-    <div class="hero-left">
-      <div class="hero-badge"><span class="pdot"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg> Available for AI Projects &amp; Collaborations</div>
-      <h1 class="hero-name">
-        <span class="hn1 glitch-text" data-text="KARIB">KARIB</span>
-        <span class="hn2 glitch-text" data-text="SHAMS">SHAMS</span>
-      </h1>
-      <div class="hero-role"><span id="typedEl"></span><span class="tc">|</span></div>
-      <p class="hero-bio">{{ data.about }}</p>
-      <div class="hero-btns">
-        <a href="#projects" class="btn-primary magnetic-btn">View Projects</a>
-        <a href="{{ data.award_url }}" target="_blank" class="btn-award"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg> Best Paper Award</a>
-        <a href="{% static 'img/karib_ser_78.pdf' %}" download="KARIB_SHAMS_CV.pdf" class="btn-cv" id="cvDownloadBtn">
-          <span class="cv-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></span>
-          <span class="cv-text"><span class="cv-main">Download CV</span><span class="cv-sub">PDF · Updated 2026</span></span>
-          <span class="cv-arrow">↓</span>
-        </a>
-        <a href="{% static 'img/karib_ace_78.pdf' %}" download="KARIB_SHAMS_CV_2.pdf" class="btn-cv" id="cvDownloadBtn2">
-          <span class="cv-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></span>
-          <span class="cv-text"><span class="cv-main">Download CV 2</span><span class="cv-sub">PDF · Updated 2026</span></span>
-          <span class="cv-arrow">↓</span>
-        </a>
-        <a href="{{ data.scholar }}" target="_blank" class="btn-ghost"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg> Scholar</a>
+  </section>
+  <section id="about" class="sec">
+    <div class="container">
+      <div class="sec-hdr reveal"><span class="sn">01</span>
+        <h2>About Me</h2>
+        <div class="sl"></div>
       </div>
-      <div class="hero-stats">
-        <div class="hs"><span class="hn" id="heroPapers" data-count="{{ pub_count }}">0</span><span class="hl">Publications</span></div>
-        <div class="hs"><span class="hn" id="heroCitations" data-count="{{ data.citations }}">0</span><span class="hl">Citations</span></div>
-        <div class="hs"><span class="hn" id="heroHIndex" data-count="{{ data.h_index }}">0</span><span class="hl">h-index</span></div>
-        <div class="hs"><span class="hn" data-count="60">0</span><span class="hl">+ Team Projects</span></div>
-        <div class="hs"><span class="hn" data-count="3">0</span><span class="hl">Years XP</span></div>
-      </div>
-    </div>
-    <div class="hero-right">
-      <div class="av-wrap">
-        <div class="av-ring r1"></div><div class="av-ring r2"></div><div class="av-ring r3"></div>
-        <div class="av-img"><img src="{% static 'img/karib.jpeg' %}" alt="Karib Shams" onerror="this.src='{% static 'img/placeholder.svg' %}'"/></div>
-        <a href="{{ data.award_url }}" target="_blank" class="av-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg> Best Paper Award<br/><span>AII 2025 · Washington D.C.</span></a>
-      </div>
-      <div class="socials">
-        <a href="{{ data.github }}" target="_blank" class="sc" title="GitHub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg></a>
-        <a href="{{ data.linkedin }}" target="_blank" class="sc" title="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
-        <a href="{{ data.scholar }}" target="_blank" class="sc" title="Scholar"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0L0 6.9v.2l4.6 2.7V18l7.4 4.3 7.4-4.3V9.8L24 7.1V6.9L12 0zm5.8 17.4L12 20.7l-5.8-3.3v-7l5.8 3.3 5.8-3.3v7zM12 13.4L2.4 7.8 12 2.2l9.6 5.6L12 13.4z"/></svg></a>
-        <a href="https://wa.me/{{ data.whatsapp }}" target="_blank" class="sc" title="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
-      </div>
-    </div>
-  </div>
-  <div class="scroll-cue"><div class="scl"></div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12" style="opacity:.5"><polyline points="7 13 12 18 17 13"/><polyline points="7 6 12 11 17 6"/></svg></div>
-</section>
-<section id="about" class="sec">
-  <div class="container">
-    <div class="sec-hdr reveal"><span class="sn">01</span><h2>About Me</h2><div class="sl"></div></div>
-    <div class="about-grid">
-      <div class="reveal">
-        <p class="about-lead">I build <span class="ac">intelligent systems</span> that understand, learn, and predict — turning raw data into real-world impact.</p>
-        <p class="muted sm">{{ data.about }}</p>
-        <div class="tag-row"><span class="itag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Data Science</span><span class="itag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-1.66z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-1.66z"/></svg> AI Research</span><span class="itag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21 4 19 2c-2-2-4-2-5.5-.5L10 5 1.8 6.2c-.5.1-.9.5-.9 1 0 .3.1.6.3.8l2.2 2.2c.5.5 1.3.6 2 .3l5.1-1.7 1.7 5.1c-.3.7-.2 1.5.3 2l2.2 2.2c.2.2.5.3.8.3.5 0 .9-.4 1-.9z"/></svg> Travelling</span><span class="itag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg> Football</span></div>
-        <div class="team-card">
-          <div class="tc-hdr">
-            <span class="tc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
-            <div><h3>{{ data.team.name }} — My AI Team</h3><span class="tc-count">{{ data.team.projects_count }} Projects Delivered</span></div>
-            <a href="{{ data.team.drive }}" target="_blank" class="tc-link">View All →</a>
+      <div class="about-grid">
+        <div class="reveal">
+          <p class="about-lead">I build <span class="ac">intelligent systems</span> that understand, learn, and predict
+            — turning raw data into real-world impact.</p>
+          <p class="muted sm">{{ data.about }}</p>
+          <div class="tag-row"><span class="itag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" width="13" height="13">
+                <line x1="18" y1="20" x2="18" y2="10" />
+                <line x1="12" y1="20" x2="12" y2="4" />
+                <line x1="6" y1="20" x2="6" y2="14" />
+              </svg> Data Science</span><span class="itag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" width="13" height="13">
+                <path
+                  d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-1.66z" />
+                <path
+                  d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-1.66z" />
+              </svg> AI Research</span><span class="itag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" width="13" height="13">
+                <path
+                  d="M17.8 19.2 16 11l3.5-3.5C21 6 21 4 19 2c-2-2-4-2-5.5-.5L10 5 1.8 6.2c-.5.1-.9.5-.9 1 0 .3.1.6.3.8l2.2 2.2c.5.5 1.3.6 2 .3l5.1-1.7 1.7 5.1c-.3.7-.2 1.5.3 2l2.2 2.2c.2.2.5.3.8.3.5 0 .9-.4 1-.9z" />
+              </svg> Travelling</span><span class="itag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" width="13" height="13">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
+                <path d="M2 12h20" />
+              </svg> Football</span></div>
+          <div class="team-card">
+            <div class="tc-hdr">
+              <span class="tc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  width="22" height="22">
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                </svg></span>
+              <div>
+                <h3>{{ data.team.name }} — My AI Team</h3><span class="tc-count">{{ data.team.projects_count }} Projects
+                  Delivered</span>
+              </div>
+              <a href="{{ data.team.drive }}" target="_blank" class="tc-link">View All →</a>
+            </div>
+            <p class="muted sm">{{ data.team.desc }}</p>
           </div>
-          <p class="muted sm">{{ data.team.desc }}</p>
+        </div>
+        <div class="reveal">
+          <h3 class="sub-title">Education</h3>
+          {% for e in data.education %}
+          <div class="edu-card">
+            <div class="edu-dot"></div>
+            <div>
+              <h4>{{ e.degree }}</h4><span class="edu-inst">{{ e.institution }}</span><span class="edu-period">{{
+                e.period }}</span><span class="edu-detail">{{ e.detail }}</span>
+            </div>
+          </div>
+          {% endfor %}
+          <h3 class="sub-title" style="margin-top:2rem">Languages</h3>
+          <div class="lang-row">
+            <div class="lang-pill"><span>English</span><span class="llv">Advanced (C1)</span></div>
+            <div class="lang-pill"><span>Bengali</span><span class="llv">Native</span></div>
+          </div>
         </div>
       </div>
-      <div class="reveal">
-        <h3 class="sub-title">Education</h3>
-        {% for e in data.education %}
-        <div class="edu-card"><div class="edu-dot"></div><div><h4>{{ e.degree }}</h4><span class="edu-inst">{{ e.institution }}</span><span class="edu-period">{{ e.period }}</span><span class="edu-detail">{{ e.detail }}</span></div></div>
+    </div>
+  </section>
+  <section id="skills" class="sec sec-alt">
+    <div class="container">
+      <div class="sec-hdr reveal"><span class="sn">02</span>
+        <h2>Skills &amp; Stack</h2>
+        <div class="sl"></div>
+      </div>
+      <div class="skills-grid">
+        {% for cat, items in data.skills.items %}
+        <div class="skill-group reveal">
+          <h3 class="skill-cat">{{ cat }}</h3>
+          <div class="skill-tags">{% for it in items %}<span class="sk-tag">{{ it }}</span>{% endfor %}</div>
+        </div>
         {% endfor %}
-        <h3 class="sub-title" style="margin-top:2rem">Languages</h3>
-        <div class="lang-row">
-          <div class="lang-pill"><span>English</span><span class="llv">Advanced (C1)</span></div>
-          <div class="lang-pill"><span>Bengali</span><span class="llv">Native</span></div>
-        </div>
       </div>
-    </div>
-  </div>
-</section>
-<section id="skills" class="sec sec-alt">
-  <div class="container">
-    <div class="sec-hdr reveal"><span class="sn">02</span><h2>Skills & Stack</h2><div class="sl"></div></div>
-    <div class="skills-grid">
-      {% for cat, items in data.skills.items %}
-      <div class="skill-group reveal"><h3 class="skill-cat">{{ cat }}</h3><div class="skill-tags">{% for it in items %}<span class="sk-tag">{{ it }}</span>{% endfor %}</div></div>
-      {% endfor %}
-    </div>
-    <div class="quiz-wrap reveal">
-      <div class="quiz-hdr">
-        <span class="sec-svg-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="28" height="28"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-1.66z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-1.66z"/></svg></span>
-        <div><h3>AI & Data Science Quiz</h3><p class="muted" style="font-size:.74rem;font-family:var(--mono)">30 questions · Random · No repeats · Beat Karib's AI!</p></div>
-        <div id="qscore" class="qscore"></div>
-      </div>
-      <div id="quiz-body">
-        <p class="muted sm" style="margin-bottom:1.2rem">Challenge yourself on ML, Deep Learning, NLP, Computer Vision, and more.</p>
-        <button class="btn-primary" onclick="initQuiz()">🚀 Start Quiz</button>
-      </div>
-    <!-- SKILL RADAR CHART -->
-    <div class="radar-wrap reveal">
-      <div class="viz-card-hdr" style="margin-bottom:1.2rem">
-        <span class="viz-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="24" height="24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>
-        <div>
-          <h3 style="color:var(--acc2);font-size:.92rem;font-weight:700">AI Skill Radar</h3>
-          <p class="muted" style="font-size:.74rem;font-family:var(--mono)">Visual breakdown of Karib core competencies</p>
-        </div>
-      </div>
-      <div class="radar-grid">
-        <div class="radar-chart-wrap">
-          <canvas id="skillRadar"></canvas>
-        </div>
-        <div class="progress-bars">
-          <div class="pb-item"><div class="pb-label"><span>Deep Learning</span><span class="pb-val">95%</span></div><div class="pb-track"><div class="pb-fill" data-width="95"></div></div></div>
-          <div class="pb-item"><div class="pb-label"><span>Computer Vision</span><span class="pb-val">90%</span></div><div class="pb-track"><div class="pb-fill" data-width="90"></div></div></div>
-          <div class="pb-item"><div class="pb-label"><span>NLP and LLMs</span><span class="pb-val">88%</span></div><div class="pb-track"><div class="pb-fill" data-width="88" style="background:linear-gradient(to right,var(--acc2),#818cf8)"></div></div></div>
-          <div class="pb-item"><div class="pb-label"><span>RAG Systems</span><span class="pb-val">92%</span></div><div class="pb-track"><div class="pb-fill" data-width="92"></div></div></div>
-          <div class="pb-item"><div class="pb-label"><span>Python</span><span class="pb-val">96%</span></div><div class="pb-track"><div class="pb-fill" data-width="96"></div></div></div>
-          <div class="pb-item"><div class="pb-label"><span>Explainable AI</span><span class="pb-val">85%</span></div><div class="pb-track"><div class="pb-fill" data-width="85" style="background:linear-gradient(to right,var(--gold),#f97316)"></div></div></div>
-          <div class="pb-item"><div class="pb-label"><span>n8n Automation</span><span class="pb-val">87%</span></div><div class="pb-track"><div class="pb-fill" data-width="87" style="background:linear-gradient(to right,var(--acc2),#818cf8)"></div></div></div>
-          <div class="pb-item"><div class="pb-label"><span>Django and Web AI</span><span class="pb-val">89%</span></div><div class="pb-track"><div class="pb-fill" data-width="89"></div></div></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- AI MINI GAMES -->
-    <div class="games-section reveal">
-      <div class="games-hdr">
-        <span class="sec-svg-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="26" height="26"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="18" y1="11" x2="18.01" y2="11"/><rect x="2" y="6" width="20" height="12" rx="2"/></svg></span>
-        <div><h3>AI Mini Games</h3><p class="muted" style="font-size:.74rem;font-family:var(--mono)">3 fun games to test your AI knowledge</p></div>
-      </div>
-      <div class="games-tabs">
-        <button class="gtab active" onclick="switchGame('quiz')">🧠 AI Quiz</button>
-        <button class="gtab" onclick="switchGame('guess')">🤖 Guess the Model</button>
-        <button class="gtab" onclick="switchGame('predict')">📊 Predict Output</button>
-        <button class="gtab" onclick="switchGame('typing')">⚡ Typing Speed</button>
-      </div>
-      <div id="game-quiz" class="game-panel">
-        <p class="muted sm" style="margin-bottom:1rem">30 random AI questions — challenge yourself above in the Skills section!</p>
-        <button class="btn-primary" onclick="document.querySelector('.quiz-wrap').scrollIntoView({behavior:'smooth'})">Go to Quiz</button>
-      </div>
-      <div id="game-guess" class="game-panel hidden">
-        <p class="muted sm" style="margin-bottom:1.2rem">Read the clue and guess which AI model or concept it describes!</p>
-        <div class="guess-clue" id="guessClue"></div>
-        <div class="guess-opts" id="guessOpts"></div>
-        <div class="guess-score" id="guessScore"></div>
-        <button class="btn-primary" id="guessStartBtn" onclick="initGuessGame()">Start Game</button>
-      </div>
-      <div id="game-predict" class="game-panel hidden">
-        <p class="muted sm" style="margin-bottom:1.2rem">Look at the ML scenario and predict what will happen!</p>
-        <div class="guess-clue" id="predictClue"></div>
-        <div class="guess-opts" id="predictOpts"></div>
-        <div class="guess-score" id="predictScore"></div>
-        <button class="btn-primary" id="predictStartBtn" onclick="initPredictGame()">Start Game</button>
-      </div>
-
-      <!-- Typing Speed Game -->
-      <div id="game-typing" class="game-panel hidden">
-        <p class="muted sm" style="margin-bottom:1.2rem">Type AI/ML terms as fast as you can! ⚡ 30 seconds · Test your speed &amp; accuracy.</p>
-        <div class="typing-game-wrap">
-          <div class="tg-stats">
-            <div class="tg-stat"><span class="tg-val" id="tgWpm">0</span><span class="tg-lbl">WPM</span></div>
-            <div class="tg-stat"><span class="tg-val" id="tgAcc">100</span><span class="tg-lbl">% Accuracy</span></div>
-            <div class="tg-stat"><span class="tg-val" id="tgTime">30</span><span class="tg-lbl">Seconds</span></div>
-            <div class="tg-stat"><span class="tg-val" id="tgScore">0</span><span class="tg-lbl">Score</span></div>
+      <div class="quiz-wrap reveal">
+        <div class="quiz-hdr">
+          <span class="sec-svg-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+              width="28" height="28">
+              <path
+                d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-1.66z" />
+              <path
+                d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-1.66z" />
+            </svg></span>
+          <div>
+            <h3>AI &amp; Data Science Quiz</h3>
+            <p class="muted" style="font-size:.74rem;font-family:var(--mono)">30 questions · Random · No repeats · Beat
+              Karib's AI!</p>
           </div>
-          <div class="tg-word-display" id="tgWordDisplay">Press Start to begin!</div>
-          <input type="text" id="tgInput" class="tg-input" placeholder="Type the word here..." disabled autocomplete="off" autocorrect="off" spellcheck="false"/>
-          <div class="tg-progress"><div class="tg-prog-fill" id="tgProgFill"></div></div>
-          <div id="tgResult" class="tg-result"></div>
-          <button class="btn-primary" id="tgStartBtn" onclick="startTypingGame()">⚡ Start Typing Game</button>
+          <div id="qscore" class="qscore"></div>
         </div>
+        <div id="quiz-body">
+          <p class="muted sm" style="margin-bottom:1.2rem">Challenge yourself on ML, Deep Learning, NLP, Computer
+            Vision, and more.</p>
+          <button class="btn-primary" onclick="initQuiz()">🚀 Start Quiz</button>
+        </div>
+      </div>
+      <!-- SKILL RADAR CHART -->
+      <div class="radar-wrap reveal">
+        <div class="viz-card-hdr" style="margin-bottom:1.2rem">
+          <span class="viz-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+              width="24" height="24">
+              <circle cx="12" cy="12" r="10" />
+              <circle cx="12" cy="12" r="6" />
+              <circle cx="12" cy="12" r="2" />
+            </svg></span>
+          <div>
+            <h3 style="color:var(--acc2);font-size:.92rem;font-weight:700">AI Skill Radar</h3>
+            <p class="muted" style="font-size:.74rem;font-family:var(--mono)">Visual breakdown of Karib core
+              competencies</p>
+          </div>
+        </div>
+        <div class="radar-grid">
+          <div class="radar-chart-wrap">
+            <canvas id="skillRadar"></canvas>
+          </div>
+          <div class="progress-bars">
+            <div class="pb-item">
+              <div class="pb-label"><span>Deep Learning</span><span class="pb-val">95%</span></div>
+              <div class="pb-track">
+                <div class="pb-fill" data-width="95"></div>
+              </div>
+            </div>
+            <div class="pb-item">
+              <div class="pb-label"><span>Computer Vision</span><span class="pb-val">90%</span></div>
+              <div class="pb-track">
+                <div class="pb-fill" data-width="90"></div>
+              </div>
+            </div>
+            <div class="pb-item">
+              <div class="pb-label"><span>NLP and LLMs</span><span class="pb-val">88%</span></div>
+              <div class="pb-track">
+                <div class="pb-fill" data-width="88" style="background:linear-gradient(to right,var(--acc2),#818cf8)">
+                </div>
+              </div>
+            </div>
+            <div class="pb-item">
+              <div class="pb-label"><span>RAG Systems</span><span class="pb-val">92%</span></div>
+              <div class="pb-track">
+                <div class="pb-fill" data-width="92"></div>
+              </div>
+            </div>
+            <div class="pb-item">
+              <div class="pb-label"><span>Python</span><span class="pb-val">96%</span></div>
+              <div class="pb-track">
+                <div class="pb-fill" data-width="96"></div>
+              </div>
+            </div>
+            <div class="pb-item">
+              <div class="pb-label"><span>Explainable AI</span><span class="pb-val">85%</span></div>
+              <div class="pb-track">
+                <div class="pb-fill" data-width="85" style="background:linear-gradient(to right,var(--gold),#f97316)">
+                </div>
+              </div>
+            </div>
+            <div class="pb-item">
+              <div class="pb-label"><span>n8n Automation</span><span class="pb-val">87%</span></div>
+              <div class="pb-track">
+                <div class="pb-fill" data-width="87" style="background:linear-gradient(to right,var(--acc2),#818cf8)">
+                </div>
+              </div>
+            </div>
+            <div class="pb-item">
+              <div class="pb-label"><span>Django and Web AI</span><span class="pb-val">89%</span></div>
+              <div class="pb-track">
+                <div class="pb-fill" data-width="89"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AI MINI GAMES -->
+      <div class="games-section reveal">
+        <div class="games-hdr">
+          <span class="sec-svg-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+              width="26" height="26">
+              <line x1="6" y1="12" x2="10" y2="12" />
+              <line x1="8" y1="10" x2="8" y2="14" />
+              <line x1="15" y1="13" x2="15.01" y2="13" />
+              <line x1="18" y1="11" x2="18.01" y2="11" />
+              <rect x="2" y="6" width="20" height="12" rx="2" />
+            </svg></span>
+          <div>
+            <h3>AI Mini Games</h3>
+            <p class="muted" style="font-size:.74rem;font-family:var(--mono)">3 fun games to test your AI knowledge</p>
+          </div>
+        </div>
+        <div class="games-tabs">
+          <button class="gtab active" onclick="switchGame('quiz')">🧠 AI Quiz</button>
+          <button class="gtab" onclick="switchGame('guess')">🤖 Guess the Model</button>
+          <button class="gtab" onclick="switchGame('predict')">📊 Predict Output</button>
+          <button class="gtab" onclick="switchGame('typing')">⚡ Typing Speed</button>
+        </div>
+        <div id="game-quiz" class="game-panel">
+          <p class="muted sm" style="margin-bottom:1rem">30 random AI questions — challenge yourself above in the Skills
+            section!</p>
+          <button class="btn-primary"
+            onclick="document.querySelector('.quiz-wrap').scrollIntoView({behavior:'smooth'})">Go to Quiz</button>
+        </div>
+        <div id="game-guess" class="game-panel hidden">
+          <p class="muted sm" style="margin-bottom:1.2rem">Read the clue and guess which AI model or concept it
+            describes!</p>
+          <div class="guess-clue" id="guessClue"></div>
+          <div class="guess-opts" id="guessOpts"></div>
+          <div class="guess-score" id="guessScore"></div>
+          <button class="btn-primary" id="guessStartBtn" onclick="initGuessGame()">Start Game</button>
+        </div>
+        <div id="game-predict" class="game-panel hidden">
+          <p class="muted sm" style="margin-bottom:1.2rem">Look at the ML scenario and predict what will happen!</p>
+          <div class="guess-clue" id="predictClue"></div>
+          <div class="guess-opts" id="predictOpts"></div>
+          <div class="guess-score" id="predictScore"></div>
+          <button class="btn-primary" id="predictStartBtn" onclick="initPredictGame()">Start Game</button>
+        </div>
+
+        <!-- Typing Speed Game -->
+        <div id="game-typing" class="game-panel hidden">
+          <p class="muted sm" style="margin-bottom:1.2rem">Type AI/ML terms as fast as you can! ⚡ 30 seconds · Test your
+            speed &amp; accuracy.</p>
+          <div class="typing-game-wrap">
+            <div class="tg-stats">
+              <div class="tg-stat"><span class="tg-val" id="tgWpm">0</span><span class="tg-lbl">WPM</span></div>
+              <div class="tg-stat"><span class="tg-val" id="tgAcc">100</span><span class="tg-lbl">% Accuracy</span>
+              </div>
+              <div class="tg-stat"><span class="tg-val" id="tgTime">30</span><span class="tg-lbl">Seconds</span></div>
+              <div class="tg-stat"><span class="tg-val" id="tgScore">0</span><span class="tg-lbl">Score</span></div>
+            </div>
+            <div class="tg-word-display" id="tgWordDisplay">Press Start to begin!</div>
+            <input type="text" id="tgInput" class="tg-input" placeholder="Type the word here..." disabled
+              autocomplete="off" autocorrect="off" spellcheck="false" />
+            <div class="tg-progress">
+              <div class="tg-prog-fill" id="tgProgFill"></div>
+            </div>
+            <div id="tgResult" class="tg-result"></div>
+            <button class="btn-primary" id="tgStartBtn" onclick="startTypingGame()">⚡ Start Typing Game</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  <section id="experience" class="sec">
+    <div class="container">
+      <div class="sec-hdr reveal"><span class="sn">03</span>
+        <h2>Experience</h2>
+        <div class="sl"></div>
+      </div>
+      <div class="timeline">
+        {% for xp in data.experience %}
+        <div class="tl-item reveal">
+          <div class="tl-mark">
+            <div class="tl-dot"></div>
+            <div class="tl-line"></div>
+          </div>
+          <div class="tl-card">
+            <div class="tl-top">
+              <div>
+                <h3>{{ xp.role }}</h3><span class="tl-co">{{ xp.company }}</span>
+              </div>
+              <div class="tl-meta"><span>{{ xp.period }}</span><span>📍 {{ xp.location }}</span></div>
+            </div>
+            {% if xp.points %}
+            <ul class="tl-points"
+              style="margin-top:.7rem;padding-left:1.2rem;display:flex;flex-direction:column;gap:.4rem">
+              {% for pt in xp.points %}
+              <li class="muted sm" style="line-height:1.6">{{ pt }}</li>
+              {% endfor %}
+            </ul>
+            {% else %}
+            <p class="muted sm">{{ xp.desc }}</p>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  <section id="projects" class="sec sec-alt">
+    <div class="container">
+      <div class="sec-hdr reveal"><span class="sn">04</span>
+        <h2>Projects</h2>
+        <div class="sl"></div>
+      </div>
+      <div class="proj-tabs reveal">
+        <button class="ptab active" data-filter="all">All</button>
+        <button class="ptab" data-filter="Professional">Professional</button>
+        <button class="ptab" data-filter="Academic">Academic</button>
+        <button class="ptab" data-filter="Team">AI Stream</button>
+      </div>
+      <div class="proj-grid stagger-grid">
+        {% for p in data.projects %}
+        <div class="proj-card glass-card reveal tilt-card" data-type="{{ p.type }}">
+          <div class="pc-glow"></div>
+          <div class="pc-type">{{ p.type }}</div>
+          <div class="pc-tags">{% for t in p.tags %}<span class="pc-tag">{{ t }}</span>{% endfor %}</div>
+          <h3>{{ p.name }}</h3>
+          <p class="muted sm" style="margin:.5rem 0 1rem">{{ p.desc }}</p>
+          <a href="{{ p.link }}" target="_blank" class="pc-link">View Project →</a>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="upload-zone reveal" id="uploadZone">
+        <span style="display:block;margin-bottom:.8rem;color:var(--acc)"><svg viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="1.5" width="36" height="36">
+            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+            <polyline points="12 11 12 17" />
+            <polyline points="9 14 12 11 15 14" />
+          </svg></span>
+        <p class="muted sm">Drop your project file or <label for="fileInput"
+            style="color:var(--acc);cursor:pointer;text-decoration:underline">browse</label> to showcase</p>
+        <input type="file" id="fileInput" hidden />
+        <div id="uploadResult"></div>
+      </div>
+    </div>
+  </section>
+  <section id="publications" class="sec">
+    <div class="container">
+      <div class="sec-hdr reveal"><span class="sn">05</span>
+        <h2>Publications</h2>
+        <div class="sl"></div>
+      </div>
+      <a href="{{ data.award_url }}" target="_blank" class="award-highlight reveal">
+        <div class="aw-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="40"
+            height="40" style="color:var(--gold)">
+            <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+            <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+            <path d="M4 22h16" />
+            <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" />
+            <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" />
+            <path d="M18 2H6v7a6 6 0 0 0 12 0V2z" />
+          </svg></div>
+        <div class="aw-body">
+          <h3>Best Paper Award — AII 2025, Washington D.C., USA</h3>
+          <p>CodeMixEcom-Emotion: A Large-Scale Bangla–English Review Corpus and Transformer-Based Benchmark for
+            Fine-Grained Emotion Detection</p>
+          <span>Springer-Nature CCIS · Click for EWU official announcement →</span>
+        </div>
+      </a>
+      <div class="scholar-banner reveal">
+        <div class="sb-stats">
+          <div class="sb-s"><span class="sb-n" id="sbPapers">{{ pub_count }}</span><span class="sb-l">Papers</span>
+          </div>
+          <div class="sb-s"><span class="sb-n" id="sbCitations">{{ data.citations }}</span><span
+              class="sb-l">Citations</span></div>
+          <div class="sb-s"><span class="sb-n" id="sbHIndex">{{ data.h_index }}</span><span class="sb-l">h-index</span>
+          </div>
+          <div class="sb-s"><span class="sb-n">4</span><span class="sb-l">Venues</span></div>
+        </div>
+        <div class="sb-actions">
+          <div class="sb-live-badge" id="scholarSyncBadge" title="Live synced with Google Scholar">
+            <span class="live-dot-pulse"></span>
+            <span class="sb-live-label">Live Scholar</span>
+            <span class="sb-sync-time" id="scholarLastSynced">{{ scholar_stats.last_synced|default:"Synced" }}</span>
+            <button id="refreshScholarBtn" class="sb-sync-btn" title="Refresh Google Scholar Data"
+              aria-label="Refresh Scholar Data">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="13" height="13">
+                <polyline points="23 4 23 10 17 10" />
+                <polyline points="1 20 1 14 7 14" />
+                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
+              </svg>
+            </button>
+          </div>
+          <a href="{{ data.scholar }}" target="_blank" class="btn-ghost"
+            style="font-size:.78rem;padding:9px 18px">Google Scholar →</a>
+        </div>
+      </div>
+      <div class="pub-list">
+        {% for pub in data.publications %}
+        <div class="pub-card {% if pub.award %}pub-top{% endif %} reveal">
+          <div class="pub-idx">{{ forloop.counter|stringformat:"02d" }}</div>
+          <div class="pub-body">
+            <p class="pub-title">{{ pub.title }}</p>
+            <span class="pub-venue">{{ pub.venue }}</span>
+            <div class="pub-meta">
+              {% if pub.award %}<a href="{{ pub.award_url }}" target="_blank" class="pub-award">{{ pub.award }}</a>{%
+              endif %}
+              {% if pub.cited > 0 %}<span class="pub-cited">{{ pub.cited }} citation{{ pub.cited|pluralize }}</span>{%
+              endif %}
+              {% if pub.doi %}<a href="https://doi.org/{{ pub.doi }}" target="_blank" class="pub-doi">DOI →</a>{% endif
+              %}
+              {% if pub.scholar_url %}<a href="{{ pub.scholar_url }}" target="_blank" class="pub-doi"
+                style="background:rgba(34,211,238,.08);border-color:rgba(34,211,238,.3);color:var(--acc2)">Scholar
+                →</a>{% endif %}
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  <!-- ═══ ACHIEVEMENT TIMELINE ═══ -->
+  <section id="timeline" class="sec">
+    <div class="container">
+      <div class="sec-hdr reveal"><span class="sn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" width="14" height="14">
+            <polygon
+              points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+          </svg></span>
+        <h2>My Journey</h2>
+        <div class="sl"></div>
+      </div>
+      <p class="muted sm reveal" style="margin-bottom:3rem">From foundational academic excellence to an award-winning AI
+        researcher — every milestone, visualised.</p>
+      <div class="journey-progress reveal">
+        <div class="jp-track">
+          <div class="jp-fill" id="jpFill"></div>
+        </div>
+        <div class="jp-years">
+          <span>2016</span><span>2019</span><span>2020</span><span>2024</span><span>2025</span><span>Now</span></div>
+      </div>
+      <div class="journey-grid">
+        <div class="journey-card reveal" data-color="#00FFC2">
+          <div class="jc-year-badge">2016</div>
+          <div class="jc-icon-wrap" style="background:rgba(0,255,194,.12);border-color:rgba(0,255,194,.4)"><svg
+              viewBox="0 0 24 24" fill="none" stroke="var(--acc)" stroke-width="1.5" width="22" height="22">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+              <polyline points="9 22 9 12 15 12 15 22" />
+            </svg></div>
+          <div class="jc-type" style="color:var(--acc)">Education</div>
+          <h3 class="jc-title">SSC</h3>
+          <p class="jc-desc">Motijheel Model School And College — The foundation of academic excellence.</p>
+        </div>
+        <div class="journey-card reveal" data-color="#22D3EE">
+          <div class="jc-year-badge">2019</div>
+          <div class="jc-icon-wrap" style="background:rgba(34,211,238,.12);border-color:rgba(34,211,238,.4)"><svg
+              viewBox="0 0 24 24" fill="none" stroke="var(--acc2)" stroke-width="1.5" width="22" height="22">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+              <path d="M6 12v5c3 3 9 3 12 0v-5" />
+            </svg></div>
+          <div class="jc-type" style="color:var(--acc2)">Education</div>
+          <h3 class="jc-title">HSC</h3>
+          <p class="jc-desc">National Ideal College — Strong academic foundation setting the path for CSE.</p>
+        </div>
+        <div class="journey-card reveal" data-color="#00FFC2">
+          <div class="jc-year-badge">2020</div>
+          <div class="jc-icon-wrap" style="background:rgba(0,255,194,.12);border-color:rgba(0,255,194,.4)"><svg
+              viewBox="0 0 24 24" fill="none" stroke="var(--acc)" stroke-width="1.5" width="22" height="22">
+              <rect x="2" y="3" width="20" height="14" rx="2" />
+              <line x1="8" y1="21" x2="16" y2="21" />
+              <line x1="12" y1="17" x2="12" y2="21" />
+            </svg></div>
+          <div class="jc-type" style="color:var(--acc)">University</div>
+          <h3 class="jc-title">BSc in CSE</h3>
+          <div class="jc-score">CGPA <span style="color:var(--acc);font-size:1.4rem;font-weight:800">3.58</span></div>
+          <p class="jc-desc">East West University — Built first AI projects, discovered passion for ML and Deep
+            Learning.</p>
+          <div class="jc-bar">
+            <div class="jc-bar-fill" style="width:71%;background:var(--acc)"></div>
+          </div>
+        </div>
+        <div class="journey-card reveal" data-color="#F59E0B">
+          <div class="jc-year-badge">2024</div>
+          <div class="jc-icon-wrap" style="background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.4)"><svg
+              viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" width="22" height="22">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="12" y1="18" x2="8" y2="18" />
+              <line x1="12" y1="14" x2="8" y2="14" />
+            </svg></div>
+          <div class="jc-type" style="color:var(--gold)">Research</div>
+          <h3 class="jc-title">1st Publication</h3>
+          <div class="jc-score"><span style="color:var(--gold);font-size:1.1rem;font-weight:800">Springer</span></div>
+          <p class="jc-desc">First paper published — Histopathology Deep Learning for Lung Cancer. ICDMIS 2024.</p>
+          <div class="jc-bar">
+            <div class="jc-bar-fill" style="width:100%;background:var(--gold)"></div>
+          </div>
+        </div>
+        <div class="journey-card reveal" data-color="#22D3EE">
+          <div class="jc-year-badge">2024</div>
+          <div class="jc-icon-wrap" style="background:rgba(34,211,238,.12);border-color:rgba(34,211,238,.4)"><svg
+              viewBox="0 0 24 24" fill="none" stroke="var(--acc2)" stroke-width="1.5" width="22" height="22">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+              <path d="M6 12v5c3 3 9 3 12 0v-5" />
+            </svg></div>
+          <div class="jc-type" style="color:var(--acc2)">MSc Begins</div>
+          <h3 class="jc-title">MSc + GTA</h3>
+          <div class="jc-score">CGPA <span style="color:var(--acc2);font-size:1.4rem;font-weight:800">3.91</span></div>
+          <p class="jc-desc">MSc Data Science + GTA + Research Assistant at EWU simultaneously.</p>
+          <div class="jc-bar">
+            <div class="jc-bar-fill" style="width:78%;background:var(--acc2)"></div>
+          </div>
+        </div>
+        <div class="journey-card reveal award-card" data-color="#F59E0B">
+          <div class="jc-year-badge" style="background:var(--gold);color:#000">2025</div>
+          <div class="jc-icon-wrap" style="background:rgba(245,158,11,.2);border-color:var(--gold)"><svg
+              viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" width="22" height="22">
+              <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+              <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+              <path d="M4 22h16" />
+              <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" />
+              <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" />
+              <path d="M18 2H6v7a6 6 0 0 0 12 0V2z" />
+            </svg></div>
+          <div class="jc-type" style="color:var(--gold)">Best Paper Award</div>
+          <h3 class="jc-title">Washington D.C.</h3>
+          <div class="jc-score"><span style="color:var(--gold);font-size:1rem;font-weight:800">AII 2025 ·
+              Springer</span></div>
+          <p class="jc-desc">Best Paper Award — CodeMixEcom-Emotion: Bangla-English emotion detection benchmark.</p>
+          <a href="https://ewubd.edu/achievement-details/ewu-researchers-win-best-paper-award-international-ai-conference-washington-dc"
+            target="_blank" class="jc-link">EWU Announcement →</a>
+          <div class="award-sparkle"><svg viewBox="0 0 24 24" fill="var(--gold)" width="18" height="18">
+              <polygon
+                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+            </svg></div>
+        </div>
+        <div class="journey-card reveal" data-color="#00FFC2">
+          <div class="jc-year-badge">2025</div>
+          <div class="jc-icon-wrap" style="background:rgba(0,255,194,.12);border-color:rgba(0,255,194,.4)"><svg
+              viewBox="0 0 24 24" fill="none" stroke="var(--acc)" stroke-width="1.5" width="22" height="22">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+            </svg></div>
+          <div class="jc-type" style="color:var(--acc)">Leadership</div>
+          <h3 class="jc-title">AI Stream Lead</h3>
+          <div class="jc-score"><span style="color:var(--acc);font-size:1.4rem;font-weight:800">60+</span> Projects
+          </div>
+          <p class="jc-desc">Senior Data Scientist &amp; Team Leader at JVai. Leading AI Stream — 60+ AI products
+            delivered.</p>
+          <div class="jc-bar">
+            <div class="jc-bar-fill" style="width:100%;background:var(--acc)"></div>
+          </div>
+        </div>
+        <div class="journey-card reveal" data-color="#22D3EE">
+          <div class="jc-year-badge">2025</div>
+          <div class="jc-icon-wrap" style="background:rgba(34,211,238,.12);border-color:rgba(34,211,238,.4)"><svg
+              viewBox="0 0 24 24" fill="none" stroke="var(--acc2)" stroke-width="1.5" width="22" height="22">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+            </svg></div>
+          <div class="jc-type" style="color:var(--acc2)">Research Impact</div>
+          <h3 class="jc-title">17 Publications</h3>
+          <div class="jc-score"><span style="color:var(--acc2);font-size:1.4rem;font-weight:800">9</span> Citations
+          </div>
+          <p class="jc-desc">17 papers across IEEE, Springer, Elsevier, Nature. Medical AI, AgriAI, NLP, CV, XAI.</p>
+          <a href="https://scholar.google.com/citations?user=C26dtwMAAAAJ&amp;hl=en" target="_blank"
+            class="jc-link">Google Scholar →</a>
+        </div>
+        <div class="journey-card reveal future-card" data-color="#00FFC2">
+          <div class="jc-year-badge" style="background:rgba(0,255,194,.2);color:var(--acc);border:1px solid var(--acc)">
+            Future</div>
+          <div class="jc-icon-wrap" style="background:rgba(0,255,194,.12);border-color:rgba(0,255,194,.4)"><svg
+              viewBox="0 0 24 24" fill="none" stroke="var(--acc)" stroke-width="1.5" width="22" height="22">
+              <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" />
+              <path
+                d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" />
+              <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" />
+              <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
+            </svg></div>
+          <div class="jc-type" style="color:var(--acc)">What's Next</div>
+          <h3 class="jc-title">PhD &amp; Global AI</h3>
+          <div class="jc-score"><span style="color:var(--acc);font-size:1rem;font-weight:700">Incoming...</span></div>
+          <p class="jc-desc">Completing MSc · Planning PhD in AI · Building global AI products · Expanding research.</p>
+          <div class="future-pulse"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ GITHUB ACTIVITY ═══ -->
+  <section id="impact" class="sec sec-alt">
+    <div class="container">
+      <div class="sec-hdr reveal"><span class="sn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" width="14" height="14">
+            <rect x="2" y="3" width="20" height="14" rx="2" />
+            <line x1="8" y1="21" x2="16" y2="21" />
+            <line x1="12" y1="17" x2="12" y2="21" />
+          </svg></span>
+        <h2>GitHub Activity</h2>
+        <div class="sl"></div>
+      </div>
+      <p class="muted sm reveal" style="margin-bottom:2rem">Real-time contributions from <a
+          href="https://github.com/karibshams" target="_blank" style="color:var(--acc)">github.com/karibshams</a></p>
+      <div class="github-section reveal">
+        <div class="gh-profile-info"
+          style="display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap">
+          <img src="https://avatars.githubusercontent.com/karibshams" alt="Karib" class="gh-avatar"
+            onerror="this.style.display='none'" />
+          <div>
+            <h3 style="font-size:.95rem;font-weight:700;color:var(--acc)">karibshams</h3>
+            <p class="muted" style="font-family:var(--mono);font-size:.72rem">Data Scientist · AI Developer · Researcher
+            </p>
+          </div>
+          <a href="https://github.com/karibshams" target="_blank" class="btn-ghost"
+            style="margin-left:auto;font-size:.76rem;padding:7px 16px">View GitHub →</a>
+        </div>
+        <div class="gh-contribution-wrap" style="margin-bottom:1.5rem">
+          <p class="muted"
+            style="font-family:var(--mono);font-size:.72rem;margin-bottom:.8rem;display:flex;align-items:center;gap:6px">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13">
+              <rect x="3" y="3" width="7" height="7" />
+              <rect x="14" y="3" width="7" height="7" />
+              <rect x="14" y="14" width="7" height="7" />
+              <rect x="3" y="14" width="7" height="7" />
+            </svg> Contribution Graph</p>
+          <div class="github-graph">
+            <img src="https://ghchart.rshah.org/00FFC2/karibshams" alt="GitHub Contributions" class="github-img"
+              loading="lazy" onerror="this.style.display='none'" />
+          </div>
+        </div>
+        <div class="github-stats">
+          <a href="https://github.com/karibshams" target="_blank" class="gh-stat">
+            <img
+              src="https://github-readme-stats.vercel.app/api?username=karibshams&amp;show_icons=true&amp;theme=dark&amp;bg_color=1a1e23&amp;title_color=00FFC2&amp;icon_color=22D3EE&amp;text_color=94a3b8&amp;border_color=00FFC220&amp;count_private=true"
+              alt="GitHub Stats" loading="lazy" class="gh-stats-img" onerror="this.style.display='none'" />
+          </a>
+          <a href="https://github.com/karibshams" target="_blank" class="gh-stat">
+            <img
+              src="https://github-readme-stats.vercel.app/api/top-langs/?username=karibshams&amp;layout=compact&amp;theme=dark&amp;bg_color=1a1e23&amp;title_color=00FFC2&amp;text_color=94a3b8&amp;border_color=00FFC220&amp;langs_count=8"
+              alt="Top Languages" loading="lazy" class="gh-stats-img" onerror="this.style.display='none'" />
+          </a>
+        </div>
+        <div style="text-align:center;margin-top:1rem">
+          <img
+            src="https://github-readme-streak-stats.herokuapp.com/?user=karibshams&amp;theme=dark&amp;background=1a1e23&amp;ring=00FFC2&amp;fire=22D3EE&amp;currStreakLabel=00FFC2&amp;sideLabels=94a3b8&amp;border=00FFC220"
+            alt="GitHub Streak" loading="lazy" style="max-width:100%;border-radius:8px"
+            onerror="this.style.display='none'" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ DATA VISUALISATION ═══ -->
+  <section id="dataviz" class="sec sec-alt">
+    <div class="container">
+      <div class="sec-hdr reveal"><span class="sn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" width="14" height="14">
+            <line x1="18" y1="20" x2="18" y2="10" />
+            <line x1="12" y1="20" x2="12" y2="4" />
+            <line x1="6" y1="20" x2="6" y2="14" />
+          </svg></span>
+        <h2>Research Analytics</h2>
+        <div class="sl"></div>
+      </div>
+      <p class="muted sm reveal" style="margin-bottom:2.5rem">A data-driven view of Karib's research output — because a
+        Data Scientist's portfolio should have data visualisation.</p>
+      <div class="viz-grid">
+        <!-- Chart 1: Publications by Year -->
+        <div class="viz-card reveal">
+          <div class="viz-card-hdr">
+            <span class="viz-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                width="24" height="24">
+                <rect x="3" y="4" width="18" height="18" rx="2" />
+                <line x1="16" y1="2" x2="16" y2="6" />
+                <line x1="8" y1="2" x2="8" y2="6" />
+                <line x1="3" y1="10" x2="21" y2="10" />
+              </svg></span>
+            <div>
+              <h3>Publications by Year</h3>
+              <p class="muted" style="font-size:.74rem;font-family:var(--mono)">Research output growth over time</p>
+            </div>
+          </div>
+          <canvas id="chartYear"></canvas>
+        </div>
+        <!-- Chart 2: Publications by Venue -->
+        <div class="viz-card reveal">
+          <div class="viz-card-hdr">
+            <span class="viz-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                width="24" height="24">
+                <line x1="18" y1="20" x2="18" y2="10" />
+                <line x1="12" y1="20" x2="12" y2="4" />
+                <line x1="6" y1="20" x2="6" y2="14" />
+                <line x1="2" y1="20" x2="22" y2="20" />
+              </svg></span>
+            <div>
+              <h3>Publications by Venue</h3>
+              <p class="muted" style="font-size:.74rem;font-family:var(--mono)">IEEE, Springer, Elsevier, Nature</p>
+            </div>
+          </div>
+          <canvas id="chartVenue"></canvas>
+        </div>
+        <!-- Chart 3: Research Topics -->
+        <div class="viz-card reveal">
+          <div class="viz-card-hdr">
+            <span class="viz-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                width="24" height="24">
+                <path
+                  d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-1.66z" />
+                <path
+                  d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-1.66z" />
+              </svg></span>
+            <div>
+              <h3>Research Topics</h3>
+              <p class="muted" style="font-size:.74rem;font-family:var(--mono)">Distribution across AI domains</p>
+            </div>
+          </div>
+          <canvas id="chartTopics"></canvas>
+        </div>
+        <!-- Chart 4: Citations per Paper -->
+        <div class="viz-card reveal">
+          <div class="viz-card-hdr">
+            <span class="viz-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                width="24" height="24">
+                <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
+                <polyline points="16 7 22 7 22 13" />
+              </svg></span>
+            <div>
+              <h3>Citations per Paper</h3>
+              <p class="muted" style="font-size:.74rem;font-family:var(--mono)">Research impact &amp; reach</p>
+            </div>
+          </div>
+          <canvas id="chartCitations"></canvas>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="aichat" class="sec sec-alt">
+    <div class="container">
+      <div class="sec-hdr reveal"><span class="sn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" width="14" height="14">
+            <rect x="3" y="11" width="18" height="11" rx="2" />
+            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+          </svg></span>
+        <h2>Talk to My AI</h2>
+        <div class="sl"></div>
+      </div>
+      <p class="muted sm reveal" style="margin-bottom:1.8rem">100% free — no API, no cost, always on. Ask about Karib's
+        research, projects, or any AI/ML concept.</p>
+      <div class="chat-box reveal">
+        <div class="chat-hdr">
+          <div style="display:flex;align-items:center;gap:.8rem">
+            <div class="bot-av-lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                width="28" height="28" style="color:var(--acc)">
+                <rect x="3" y="11" width="18" height="11" rx="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                <circle cx="12" cy="5" r="1" />
+                <circle cx="9" cy="15" r="1" fill="currentColor" />
+                <circle cx="15" cy="15" r="1" fill="currentColor" />
+              </svg></div>
+            <div><strong style="display:block;font-size:.88rem">Karib's AI Assistant</strong><span
+                style="font-size:.66rem;color:var(--muted);font-family:var(--mono)">Free · Zero API · Built-in Knowledge
+                Base</span></div>
+          </div>
+          <button onclick="clearChat()" class="chat-clr">Clear</button>
+        </div>
+        <div class="chat-msgs" id="chatMsgs">
+          <div class="cm bot"><span class="bav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="1.5" width="20" height="20" style="color:var(--acc);flex-shrink:0">
+                <rect x="3" y="11" width="18" height="11" rx="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                <circle cx="9" cy="15" r="1" fill="currentColor" />
+                <circle cx="15" cy="15" r="1" fill="currentColor" />
+              </svg></span>
+            <div class="bubble">Hi! I'm Karib's AI — 100% free, zero API. I know his 16 publications (🏆 Best Paper AII
+              2025, D.C.), 60+ AI Stream projects, and can explain any AI/ML concept. Ask me anything!</div>
+          </div>
+        </div>
+        <div class="chat-sugg" id="chatSugg">
+          <span style="font-family:var(--mono);font-size:.64rem;color:var(--sec)">Try:</span>
+          <button class="cs-btn" onclick="sendSug(this)">Tell me about the Best Paper Award</button>
+          <button class="cs-btn" onclick="sendSug(this)">What papers has Karib published?</button>
+          <button class="cs-btn" onclick="sendSug(this)">What is RAG in AI?</button>
+          <button class="cs-btn" onclick="sendSug(this)">Tell me about AI Stream team</button>
+          <button class="cs-btn" onclick="sendSug(this)">Explain XAI and SHAP</button>
+          <button class="cs-btn" onclick="sendSug(this)">What is a Transformer?</button>
+        </div>
+        <div class="chat-inp-row">
+          <input type="text" id="chatInput" class="chat-inp"
+            placeholder="Ask about Karib or any AI/ML/Data Science topic..." />
+          <button onclick="sendChat()" class="chat-snd">↑</button>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="feedback" class="sec">
+    <div class="container">
+      <div class="sec-hdr reveal"><span class="sn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" width="14" height="14">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+          </svg></span>
+        <h2>Feedback</h2>
+        <div class="sl"></div>
+      </div>
+      <div class="fb-wrap">
+        <form class="fb-form reveal" id="fbForm" onsubmit="submitFeedback(event)">
+          {% csrf_token %}
+          <input type="text" id="fb-name" class="fb-inp" placeholder="Your Name" required />
+          <input type="email" id="fb-email" class="fb-inp" placeholder="Your Email" required />
+          <textarea id="fb-msg" class="fb-inp fb-ta" rows="4"
+            placeholder="Your feedback, message, or collaboration idea..." required></textarea>
+          <button type="submit" class="btn-primary">Submit Feedback</button>
+          <div id="fb-res"></div>
+        </form>
+        <div class="reveal">
+          <h3 class="sub-title">Recent Feedback</h3>
+          {% for fb in feedbacks %}<div class="fb-card">
+            <div class="fb-meta"><strong>{{ fb.name }}</strong><span>{{ fb.created_at|date:"M d, Y" }}</span></div>
+            <p class="muted sm">{{ fb.message }}</p>
+          </div>
+          {% empty %}<p class="muted" style="font-family:var(--mono);font-size:.82rem">Be the first to leave feedback!
+          </p>{% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="contact" class="sec sec-alt">
+    <div class="container">
+      <div class="sec-hdr reveal"><span class="sn">06</span>
+        <h2>Get In Touch</h2>
+        <div class="sl"></div>
+      </div>
+      <div class="contact-grid">
+        <a href="mailto:{{ data.email }}" class="ci reveal"><span class="ci-ic"><svg viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" width="22" height="22">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+              <polyline points="22,6 12,13 2,6" />
+            </svg></span>
+          <div><span class="ci-lb">Email</span><span class="ci-vl">{{ data.email }}</span></div>
+        </a>
+        <a href="https://wa.me/{{ data.whatsapp }}" target="_blank" class="ci reveal"><span class="ci-ic"><svg
+              viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+            </svg></span>
+          <div><span class="ci-lb">Phone / WhatsApp</span><span class="ci-vl">{{ data.phone }}</span></div>
+        </a>
+        <a href="{{ data.github }}" target="_blank" class="ci reveal"><span class="ci-ic"><svg viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2" width="22" height="22">
+              <path
+                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+            </svg></span>
+          <div><span class="ci-lb">GitHub</span><span class="ci-vl">github.com/karibshams</span></div>
+        </a>
+        <a href="{{ data.linkedin }}" target="_blank" class="ci reveal"><span class="ci-ic"><svg viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2" width="22" height="22">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+              <rect x="2" y="9" width="4" height="12" />
+              <circle cx="4" cy="4" r="2" />
+            </svg></span>
+          <div><span class="ci-lb">LinkedIn</span><span class="ci-vl">karib-shams-007975305</span></div>
+        </a>
+        <a href="{{ data.scholar }}" target="_blank" class="ci reveal"><span class="ci-ic"><svg viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2" width="22" height="22">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+              <path d="M6 12v5c3 3 9 3 12 0v-5" />
+            </svg></span>
+          <div><span class="ci-lb">Google Scholar</span><span class="ci-vl" id="contactScholarStats">{{ data.citations
+              }} citations · h-index {{ data.h_index }}</span></div>
+        </a>
+        <a href="{{ data.award_url }}" target="_blank" class="ci reveal"><span class="ci-ic"><svg viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2" width="22" height="22">
+              <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+              <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+              <path d="M4 22h16" />
+              <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" />
+              <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" />
+              <path d="M18 2H6v7a6 6 0 0 0 12 0V2z" />
+            </svg></span>
+          <div><span class="ci-lb">Best Paper Award</span><span class="ci-vl">AII 2025, Washington D.C.</span></div>
+        </a>
+      </div>
+      <!-- VISITOR COUNTER -->
+      <div class="contact-vc reveal">
+        <div class="vc-pill">
+          <span class="vc-dot"></span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="13" height="13">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+            <circle cx="12" cy="12" r="3" />
+          </svg>
+          <span><strong class="vc-today">{{ today_visitors }}</strong> today</span>
+          <span class="vc-sep">·</span>
+          <span><strong class="vc-total">{{ total_visitors }}</strong> total visitors</span>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer id="footer">
+    <div class="footer-in">
+      <div style="margin-bottom:1rem"><span class="na" style="font-family:var(--mono);font-size:1.15rem">[</span><span
+          class="nn" style="font-family:var(--mono);font-size:1.15rem;font-weight:700">KS</span><span class="na"
+          style="font-family:var(--mono);font-size:1.15rem">]</span>
+        <p class="muted" style="font-size:.76rem;margin-top:4px">Data Scientist &amp; AI Developer · AI Stream Team Lead
+          · <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15">
+            <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+            <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+            <path d="M4 22h16" />
+            <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" />
+            <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" />
+            <path d="M18 2H6v7a6 6 0 0 0 12 0V2z" />
+          </svg> Best Paper Award AII 2025</p>
+      </div>
+      <div class="footer-links">
+        <a href="{{ data.github }}" target="_blank">GitHub</a>
+        <a href="{{ data.linkedin }}" target="_blank">LinkedIn</a>
+        <a href="{{ data.scholar }}" target="_blank">Scholar</a>
+        <a href="{{ data.award_url }}" target="_blank">🏆 Award</a>
+        <a href="https://wa.me/{{ data.whatsapp }}" target="_blank">WhatsApp</a>
+        <a href="mailto:{{ data.email }}">Email</a>
+      </div>
+      <p class="muted" style="font-size:.7rem;font-family:var(--mono)">© 2025 Karib Shams · Django · AI Stream · v3.0
+      </p>
+    </div>
+  </footer>
+  <!-- ═══ AI ROBOT GUIDE ═══ -->
+  <div id="robot-guide">
+
+    <!-- Robot Body -->
+    <div id="robot-body" onclick="toggleRobotChat()">
+      <!-- Antenna -->
+      <div class="robot-antenna">
+        <div class="antenna-ball"></div>
+        <div class="antenna-stick"></div>
+      </div>
+      <!-- Head -->
+      <div class="robot-head">
+        <div class="robot-screen">
+          <img src="{% static 'img/karib.jpeg' %}" alt="Karib" class="robot-face"
+            onerror="this.style.display='none';document.querySelector('.robot-face-fallback').style.display='flex'" />
+          <div class="robot-face-fallback">KS</div>
+          <div class="robot-scanline"></div>
+          <div class="robot-glitch"></div>
+        </div>
+        <div class="robot-ears">
+          <div class="robot-ear left"></div>
+          <div class="robot-ear right"></div>
+        </div>
+      </div>
+      <!-- Body -->
+      <div class="robot-torso">
+        <div class="robot-chest">
+          <div class="chest-light l1"></div>
+          <div class="chest-light l2"></div>
+          <div class="chest-light l3"></div>
+        </div>
+      </div>
+      <!-- Status -->
+      <div class="robot-status">
+        <span class="rs-dot"></span>
+        <span class="rs-text">AI GUIDE</span>
+      </div>
+    </div>
+
+    <!-- Speech Bubble -->
+    <div id="robot-bubble" class="robot-bubble">
+      <div class="bubble-arrow"></div>
+      <p id="robot-bubble-text">Hi! I'm Karib's AI Guide 🤖 Click me to chat!</p>
+    </div>
+
+    <!-- Robot Chat Panel -->
+    <div id="robot-chat" class="robot-chat hidden">
+      <div class="rc-header">
+        <div class="rc-avatar">
+          <img src="{% static 'img/karib.jpeg' %}" alt="Karib" onerror="this.style.display='none'" />
+          <div class="rc-online"></div>
+        </div>
+        <div class="rc-info">
+          <strong>Karib's AI Robot</strong>
+          <span>Always online · Free AI</span>
+        </div>
+        <button onclick="toggleMute()" class="rc-mute" id="muteBtn" title="Mute/Unmute robot voice">🔊</button>
+        <button onclick="toggleRobotChat()" class="rc-close">✕</button>
+      </div>
+      <div class="rc-messages" id="rcMessages">
+        <div class="rc-msg bot">
+          <div class="rc-bubble">Hello! I'm Karib's futuristic AI Robot Guide! 🤖⚡<br />Ask me anything about his
+            research, projects, or any AI/ML topic!</div>
+        </div>
+      </div>
+      <div class="rc-input-row">
+        <input type="text" id="rcInput" class="rc-input" placeholder="Ask me anything..." />
+        <button onclick="sendRobotMsg()" class="rc-send">↑</button>
       </div>
     </div>
 
   </div>
-</section>
-<section id="experience" class="sec">
-  <div class="container">
-    <div class="sec-hdr reveal"><span class="sn">03</span><h2>Experience</h2><div class="sl"></div></div>
-    <div class="timeline">
-      {% for xp in data.experience %}
-      <div class="tl-item reveal">
-        <div class="tl-mark"><div class="tl-dot"></div><div class="tl-line"></div></div>
-        <div class="tl-card">
-          <div class="tl-top"><div><h3>{{ xp.role }}</h3><span class="tl-co">{{ xp.company }}</span></div><div class="tl-meta"><span>{{ xp.period }}</span><span>📍 {{ xp.location }}</span></div></div>
-          {% if xp.points %}
-          <ul class="tl-points" style="margin-top:.7rem;padding-left:1.2rem;display:flex;flex-direction:column;gap:.4rem">
-            {% for pt in xp.points %}
-            <li class="muted sm" style="line-height:1.6">{{ pt }}</li>
-            {% endfor %}
-          </ul>
-          {% else %}
-          <p class="muted sm">{{ xp.desc }}</p>
-          {% endif %}
-        </div>
-      </div>
-      {% endfor %}
-    </div>
-  </div>
-</section>
-<section id="projects" class="sec sec-alt">
-  <div class="container">
-    <div class="sec-hdr reveal"><span class="sn">04</span><h2>Projects</h2><div class="sl"></div></div>
-    <div class="proj-tabs reveal">
-      <button class="ptab active" data-filter="all">All</button>
-      <button class="ptab" data-filter="Professional">Professional</button>
-      <button class="ptab" data-filter="Academic">Academic</button>
-      <button class="ptab" data-filter="Team">AI Stream</button>
-    </div>
-    <div class="proj-grid stagger-grid">
-      {% for p in data.projects %}
-      <div class="proj-card glass-card reveal tilt-card" data-type="{{ p.type }}">
-        <div class="pc-glow"></div>
-        <div class="pc-type">{{ p.type }}</div>
-        <div class="pc-tags">{% for t in p.tags %}<span class="pc-tag">{{ t }}</span>{% endfor %}</div>
-        <h3>{{ p.name }}</h3>
-        <p class="muted sm" style="margin:.5rem 0 1rem">{{ p.desc }}</p>
-        <a href="{{ p.link }}" target="_blank" class="pc-link">View Project →</a>
-      </div>
-      {% endfor %}
-    </div>
-    <div class="upload-zone reveal" id="uploadZone">
-      <span style="display:block;margin-bottom:.8rem;color:var(--acc)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="36" height="36"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/><polyline points="12 11 12 17"/><polyline points="9 14 12 11 15 14"/></svg></span>
-      <p class="muted sm">Drop your project file or <label for="fileInput" style="color:var(--acc);cursor:pointer;text-decoration:underline">browse</label> to showcase</p>
-      <input type="file" id="fileInput" hidden/>
-      <div id="uploadResult"></div>
-    </div>
-  </div>
-</section>
-<section id="publications" class="sec">
-  <div class="container">
-    <div class="sec-hdr reveal"><span class="sn">05</span><h2>Publications</h2><div class="sl"></div></div>
-    <a href="{{ data.award_url }}" target="_blank" class="award-highlight reveal">
-      <div class="aw-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="40" height="40" style="color:var(--gold)"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg></div>
-      <div class="aw-body">
-        <h3>Best Paper Award — AII 2025, Washington D.C., USA</h3>
-        <p>CodeMixEcom-Emotion: A Large-Scale Bangla–English Review Corpus and Transformer-Based Benchmark for Fine-Grained Emotion Detection</p>
-        <span>Springer-Nature CCIS · Click for EWU official announcement →</span>
-      </div>
+
+  <!-- MOBILE BOTTOM NAV -->
+  <nav class="mobile-bottom-nav" id="mobileBottomNav">
+    <a href="#hero" class="mbn-item active" onclick="setMbnActive(this)">
+      <span class="mbn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20"
+          height="20">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+          <polyline points="9 22 9 12 15 12 15 22" />
+        </svg></span><span class="mbn-label">Home</span>
     </a>
-    <div class="scholar-banner reveal">
-      <div class="sb-stats">
-        <div class="sb-s"><span class="sb-n" id="sbPapers">{{ pub_count }}</span><span class="sb-l">Papers</span></div>
-        <div class="sb-s"><span class="sb-n" id="sbCitations">{{ data.citations }}</span><span class="sb-l">Citations</span></div>
-        <div class="sb-s"><span class="sb-n" id="sbHIndex">{{ data.h_index }}</span><span class="sb-l">h-index</span></div>
-        <div class="sb-s"><span class="sb-n">4</span><span class="sb-l">Venues</span></div>
-      </div>
-      <div class="sb-actions">
-        <div class="sb-live-badge" id="scholarSyncBadge" title="Live synced with Google Scholar">
-          <span class="live-dot-pulse"></span>
-          <span class="sb-live-label">Live Scholar</span>
-          <span class="sb-sync-time" id="scholarLastSynced">{{ scholar_stats.last_synced|default:"Synced" }}</span>
-          <button id="refreshScholarBtn" class="sb-sync-btn" title="Refresh Google Scholar Data" aria-label="Refresh Scholar Data">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="13" height="13"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
-          </button>
-        </div>
-        <a href="{{ data.scholar }}" target="_blank" class="btn-ghost" style="font-size:.78rem;padding:9px 18px">Google Scholar →</a>
-      </div>
-    </div>
-    <div class="pub-list">
-      {% for pub in data.publications %}
-      <div class="pub-card {% if pub.award %}pub-top{% endif %} reveal">
-        <div class="pub-idx">{{ forloop.counter|stringformat:"02d" }}</div>
-        <div class="pub-body">
-          <p class="pub-title">{{ pub.title }}</p>
-          <span class="pub-venue">{{ pub.venue }}</span>
-          <div class="pub-meta">
-            {% if pub.award %}<a href="{{ pub.award_url }}" target="_blank" class="pub-award">{{ pub.award }}</a>{% endif %}
-            {% if pub.cited > 0 %}<span class="pub-cited">{{ pub.cited }} citation{{ pub.cited|pluralize }}</span>{% endif %}
-            {% if pub.doi %}<a href="https://doi.org/{{ pub.doi }}" target="_blank" class="pub-doi">DOI →</a>{% endif %}
-            {% if pub.scholar_url %}<a href="{{ pub.scholar_url }}" target="_blank" class="pub-doi" style="background:rgba(34,211,238,.08);border-color:rgba(34,211,238,.3);color:var(--acc2)">Scholar →</a>{% endif %}
-          </div>
-        </div>
-      </div>
-      {% endfor %}
-    </div>
-  </div>
-</section>
-<!-- ═══ ACHIEVEMENT TIMELINE ═══ -->
-<section id="timeline" class="sec">
-  <div class="container">
-    <div class="sec-hdr reveal"><span class="sn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span><h2>My Journey</h2><div class="sl"></div></div>
-    <p class="muted sm reveal" style="margin-bottom:3rem">From foundational academic excellence to an award-winning AI researcher — every milestone, visualised.</p>
-    <div class="journey-progress reveal">
-      <div class="jp-track"><div class="jp-fill" id="jpFill"></div></div>
-      <div class="jp-years"><span>2016</span><span>2019</span><span>2020</span><span>2024</span><span>2025</span><span>Now</span></div>
-    </div>
-    <div class="journey-grid">
-      <div class="journey-card reveal" data-color="#00FFC2">
-        <div class="jc-year-badge">2016</div>
-        <div class="jc-icon-wrap" style="background:rgba(0,255,194,.12);border-color:rgba(0,255,194,.4)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--acc)" stroke-width="1.5" width="22" height="22"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
-        <div class="jc-type" style="color:var(--acc)">Education</div>
-        <h3 class="jc-title">SSC</h3>
-        <p class="jc-desc">Motijheel Model School And College — The foundation of academic excellence.</p>
-      </div>
-      <div class="journey-card reveal" data-color="#22D3EE">
-        <div class="jc-year-badge">2019</div>
-        <div class="jc-icon-wrap" style="background:rgba(34,211,238,.12);border-color:rgba(34,211,238,.4)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--acc2)" stroke-width="1.5" width="22" height="22"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
-        <div class="jc-type" style="color:var(--acc2)">Education</div>
-        <h3 class="jc-title">HSC</h3>
-        <p class="jc-desc">National Ideal College — Strong academic foundation setting the path for CSE.</p>
-      </div>
-      <div class="journey-card reveal" data-color="#00FFC2">
-        <div class="jc-year-badge">2020</div>
-        <div class="jc-icon-wrap" style="background:rgba(0,255,194,.12);border-color:rgba(0,255,194,.4)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--acc)" stroke-width="1.5" width="22" height="22"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
-        <div class="jc-type" style="color:var(--acc)">University</div>
-        <h3 class="jc-title">BSc in CSE</h3>
-        <div class="jc-score">CGPA <span style="color:var(--acc);font-size:1.4rem;font-weight:800">3.58</span></div>
-        <p class="jc-desc">East West University — Built first AI projects, discovered passion for ML and Deep Learning.</p>
-        <div class="jc-bar"><div class="jc-bar-fill" style="width:71%;background:var(--acc)"></div></div>
-      </div>
-      <div class="journey-card reveal" data-color="#F59E0B">
-        <div class="jc-year-badge">2024</div>
-        <div class="jc-icon-wrap" style="background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.4)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" width="22" height="22"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="8" y2="18"/><line x1="12" y1="14" x2="8" y2="14"/></svg></div>
-        <div class="jc-type" style="color:var(--gold)">Research</div>
-        <h3 class="jc-title">1st Publication</h3>
-        <div class="jc-score"><span style="color:var(--gold);font-size:1.1rem;font-weight:800">Springer</span></div>
-        <p class="jc-desc">First paper published — Histopathology Deep Learning for Lung Cancer. ICDMIS 2024.</p>
-        <div class="jc-bar"><div class="jc-bar-fill" style="width:100%;background:var(--gold)"></div></div>
-      </div>
-      <div class="journey-card reveal" data-color="#22D3EE">
-        <div class="jc-year-badge">2024</div>
-        <div class="jc-icon-wrap" style="background:rgba(34,211,238,.12);border-color:rgba(34,211,238,.4)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--acc2)" stroke-width="1.5" width="22" height="22"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
-        <div class="jc-type" style="color:var(--acc2)">MSc Begins</div>
-        <h3 class="jc-title">MSc + GTA</h3>
-        <div class="jc-score">CGPA <span style="color:var(--acc2);font-size:1.4rem;font-weight:800">3.91</span></div>
-        <p class="jc-desc">MSc Data Science + GTA + Research Assistant at EWU simultaneously.</p>
-        <div class="jc-bar"><div class="jc-bar-fill" style="width:78%;background:var(--acc2)"></div></div>
-      </div>
-      <div class="journey-card reveal award-card" data-color="#F59E0B">
-        <div class="jc-year-badge" style="background:var(--gold);color:#000">2025</div>
-        <div class="jc-icon-wrap" style="background:rgba(245,158,11,.2);border-color:var(--gold)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" width="22" height="22"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg></div>
-        <div class="jc-type" style="color:var(--gold)">Best Paper Award</div>
-        <h3 class="jc-title">Washington D.C.</h3>
-        <div class="jc-score"><span style="color:var(--gold);font-size:1rem;font-weight:800">AII 2025 · Springer</span></div>
-        <p class="jc-desc">Best Paper Award — CodeMixEcom-Emotion: Bangla-English emotion detection benchmark.</p>
-        <a href="https://ewubd.edu/achievement-details/ewu-researchers-win-best-paper-award-international-ai-conference-washington-dc" target="_blank" class="jc-link">EWU Announcement →</a>
-        <div class="award-sparkle"><svg viewBox="0 0 24 24" fill="var(--gold)" width="18" height="18"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-      </div>
-      <div class="journey-card reveal" data-color="#00FFC2">
-        <div class="jc-year-badge">2025</div>
-        <div class="jc-icon-wrap" style="background:rgba(0,255,194,.12);border-color:rgba(0,255,194,.4)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--acc)" stroke-width="1.5" width="22" height="22"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
-        <div class="jc-type" style="color:var(--acc)">Leadership</div>
-        <h3 class="jc-title">AI Stream Lead</h3>
-        <div class="jc-score"><span style="color:var(--acc);font-size:1.4rem;font-weight:800">60+</span> Projects</div>
-        <p class="jc-desc">Senior Data Scientist &amp; Team Leader at JVai. Leading AI Stream — 60+ AI products delivered.</p>
-        <div class="jc-bar"><div class="jc-bar-fill" style="width:100%;background:var(--acc)"></div></div>
-      </div>
-      <div class="journey-card reveal" data-color="#22D3EE">
-        <div class="jc-year-badge">2025</div>
-        <div class="jc-icon-wrap" style="background:rgba(34,211,238,.12);border-color:rgba(34,211,238,.4)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--acc2)" stroke-width="1.5" width="22" height="22"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-        <div class="jc-type" style="color:var(--acc2)">Research Impact</div>
-        <h3 class="jc-title">17 Publications</h3>
-        <div class="jc-score"><span style="color:var(--acc2);font-size:1.4rem;font-weight:800">9</span> Citations</div>
-        <p class="jc-desc">17 papers across IEEE, Springer, Elsevier, Nature. Medical AI, AgriAI, NLP, CV, XAI.</p>
-        <a href="https://scholar.google.com/citations?user=C26dtwMAAAAJ&hl=en" target="_blank" class="jc-link">Google Scholar →</a>
-      </div>
-      <div class="journey-card reveal future-card" data-color="#00FFC2">
-        <div class="jc-year-badge" style="background:rgba(0,255,194,.2);color:var(--acc);border:1px solid var(--acc)">Future</div>
-        <div class="jc-icon-wrap" style="background:rgba(0,255,194,.12);border-color:rgba(0,255,194,.4)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--acc)" stroke-width="1.5" width="22" height="22"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg></div>
-        <div class="jc-type" style="color:var(--acc)">What's Next</div>
-        <h3 class="jc-title">PhD &amp; Global AI</h3>
-        <div class="jc-score"><span style="color:var(--acc);font-size:1rem;font-weight:700">Incoming...</span></div>
-        <p class="jc-desc">Completing MSc · Planning PhD in AI · Building global AI products · Expanding research.</p>
-        <div class="future-pulse"></div>
-      </div>
-    </div>
-  </div>
-</section>
+    <a href="#projects" class="mbn-item" onclick="setMbnActive(this)">
+      <span class="mbn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20"
+          height="20">
+          <polygon points="12 2 19 21 12 17 5 21 12 2" />
+        </svg></span><span class="mbn-label">Projects</span>
+    </a>
+    <a href="#publications" class="mbn-item" onclick="setMbnActive(this)">
+      <span class="mbn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20"
+          height="20">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+        </svg></span><span class="mbn-label">Papers</span>
+    </a>
+    <a href="#aichat" class="mbn-item" onclick="setMbnActive(this)">
+      <span class="mbn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20"
+          height="20">
+          <rect x="3" y="11" width="18" height="11" rx="2" />
+          <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+          <circle cx="12" cy="5" r="1" />
+        </svg></span><span class="mbn-label">AI Chat</span>
+    </a>
+    <a href="#contact" class="mbn-item" onclick="setMbnActive(this)">
+      <span class="mbn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20"
+          height="20">
+          <path
+            d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.5 19.79 19.79 0 0 1 1.63 5a2 2 0 0 1 1.95-2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+        </svg></span><span class="mbn-label">Contact</span>
+    </a>
+  </nav>
 
-<!-- ═══ GITHUB ACTIVITY ═══ -->
-<section id="impact" class="sec sec-alt">
-  <div class="container">
-    <div class="sec-hdr reveal"><span class="sn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></span><h2>GitHub Activity</h2><div class="sl"></div></div>
-    <p class="muted sm reveal" style="margin-bottom:2rem">Real-time contributions from <a href="https://github.com/karibshams" target="_blank" style="color:var(--acc)">github.com/karibshams</a></p>
-    <div class="github-section reveal">
-      <div class="gh-profile-info" style="display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap">
-        <img src="https://avatars.githubusercontent.com/karibshams" alt="Karib" class="gh-avatar" onerror="this.style.display='none'"/>
-        <div>
-          <h3 style="font-size:.95rem;font-weight:700;color:var(--acc)">karibshams</h3>
-          <p class="muted" style="font-family:var(--mono);font-size:.72rem">Data Scientist · AI Developer · Researcher</p>
-        </div>
-        <a href="https://github.com/karibshams" target="_blank" class="btn-ghost" style="margin-left:auto;font-size:.76rem;padding:7px 16px">View GitHub →</a>
-      </div>
-      <div class="gh-contribution-wrap" style="margin-bottom:1.5rem">
-        <p class="muted" style="font-family:var(--mono);font-size:.72rem;margin-bottom:.8rem;display:flex;align-items:center;gap:6px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg> Contribution Graph</p>
-        <div class="github-graph">
-          <img src="https://ghchart.rshah.org/00FFC2/karibshams" alt="GitHub Contributions" class="github-img" loading="lazy" onerror="this.parentElement.innerHTML='<div class=gh-fallback>📊 <a href=https://github.com/karibshams target=_blank style=color:var(--acc)>View on GitHub →</a></div>'"/>
-        </div>
-      </div>
-      <div class="github-stats">
-        <a href="https://github.com/karibshams" target="_blank" class="gh-stat">
-          <img src="https://github-readme-stats.vercel.app/api?username=karibshams&show_icons=true&theme=dark&bg_color=1a1e23&title_color=00FFC2&icon_color=22D3EE&text_color=94a3b8&border_color=00FFC220&count_private=true" alt="GitHub Stats" loading="lazy" class="gh-stats-img" onerror="this.style.display='none'"/>
-        </a>
-        <a href="https://github.com/karibshams" target="_blank" class="gh-stat">
-          <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=karibshams&layout=compact&theme=dark&bg_color=1a1e23&title_color=00FFC2&text_color=94a3b8&border_color=00FFC220&langs_count=8" alt="Top Languages" loading="lazy" class="gh-stats-img" onerror="this.style.display='none'"/>
-        </a>
-      </div>
-      <div style="text-align:center;margin-top:1rem">
-        <img src="https://github-readme-streak-stats.herokuapp.com/?user=karibshams&theme=dark&background=1a1e23&ring=00FFC2&fire=22D3EE&currStreakLabel=00FFC2&sideLabels=94a3b8&border=00FFC220" alt="GitHub Streak" loading="lazy" style="max-width:100%;border-radius:8px" onerror="this.style.display='none'"/>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══ DATA VISUALISATION ═══ -->
-<section id="dataviz" class="sec sec-alt">
-  <div class="container">
-    <div class="sec-hdr reveal"><span class="sn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span><h2>Research Analytics</h2><div class="sl"></div></div>
-    <p class="muted sm reveal" style="margin-bottom:2.5rem">A data-driven view of Karib's research output — because a Data Scientist's portfolio should have data visualisation.</p>
-    <div class="viz-grid">
-      <!-- Chart 1: Publications by Year -->
-      <div class="viz-card reveal">
-        <div class="viz-card-hdr">
-          <span class="viz-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="24" height="24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
-          <div>
-            <h3>Publications by Year</h3>
-            <p class="muted" style="font-size:.74rem;font-family:var(--mono)">Research output growth over time</p>
-          </div>
-        </div>
-        <canvas id="chartYear"></canvas>
-      </div>
-      <!-- Chart 2: Publications by Venue -->
-      <div class="viz-card reveal">
-        <div class="viz-card-hdr">
-          <span class="viz-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="24" height="24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg></span>
-          <div>
-            <h3>Publications by Venue</h3>
-            <p class="muted" style="font-size:.74rem;font-family:var(--mono)">IEEE, Springer, Elsevier, Nature</p>
-          </div>
-        </div>
-        <canvas id="chartVenue"></canvas>
-      </div>
-      <!-- Chart 3: Research Topics -->
-      <div class="viz-card reveal">
-        <div class="viz-card-hdr">
-          <span class="viz-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="24" height="24"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-1.66z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-1.66z"/></svg></span>
-          <div>
-            <h3>Research Topics</h3>
-            <p class="muted" style="font-size:.74rem;font-family:var(--mono)">Distribution across AI domains</p>
-          </div>
-        </div>
-        <canvas id="chartTopics"></canvas>
-      </div>
-      <!-- Chart 4: Citations per Paper -->
-      <div class="viz-card reveal">
-        <div class="viz-card-hdr">
-          <span class="viz-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="24" height="24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span>
-          <div>
-            <h3>Citations per Paper</h3>
-            <p class="muted" style="font-size:.74rem;font-family:var(--mono)">Research impact & reach</p>
-          </div>
-        </div>
-        <canvas id="chartCitations"></canvas>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="aichat" class="sec sec-alt">
-  <div class="container">
-    <div class="sec-hdr reveal"><span class="sn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span><h2>Talk to My AI</h2><div class="sl"></div></div>
-    <p class="muted sm reveal" style="margin-bottom:1.8rem">100% free — no API, no cost, always on. Ask about Karib's research, projects, or any AI/ML concept.</p>
-    <div class="chat-box reveal">
-      <div class="chat-hdr">
-        <div style="display:flex;align-items:center;gap:.8rem">
-          <div class="bot-av-lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="28" height="28" style="color:var(--acc)"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><circle cx="12" cy="5" r="1"/><circle cx="9" cy="15" r="1" fill="currentColor"/><circle cx="15" cy="15" r="1" fill="currentColor"/></svg></div>
-          <div><strong style="display:block;font-size:.88rem">Karib's AI Assistant</strong><span style="font-size:.66rem;color:var(--muted);font-family:var(--mono)">Free · Zero API · Built-in Knowledge Base</span></div>
-        </div>
-        <button onclick="clearChat()" class="chat-clr">Clear</button>
-      </div>
-      <div class="chat-msgs" id="chatMsgs">
-        <div class="cm bot"><span class="bav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20" style="color:var(--acc);flex-shrink:0"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><circle cx="9" cy="15" r="1" fill="currentColor"/><circle cx="15" cy="15" r="1" fill="currentColor"/></svg></span><div class="bubble">Hi! I'm Karib's AI — 100% free, zero API. I know his 16 publications (🏆 Best Paper AII 2025, D.C.), 60+ AI Stream projects, and can explain any AI/ML concept. Ask me anything!</div></div>
-      </div>
-      <div class="chat-sugg" id="chatSugg">
-        <span style="font-family:var(--mono);font-size:.64rem;color:var(--sec)">Try:</span>
-        <button class="cs-btn" onclick="sendSug(this)">Tell me about the Best Paper Award</button>
-        <button class="cs-btn" onclick="sendSug(this)">What papers has Karib published?</button>
-        <button class="cs-btn" onclick="sendSug(this)">What is RAG in AI?</button>
-        <button class="cs-btn" onclick="sendSug(this)">Tell me about AI Stream team</button>
-        <button class="cs-btn" onclick="sendSug(this)">Explain XAI and SHAP</button>
-        <button class="cs-btn" onclick="sendSug(this)">What is a Transformer?</button>
-      </div>
-      <div class="chat-inp-row">
-        <input type="text" id="chatInput" class="chat-inp" placeholder="Ask about Karib or any AI/ML/Data Science topic..."/>
-        <button onclick="sendChat()" class="chat-snd">↑</button>
-      </div>
-    </div>
-  </div>
-</section>
-<section id="feedback" class="sec">
-  <div class="container">
-    <div class="sec-hdr reveal"><span class="sn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span><h2>Feedback</h2><div class="sl"></div></div>
-    <div class="fb-wrap">
-      <form class="fb-form reveal" id="fbForm" onsubmit="submitFeedback(event)">
-        {% csrf_token %}
-        <input type="text" id="fb-name" class="fb-inp" placeholder="Your Name" required/>
-        <input type="email" id="fb-email" class="fb-inp" placeholder="Your Email" required/>
-        <textarea id="fb-msg" class="fb-inp fb-ta" rows="4" placeholder="Your feedback, message, or collaboration idea..." required></textarea>
-        <button type="submit" class="btn-primary">Submit Feedback</button>
-        <div id="fb-res"></div>
-      </form>
-      <div class="reveal">
-        <h3 class="sub-title">Recent Feedback</h3>
-        {% for fb in feedbacks %}<div class="fb-card"><div class="fb-meta"><strong>{{ fb.name }}</strong><span>{{ fb.created_at|date:"M d, Y" }}</span></div><p class="muted sm">{{ fb.message }}</p></div>
-        {% empty %}<p class="muted" style="font-family:var(--mono);font-size:.82rem">Be the first to leave feedback!</p>{% endfor %}
-      </div>
-    </div>
-  </div>
-</section>
-<section id="contact" class="sec sec-alt">
-  <div class="container">
-    <div class="sec-hdr reveal"><span class="sn">06</span><h2>Get In Touch</h2><div class="sl"></div></div>
-    <div class="contact-grid">
-      <a href="mailto:{{ data.email }}" class="ci reveal"><span class="ci-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span><div><span class="ci-lb">Email</span><span class="ci-vl">{{ data.email }}</span></div></a>
-      <a href="https://wa.me/{{ data.whatsapp }}" target="_blank" class="ci reveal"><span class="ci-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span><div><span class="ci-lb">Phone / WhatsApp</span><span class="ci-vl">{{ data.phone }}</span></div></a>
-      <a href="{{ data.github }}" target="_blank" class="ci reveal"><span class="ci-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></span><div><span class="ci-lb">GitHub</span><span class="ci-vl">github.com/karibshams</span></div></a>
-      <a href="{{ data.linkedin }}" target="_blank" class="ci reveal"><span class="ci-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></span><div><span class="ci-lb">LinkedIn</span><span class="ci-vl">karib-shams-007975305</span></div></a>
-      <a href="{{ data.scholar }}" target="_blank" class="ci reveal"><span class="ci-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></span><div><span class="ci-lb">Google Scholar</span><span class="ci-vl" id="contactScholarStats">{{ data.citations }} citations · h-index {{ data.h_index }}</span></div></a>
-      <a href="{{ data.award_url }}" target="_blank" class="ci reveal"><span class="ci-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg></span><div><span class="ci-lb">Best Paper Award</span><span class="ci-vl">AII 2025, Washington D.C.</span></div></a>
-    </div>
-    <!-- VISITOR COUNTER -->
-    <div class="contact-vc reveal">
-      <div class="vc-pill">
-        <span class="vc-dot"></span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="13" height="13"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-        <span><strong class="vc-today">{{ today_visitors }}</strong> today</span>
-        <span class="vc-sep">·</span>
-        <span><strong class="vc-total">{{ total_visitors }}</strong> total visitors</span>
-      </div>
-    </div>
-  </div>
-</section>
-<footer id="footer">
-  <div class="footer-in">
-    <div style="margin-bottom:1rem"><span class="na" style="font-family:var(--mono);font-size:1.15rem">[</span><span class="nn" style="font-family:var(--mono);font-size:1.15rem;font-weight:700">KS</span><span class="na" style="font-family:var(--mono);font-size:1.15rem">]</span><p class="muted" style="font-size:.76rem;margin-top:4px">Data Scientist & AI Developer · AI Stream Team Lead · <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg> Best Paper Award AII 2025</p></div>
-    <div class="footer-links">
-      <a href="{{ data.github }}" target="_blank">GitHub</a>
-      <a href="{{ data.linkedin }}" target="_blank">LinkedIn</a>
-      <a href="{{ data.scholar }}" target="_blank">Scholar</a>
-      <a href="{{ data.award_url }}" target="_blank">🏆 Award</a>
-      <a href="https://wa.me/{{ data.whatsapp }}" target="_blank">WhatsApp</a>
-      <a href="mailto:{{ data.email }}">Email</a>
-    </div>
-    <p class="muted" style="font-size:.7rem;font-family:var(--mono)">© 2025 Karib Shams · Django · AI Stream · v3.0</p>
-  </div>
-</footer>
-<!-- ═══ AI ROBOT GUIDE ═══ -->
-<div id="robot-guide">
-
-  <!-- Robot Body -->
-  <div id="robot-body" onclick="toggleRobotChat()">
-    <!-- Antenna -->
-    <div class="robot-antenna">
-      <div class="antenna-ball"></div>
-      <div class="antenna-stick"></div>
-    </div>
-    <!-- Head -->
-    <div class="robot-head">
-      <div class="robot-screen">
-        <img src="{% static 'img/karib.jpeg' %}" alt="Karib" class="robot-face"
-             onerror="this.style.display='none';document.querySelector('.robot-face-fallback').style.display='flex'"/>
-        <div class="robot-face-fallback">KS</div>
-        <div class="robot-scanline"></div>
-        <div class="robot-glitch"></div>
-      </div>
-      <div class="robot-ears">
-        <div class="robot-ear left"></div>
-        <div class="robot-ear right"></div>
-      </div>
-    </div>
-    <!-- Body -->
-    <div class="robot-torso">
-      <div class="robot-chest">
-        <div class="chest-light l1"></div>
-        <div class="chest-light l2"></div>
-        <div class="chest-light l3"></div>
-      </div>
-    </div>
-    <!-- Status -->
-    <div class="robot-status">
-      <span class="rs-dot"></span>
-      <span class="rs-text">AI GUIDE</span>
+  <!-- PULL TO REFRESH -->
+  <div class="pull-refresh" id="pullRefresh">
+    <div class="pr-inner">
+      <span class="pr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16"
+          height="16">
+          <polyline points="1 4 1 10 7 10" />
+          <path d="M3.51 15a9 9 0 1 0 .49-4.5" />
+        </svg></span>
+      <span class="pr-text">Pull to refresh</span>
     </div>
   </div>
 
-  <!-- Speech Bubble -->
-  <div id="robot-bubble" class="robot-bubble">
-    <div class="bubble-arrow"></div>
-    <p id="robot-bubble-text">Hi! I'm Karib's AI Guide 🤖 Click me to chat!</p>
-  </div>
-
-  <!-- Robot Chat Panel -->
-  <div id="robot-chat" class="robot-chat hidden">
-    <div class="rc-header">
-      <div class="rc-avatar">
-        <img src="{% static 'img/karib.jpeg' %}" alt="Karib"
-             onerror="this.style.display='none'"/>
-        <div class="rc-online"></div>
-      </div>
-      <div class="rc-info">
-        <strong>Karib's AI Robot</strong>
-        <span>Always online · Free AI</span>
-      </div>
-      <button onclick="toggleMute()" class="rc-mute" id="muteBtn" title="Mute/Unmute robot voice">🔊</button>
-      <button onclick="toggleRobotChat()" class="rc-close">✕</button>
-    </div>
-    <div class="rc-messages" id="rcMessages">
-      <div class="rc-msg bot">
-        <div class="rc-bubble">Hello! I'm Karib's futuristic AI Robot Guide! 🤖⚡<br/>Ask me anything about his research, projects, or any AI/ML topic!</div>
-      </div>
-    </div>
-    <div class="rc-input-row">
-      <input type="text" id="rcInput" class="rc-input" placeholder="Ask me anything..."/>
-      <button onclick="sendRobotMsg()" class="rc-send">↑</button>
-    </div>
-  </div>
-
-</div>
-
-<!-- MOBILE BOTTOM NAV -->
-<nav class="mobile-bottom-nav" id="mobileBottomNav">
-  <a href="#hero" class="mbn-item active" onclick="setMbnActive(this)">
-    <span class="mbn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span><span class="mbn-label">Home</span>
-  </a>
-  <a href="#projects" class="mbn-item" onclick="setMbnActive(this)">
-    <span class="mbn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><polygon points="12 2 19 21 12 17 5 21 12 2"/></svg></span><span class="mbn-label">Projects</span>
-  </a>
-  <a href="#publications" class="mbn-item" onclick="setMbnActive(this)">
-    <span class="mbn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span><span class="mbn-label">Papers</span>
-  </a>
-  <a href="#aichat" class="mbn-item" onclick="setMbnActive(this)">
-    <span class="mbn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><circle cx="12" cy="5" r="1"/></svg></span><span class="mbn-label">AI Chat</span>
-  </a>
-  <a href="#contact" class="mbn-item" onclick="setMbnActive(this)">
-    <span class="mbn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.5 19.79 19.79 0 0 1 1.63 5a2 2 0 0 1 1.95-2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span><span class="mbn-label">Contact</span>
-  </a>
-</nav>
-
-<!-- PULL TO REFRESH -->
-<div class="pull-refresh" id="pullRefresh">
-  <div class="pr-inner">
-    <span class="pr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg></span>
-    <span class="pr-text">Pull to refresh</span>
-  </div>
-</div>
-
-<script>
-  window.TOP_CITED_PAPERS = {{ top_cited_json|safe }};
-  window.SCHOLAR_STATS = {
-    citations: {{ data.citations }},
-    h_index: {{ data.h_index }},
-    pub_count: {{ pub_count }},
-    last_synced: "{{ scholar_stats.last_synced|default:'Live' }}"
-  };
-</script>
-<script src="{% static 'js/main.js' %}"></script>
+  <script id="topCitedPapersData" type="application/json">{{ top_cited_json|safe }}</script>
+  <script id="scholarStatsData"
+    type="application/json">{"citations": {{ data.citations }}, "h_index": {{ data.h_index }}, "pub_count": {{ pub_count }}, "last_synced": "{{ scholar_stats.last_synced|default:'Live' }}"}</script>
+  <script src="{% static 'js/main.js' %}"></script>
 </body>
+
 </html>

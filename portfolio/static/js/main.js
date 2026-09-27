@@ -3,6 +3,26 @@
    Free AI · 30-Question Quiz · No API · No Cost
 ═══════════════════════════════════════════════ */
 
+// ── PARSE SCHOLAR JSON SCRIPTS ────────────────
+(function parseScholarConfig() {
+  try {
+    const el = document.getElementById('topCitedPapersData');
+    if (el && el.textContent.trim()) {
+      window.TOP_CITED_PAPERS = JSON.parse(el.textContent);
+    }
+  } catch (e) {
+    console.warn('Could not parse top cited data', e);
+  }
+  try {
+    const el = document.getElementById('scholarStatsData');
+    if (el && el.textContent.trim()) {
+      window.SCHOLAR_STATS = JSON.parse(el.textContent);
+    }
+  } catch (e) {
+    console.warn('Could not parse scholar stats data', e);
+  }
+})();
+
 // ── CURSOR ────────────────────────────────────
 const cDot  = document.getElementById('cDot');
 const cRing = document.getElementById('cRing');
