@@ -18,6 +18,7 @@ ENV/
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
+scholar_cache.json
 staticfiles/
 media/
 
