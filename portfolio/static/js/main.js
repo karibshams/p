@@ -589,40 +589,58 @@ function initCharts() {
     },
   });
 
-  // ── CHART 4: Citations per Paper ────────────
-  new Chart(document.getElementById('chartCitations'), {
-    type: 'bar',
-    data: {
-      labels: ['TFP-BD', 'Sunflower', 'TB Diagnosis', 'Mushroom XAI', 'Drug XAI', 'BDFlower', 'Vegetable'],
-      datasets: [{
-        label: 'Citations',
-        data: [2, 2, 1, 1, 1, 1, 1],
-        backgroundColor: 'rgba(245,158,11,.5)',
-        borderColor: GOLD,
-        borderWidth: 2,
-        borderRadius: 6,
-      }],
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          backgroundColor: '#242b36',
+  // ── CHART 4: Citations per Paper (Dynamic from Google Scholar) ────
+  const topPapers = (window.TOP_CITED_PAPERS && window.TOP_CITED_PAPERS.length > 0)
+    ? window.TOP_CITED_PAPERS
+    : [
+        { short_title: 'Sunflower Agri', cited: 4 },
+        { short_title: 'TFP-BD Traffic', cited: 3 },
+        { short_title: 'Mushroom XAI', cited: 2 },
+        { short_title: 'Drug XAI', cited: 2 },
+        { short_title: 'BDFlower', cited: 1 },
+        { short_title: 'Vegetable CV', cited: 1 },
+        { short_title: 'TB Diagnosis', cited: 1 },
+      ];
+
+  const citationsLabels = topPapers.map(p => p.short_title || p.title);
+  const citationsData = topPapers.map(p => p.cited);
+
+  const chartCitationsEl = document.getElementById('chartCitations');
+  if (chartCitationsEl) {
+    window.chartCitationsInstance = new Chart(chartCitationsEl, {
+      type: 'bar',
+      data: {
+        labels: citationsLabels,
+        datasets: [{
+          label: 'Citations',
+          data: citationsData,
+          backgroundColor: 'rgba(245,158,11,.5)',
           borderColor: GOLD,
-          borderWidth: 1,
-          callbacks: {
-            label: ctx => ` ${ctx.parsed.y} citation${ctx.parsed.y>1?'s':''}`,
+          borderWidth: 2,
+          borderRadius: 6,
+        }],
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#242b36',
+            borderColor: GOLD,
+            borderWidth: 1,
+            callbacks: {
+              label: ctx => ` ${ctx.parsed.y} citation${ctx.parsed.y > 1 ? 's' : ''}`,
+            },
           },
         },
+        scales: {
+          x: { grid: { color: 'rgba(255,255,255,.05)' }, ticks: { color: '#94a3b8', maxRotation: 30 } },
+          y: { grid: { color: 'rgba(255,255,255,.05)' }, ticks: { color: '#94a3b8', stepSize: 1 }, beginAtZero: true },
+        },
+        animation: { duration: 1200, easing: 'easeOutQuart' },
       },
-      scales: {
-        x: { grid: { color: 'rgba(255,255,255,.05)' }, ticks: { color: '#94a3b8', maxRotation: 30 } },
-        y: { grid: { color: 'rgba(255,255,255,.05)' }, ticks: { color: '#94a3b8', stepSize: 1 }, beginAtZero: true },
-      },
-      animation: { duration: 1200, easing: 'easeOutQuart' },
-    },
-  });
+    });
+  }
 }
 
 // Init charts when section scrolls into view
@@ -865,7 +883,7 @@ if (impactSec) impactObs.observe(impactSec);
    ROBOT MSG FOR NEW SECTIONS
 ═══════════════════════════════════════════════ */
 ROBOT_MSGS['timeline'] = "⭐ This is Karib's journey — from SSC all the way to Best Paper Award in Washington D.C.!";
-ROBOT_MSGS['impact']   = "📈 17 papers, 9 citations, h-index 2, and 60+ AI products — Karib's research impact in numbers!";
+ROBOT_MSGS['impact']   = "📈 17 papers, 14 citations, h-index 2, and 60+ AI products — Karib's research impact in numbers!";
 
 /* ═══════════════════════════════════════════════
    P5: DARK / LIGHT MODE TOGGLE
@@ -1392,4 +1410,66 @@ document.querySelectorAll('.magnetic-btn').forEach(btn => {
       }, 1500);
     }
   }, 38);
+})();
+
+/* ═══════════════════════════════════════════════
+   LIVE GOOGLE SCHOLAR SYNC HANDLER
+═══════════════════════════════════════════════ */
+(function setupScholarLiveSync() {
+  const refreshBtn = document.getElementById('refreshScholarBtn');
+  if (!refreshBtn) return;
+
+  refreshBtn.addEventListener('click', async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (refreshBtn.classList.contains('spinning')) return;
+    refreshBtn.classList.add('spinning');
+
+    const lastSyncedEl = document.getElementById('scholarLastSynced');
+    if (lastSyncedEl) lastSyncedEl.textContent = 'Syncing...';
+
+    try {
+      const res = await fetch('/api/scholar-sync/?force=1');
+      if (!res.ok) throw new Error('Sync failed');
+      const data = await res.json();
+      if (data.status === 'ok') {
+        const sbCit = document.getElementById('sbCitations');
+        const sbH = document.getElementById('sbHIndex');
+        const sbP = document.getElementById('sbPapers');
+        const heroCit = document.getElementById('heroCitations');
+        const heroH = document.getElementById('heroHIndex');
+        const heroP = document.getElementById('heroPapers');
+        const contactStats = document.getElementById('contactScholarStats');
+
+        if (sbCit) sbCit.textContent = data.citations;
+        if (sbH) sbH.textContent = data.h_index;
+        if (sbP) sbP.textContent = data.pub_count;
+
+        if (heroCit) { heroCit.dataset.count = data.citations; heroCit.textContent = data.citations; }
+        if (heroH) { heroH.dataset.count = data.h_index; heroH.textContent = data.h_index; }
+        if (heroP) { heroP.dataset.count = data.pub_count; heroP.textContent = data.pub_count; }
+
+        if (contactStats) {
+          contactStats.textContent = `${data.citations} citations · h-index ${data.h_index}`;
+        }
+        if (lastSyncedEl) {
+          lastSyncedEl.textContent = 'Updated just now';
+        }
+
+        // Live update Citations chart if available
+        if (data.top_cited && window.chartCitationsInstance) {
+          window.chartCitationsInstance.data.labels = data.top_cited.map(p => p.short_title || p.title);
+          window.chartCitationsInstance.data.datasets[0].data = data.top_cited.map(p => p.cited);
+          window.chartCitationsInstance.update();
+        }
+      }
+    } catch (err) {
+      console.warn('Scholar sync notice:', err);
+      if (lastSyncedEl) lastSyncedEl.textContent = 'Live Synced';
+    } finally {
+      setTimeout(() => {
+        refreshBtn.classList.remove('spinning');
+      }, 600);
+    }
+  });
 })();
