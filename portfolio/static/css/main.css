@@ -292,6 +292,32 @@ input,textarea,button { font-family:var(--font) }
 .sb-s { display:flex; flex-direction:column }
 .sb-n { font-size:1.8rem; font-weight:800; color:var(--acc); font-family:var(--mono); line-height:1 }
 .sb-l { font-size:.63rem; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-top:3px }
+.sb-actions { display:flex; align-items:center; gap:1rem; flex-wrap:wrap }
+.sb-live-badge {
+  display:inline-flex; align-items:center; gap:.45rem;
+  background:rgba(0,255,194,.06); border:1px solid rgba(0,255,194,.22);
+  border-radius:20px; padding:5px 12px; font-size:.72rem; font-family:var(--mono);
+  color:var(--acc);
+}
+.live-dot-pulse {
+  width:7px; height:7px; border-radius:50%; background:var(--acc);
+  box-shadow:0 0 8px var(--acc);
+  animation:sbPulse 2s infinite ease-in-out;
+}
+@keyframes sbPulse {
+  0%, 100% { transform:scale(1); opacity:1; }
+  50% { transform:scale(1.35); opacity:.45; }
+}
+.sb-live-label { font-weight:700; color:var(--acc) }
+.sb-sync-time { color:var(--muted); font-size:.66rem; border-left:1px solid rgba(255,255,255,.1); padding-left:.45rem }
+.sb-sync-btn {
+  background:transparent; border:none; color:var(--muted); cursor:pointer;
+  padding:2px; display:inline-flex; align-items:center; justify-content:center;
+  transition:all .3s ease; border-radius:4px;
+}
+.sb-sync-btn:hover { color:var(--acc); transform:rotate(180deg); }
+.sb-sync-btn.spinning { animation:sbSpin .8s linear infinite; pointer-events:none; }
+@keyframes sbSpin { 100% { transform:rotate(360deg); } }
 .pub-list { display:flex; flex-direction:column; gap:.9rem }
 .pub-card { display:flex; gap:1.2rem; background:var(--card); border:1px solid var(--border); border-radius:var(--r); padding:1.1rem 1.4rem; transition:var(--tr) }
 .pub-card:hover { border-color:rgba(0,255,194,.2) }
