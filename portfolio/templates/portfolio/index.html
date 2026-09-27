@@ -70,8 +70,6 @@
   <canvas id="particle-trail"
     style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:none;opacity:.7"></canvas>
   <div id="ripple-container" style="position:fixed;inset:0;pointer-events:none;z-index:9990;overflow:hidden"></div>
-  <canvas id="particle-trail"
-    style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:none;opacity:.7"></canvas>
   <canvas id="three-canvas"></canvas>
   <div class="cursor-dot" id="cDot"></div>
   <div class="cursor-ring" id="cRing"></div>
@@ -291,8 +289,7 @@
           <div class="edu-card">
             <div class="edu-dot"></div>
             <div>
-              <h4>{{ e.degree }}</h4><span class="edu-inst">{{ e.institution }}</span><span class="edu-period">{{
-                e.period }}</span><span class="edu-detail">{{ e.detail }}</span>
+              <h4>{{ e.degree }}</h4><span class="edu-inst">{{ e.institution }}</span><span class="edu-period">{{ e.period }}</span><span class="edu-detail">{{ e.detail }}</span>
             </div>
           </div>
           {% endfor %}
@@ -619,15 +616,10 @@
             <p class="pub-title">{{ pub.title }}</p>
             <span class="pub-venue">{{ pub.venue }}</span>
             <div class="pub-meta">
-              {% if pub.award %}<a href="{{ pub.award_url }}" target="_blank" class="pub-award">{{ pub.award }}</a>{%
-              endif %}
-              {% if pub.cited > 0 %}<span class="pub-cited">{{ pub.cited }} citation{{ pub.cited|pluralize }}</span>{%
-              endif %}
-              {% if pub.doi %}<a href="https://doi.org/{{ pub.doi }}" target="_blank" class="pub-doi">DOI →</a>{% endif
-              %}
-              {% if pub.scholar_url %}<a href="{{ pub.scholar_url }}" target="_blank" class="pub-doi"
-                style="background:rgba(34,211,238,.08);border-color:rgba(34,211,238,.3);color:var(--acc2)">Scholar
-                →</a>{% endif %}
+              {% if pub.award %}<a href="{{ pub.award_url }}" target="_blank" class="pub-award">{{ pub.award }}</a>{% endif %}
+              {% if pub.cited > 0 %}<span class="pub-cited">{{ pub.cited }} citation{{ pub.cited|pluralize }}</span>{% endif %}
+              {% if pub.doi %}<a href="https://doi.org/{{ pub.doi }}" target="_blank" class="pub-doi">DOI →</a>{% endif %}
+              {% if pub.scholar_url %}<a href="{{ pub.scholar_url }}" target="_blank" class="pub-doi" style="background:rgba(34,211,238,.08);border-color:rgba(34,211,238,.3);color:var(--acc2)">Scholar →</a>{% endif %}
             </div>
           </div>
         </div>
@@ -1079,8 +1071,7 @@
               <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
               <path d="M6 12v5c3 3 9 3 12 0v-5" />
             </svg></span>
-          <div><span class="ci-lb">Google Scholar</span><span class="ci-vl" id="contactScholarStats">{{ data.citations
-              }} citations · h-index {{ data.h_index }}</span></div>
+          <div><span class="ci-lb">Google Scholar</span><span class="ci-vl" id="contactScholarStats">{{ data.citations }} citations · h-index {{ data.h_index }}</span></div>
         </a>
         <a href="{{ data.award_url }}" target="_blank" class="ci reveal"><span class="ci-ic"><svg viewBox="0 0 24 24"
               fill="none" stroke="currentColor" stroke-width="2" width="22" height="22">
@@ -1260,9 +1251,8 @@
     </div>
   </div>
 
-  <script id="topCitedPapersData" type="application/json">{{ top_cited_json|safe }}</script>
-  <script id="scholarStatsData"
-    type="application/json">{"citations": {{ data.citations }}, "h_index": {{ data.h_index }}, "pub_count": {{ pub_count }}, "last_synced": "{{ scholar_stats.last_synced|default:'Live' }}"}</script>
+  <script id="topCitedPapersData" type="text/plain">{{ top_cited_json|safe }}</script>
+  <script id="scholarStatsData" type="text/plain">{"citations": {{ data.citations }}, "h_index": {{ data.h_index }}, "pub_count": {{ pub_count }}, "last_synced": "{{ scholar_stats.last_synced|default:'Live' }}"}</script>
   <script src="{% static 'js/main.js' %}"></script>
 </body>
 
