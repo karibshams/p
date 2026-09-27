@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import Feedback, ChatLog, VisitorCount
+from .scholar import get_scholar_data, sync_publications
 from django.core.mail import send_mail
 from django.conf import settings as django_settings
 from django.utils import timezone
@@ -24,8 +25,9 @@ DATA = {
     "scholar": "https://scholar.google.com/citations?user=C26dtwMAAAAJ&hl=en",
     "portfolio_url": "https://karib.pythonanywhere.com",
     "award_url": "https://ewubd.edu/achievement-details/ewu-researchers-win-best-paper-award-international-ai-conference-washington-dc",
-    "citations": 9,
+    "citations": 14,
     "h_index": 2,
+    "i10_index": 0,
     "about": (
         "AI/ML engineer with hands-on experience in deep learning, computer vision, NLP, and RAG "
         "pipelines. Skilled in Python, TensorFlow, PyTorch, Django, and n8n automation, with a "
@@ -172,55 +174,58 @@ DATA = {
          "venue": "AII 2025, Springer-Nature CCIS — Washington D.C., USA",
          "award": "🏆 Best Paper Award", "cited": 0, "doi": "",
          "award_url": "https://ewubd.edu/achievement-details/ewu-researchers-win-best-paper-award-international-ai-conference-washington-dc",
+         "scholar_url": "https://scholar.google.com/citations?user=C26dtwMAAAAJ&hl=en"},
+        {"title": "Real-Time Sunflower Detection Using Semi-Supervised and Self-Supervised Deep Learning for Precision Agriculture",
+         "venue": "Smart Agricultural Technology, 2025, p.101684", "award": "", "cited": 4, "doi": "", "award_url": "",
          "scholar_url": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=C26dtwMAAAAJ&citation_for_view=C26dtwMAAAAJ:zYLM7Y9cAGgC"},
-        {"title": "Towards Annotation-Efficient Kidney CT Scan Classification: Supervised and Semi-Supervised Swin Transformer Frameworks",
-         "venue": "IEEE SPICSCON 2025", "award": "", "cited": 0, "doi": "", "award_url": "",
-         "scholar_url": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=C26dtwMAAAAJ&citation_for_view=C26dtwMAAAAJ:u-x6o8ySG0sC"},
-        {"title": "Histopathology Images-Based Deep Learning Prediction of Prognosis and Therapeutic Response in Small Cell Lung Cancer",
-         "venue": "ICDMIS 2024, Springer (Data Mining and Information Security, Vol. 5)",
-         "award": "", "cited": 0, "doi": "", "award_url": "",
-         "scholar_url": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=C26dtwMAAAAJ&citation_for_view=C26dtwMAAAAJ:W7OEmFMy1HYC"},
         {"title": "TFP-BD: An Image Dataset for Traffic Flow and Pedestrian Movement Analysis on Bangladeshi Urban Roads",
-         "venue": "Data in Brief, Vol. 59, 2025, p.111398", "award": "", "cited": 2, "doi": "", "award_url": "",
+         "venue": "Data in Brief, Vol. 59, 2025, p.111398", "award": "", "cited": 3, "doi": "", "award_url": "",
+         "scholar_url": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=C26dtwMAAAAJ&citation_for_view=C26dtwMAAAAJ:u-x6o8ySG0sC"},
+        {"title": "Real-Time Monitoring of Oyster Mushroom Cultivation Using CCTV and Attention-Enhanced ShuffleNet-Based Explainable AI",
+         "venue": "Smart Agricultural Technology, Vol. 12, 2025, p.101571", "award": "", "cited": 2,
+         "doi": "10.1016/j.atech.2025.101571", "award_url": "",
+         "scholar_url": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=C26dtwMAAAAJ&citation_for_view=C26dtwMAAAAJ:UeHWp8X0CEIC"},
+        {"title": "Interpretable Illness-Category Classification from Drug Attributes Using XGBoost with SHAP Explanations",
+         "venue": "IEEE QPAIN 2025", "award": "", "cited": 2,
+         "doi": "10.1109/QPAIN66474.2025.11172160", "award_url": "",
+         "scholar_url": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=C26dtwMAAAAJ&citation_for_view=C26dtwMAAAAJ:2osOgNQ5qMEC"},
+        {"title": "BDFlower: Growth Stage Flower Image Dataset for Precision Agriculture and Floriculture",
+         "venue": "Data in Brief, 2026, p.112745", "award": "", "cited": 1, "doi": "", "award_url": "",
+         "scholar_url": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=C26dtwMAAAAJ&citation_for_view=C26dtwMAAAAJ:W7OEmFMy1HYC"},
+        {"title": "Smartphone-Based Multi-Criteria Vegetable Object Detection Dataset from Bangladesh",
+         "venue": "Data in Brief, 2025, p.112281", "award": "", "cited": 1, "doi": "", "award_url": "",
          "scholar_url": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=C26dtwMAAAAJ&citation_for_view=C26dtwMAAAAJ:IjCSPb-OGe4C"},
         {"title": "Tuberculosis Diagnosis from Chest X-Ray Image Using Deep Learning Techniques",
          "venue": "IEEE ICAECT 2025", "award": "", "cited": 1,
          "doi": "10.1109/ICAECT63952.2025.10958925", "award_url": "",
-         "scholar_url": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=C26dtwMAAAAJ&citation_for_view=C26dtwMAAAAJ:UeHWp8X0CEIC"},
-        {"title": "Real-Time Monitoring of Oyster Mushroom Cultivation Using CCTV and Attention-Enhanced ShuffleNet-Based Explainable AI",
-         "venue": "Smart Agricultural Technology, Vol. 12, 2025, p.101571", "award": "", "cited": 1,
-         "doi": "10.1016/j.atech.2025.101571", "award_url": "",
-         "scholar_url": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=C26dtwMAAAAJ&citation_for_view=C26dtwMAAAAJ:2osOgNQ5qMEC"},
-        {"title": "Interpretable Illness-Category Classification from Drug Attributes Using XGBoost with SHAP Explanations",
-         "venue": "IEEE QPAIN 2025", "award": "", "cited": 1,
-         "doi": "10.1109/QPAIN66474.2025.11172160", "award_url": "",
          "scholar_url": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=C26dtwMAAAAJ&citation_for_view=C26dtwMAAAAJ:u5HHmVD_uO8C"},
-        {"title": "Real-Time Sunflower Detection Using Semi-Supervised and Self-Supervised Deep Learning for Precision Agriculture",
-         "venue": "Smart Agricultural Technology, 2025, p.101684", "award": "", "cited": 2, "doi": "", "award_url": "",
-         "scholar_url": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=C26dtwMAAAAJ&citation_for_view=C26dtwMAAAAJ:LkGwnXOMwfcC"},
-        {"title": "BDFlower: Growth Stage Flower Image Dataset for Precision Agriculture and Floriculture",
-         "venue": "Data in Brief, 2026, p.112745", "award": "", "cited": 1, "doi": "", "award_url": "",
-         "scholar_url": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=C26dtwMAAAAJ&citation_for_view=C26dtwMAAAAJ:YsMSGLbcyi4C"},
         {"title": "Benchmarking Hybrid CNN and Transformer Backbones with GCN for Flower Growth-Stage Classification",
          "venue": "Scientific Reports, Nature Portfolio, 2026", "award": "", "cited": 0, "doi": "", "award_url": "",
-         "scholar_url": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=C26dtwMAAAAJ&citation_for_view=C26dtwMAAAAJ:WF5omc3nYNoC"},
-        {"title": "Semi-Supervised Deep Learning for Early Detection of Bone Metastases in Adult Breast Cancer Patients",
-         "venue": "IEEE BIBE 2025", "award": "", "cited": 0, "doi": "", "award_url": "",
-         "scholar_url": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=C26dtwMAAAAJ&citation_for_view=C26dtwMAAAAJ:eQOLeE2rZwMC"},
-        {"title": "Maternal Health Risk Assessment with Interpretable Machine Learning: Evidence from Bangladesh",
+         "scholar_url": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=C26dtwMAAAAJ&citation_for_view=C26dtwMAAAAJ:LkGwnXOMwfcC"},
+        {"title": "Towards Annotation-Efficient Kidney CT Scan Classification: Supervised and Semi-Supervised Swin Transformer Frameworks",
          "venue": "IEEE SPICSCON 2025", "award": "", "cited": 0, "doi": "", "award_url": "",
          "scholar_url": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=C26dtwMAAAAJ&citation_for_view=C26dtwMAAAAJ:_FxGoFyzp5QC"},
+        {"title": "Histopathology Images-Based Deep Learning Prediction of Prognosis and Therapeutic Response in Small Cell Lung Cancer",
+         "venue": "ICDMIS 2024, Springer (Data Mining and Information Security, Vol. 5)",
+         "award": "", "cited": 0, "doi": "", "award_url": "",
+         "scholar_url": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=C26dtwMAAAAJ&citation_for_view=C26dtwMAAAAJ:Y0pCki6q_DkC"},
+        {"title": "Semi-Supervised Deep Learning for Early Detection of Bone Metastases in Adult Breast Cancer Patients",
+         "venue": "IEEE BIBE 2025", "award": "", "cited": 0, "doi": "", "award_url": "",
+         "scholar_url": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=C26dtwMAAAAJ&citation_for_view=C26dtwMAAAAJ:WF5omc3nYNoC"},
+        {"title": "Maternal Health Risk Assessment with Interpretable Machine Learning: Evidence from Bangladesh",
+         "venue": "IEEE SPICSCON 2025", "award": "", "cited": 0, "doi": "", "award_url": "",
+         "scholar_url": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=C26dtwMAAAAJ&citation_for_view=C26dtwMAAAAJ:ufrVoPGSRksC"},
         {"title": "Occlusion-Resilient Surgical Instrument Detection Using Self-Supervised Learning and YOLO Models",
          "venue": "IEEE BIBE 2025", "award": "", "cited": 0, "doi": "", "award_url": "",
-         "scholar_url": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=C26dtwMAAAAJ&citation_for_view=C26dtwMAAAAJ:ufrVoPGSRksC"},
+         "scholar_url": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=C26dtwMAAAAJ&citation_for_view=C26dtwMAAAAJ:eQOLeE2rZwMC"},
         {"title": "Leveraging Semi-Supervised Learning for Multimodal Medical Image Classification with Paired CT and MRI",
          "venue": "ICCIT 2025", "award": "", "cited": 0, "doi": "", "award_url": "",
-         "scholar_url": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=C26dtwMAAAAJ&citation_for_view=C26dtwMAAAAJ:d1gkVwhDpl0C"},
+         "scholar_url": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=C26dtwMAAAAJ&citation_for_view=C26dtwMAAAAJ:YsMSGLbcyi4C"},
         {"title": "Explainable Random Forest Framework for Real-Time Indoor Air-Quality Prediction at Airports Using SCD30 Sensor Data",
          "venue": "IEEE QPAIN 2025", "award": "", "cited": 0, "doi": "", "award_url": "",
          "scholar_url": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=C26dtwMAAAAJ&citation_for_view=C26dtwMAAAAJ:qjMakFHDy7sC"},
-        {"title": "Smartphone-Based Multi-Criteria Vegetable Object Detection Dataset from Bangladesh",
-         "venue": "Data in Brief, 2025, p.112281", "award": "", "cited": 1, "doi": "", "award_url": "",
+        {"title": "Explainable Machine-Learning Forecasts of Building-Energy Demand from Weather Signals: A Comparative Study of Classical, Ensemble and Hybrid DL Models",
+         "venue": "IEEE QPAIN 2025", "award": "", "cited": 0, "doi": "", "award_url": "",
          "scholar_url": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=C26dtwMAAAAJ&citation_for_view=C26dtwMAAAAJ:9yKSN-GCB0IC"},
     ],
     "education": [
@@ -251,7 +256,7 @@ KB = {
             "🎓 Education:\n• MSc CSE — East West University (CGPA 3.91, Data Science major)\n• BSc CSE — East West University (CGPA 3.58)\n\n"
             "💼 Current Role: Senior Executive Data Scientist & Team Leader at Join Venture Ai (JVai)\n"
             "🏆 Award: Best Paper Award — AII 2025, Washington D.C., USA\n"
-            "📊 Research: 17 publications, 9 citations, h-index 2\n"
+            "📊 Research: 17 publications, 14 citations, h-index 2\n"
             "⚡ Team: Leads AI Stream — 60+ delivered AI products with 45+ members"),
 
     "contact": ("📧 Email: shams321karib@gmail.com\n"
@@ -271,12 +276,12 @@ KB = {
               "🔗 EWU Official: ewubd.edu/achievement-details/ewu-researchers-win-best-paper-award-international-ai-conference-washington-dc"),
 
     "publications": ("📚 Karib has 17 publications across IEEE, Springer, Elsevier, and Nature Portfolio:\n\n"
-                     "📊 Stats: 9 citations | h-index: 2\n\n"
+                     "📊 Stats: 14 citations | h-index: 2 (Live from Google Scholar)\n\n"
                      "🏆 Best Paper: CodeMixEcom-Emotion (AII 2025, Springer)\n"
-                     "🫁 Medical: TB X-Ray, Lung Cancer, Kidney CT, Bone Metastases, CT+MRI\n"
-                     "🌾 Agriculture: Sunflower detection, BDFlower dataset, Mushroom XAI\n"
-                     "🚦 Vision: Traffic dataset (TFP-BD), Surgical instrument detection\n"
-                     "💊 Healthcare AI: Drug classification (XGBoost+SHAP), Air quality XAI\n"
+                     "🫁 Medical: TB X-Ray (1 cited), Lung Cancer, Kidney CT, Bone Metastases, CT+MRI\n"
+                     "🌾 Agriculture: Sunflower detection (4 cited), BDFlower dataset (1 cited), Mushroom XAI (2 cited)\n"
+                     "🚦 Vision: Traffic dataset (TFP-BD, 3 cited), Vegetable dataset (1 cited), Surgical instrument detection\n"
+                     "💊 Healthcare AI: Drug classification (XGBoost+SHAP, 2 cited), Air quality XAI\n"
                      "🌸 Botany: Flower growth-stage classification (CNN+Transformer+GCN)\n\n"
                      "View profile: scholar.google.com/citations?user=C26dtwMAAAAJ"),
 
@@ -819,8 +824,8 @@ def _respond(msg: str) -> str:
                 "• NLP — understanding language\n"
                 "• Robotics — physical AI agents\n"
                 "• Generative AI — creating new content\n\n"
-                f"Karib Shams is a leading AI practitioner with 16 publications, "
-                "9 citations, Best Paper Award at AII 2025 (Washington D.C.), and leads "
+                f"Karib Shams is a leading AI practitioner with 17 publications, "
+                "14 citations, Best Paper Award at AII 2025 (Washington D.C.), and leads "
                 "AI Stream — a team with 60+ delivered AI projects. Ask me anything specific!")
 
     return KB["fallback"]
@@ -832,7 +837,20 @@ def _respond(msg: str) -> str:
 
 def index(request):
     feedbacks = Feedback.objects.order_by('-created_at')[:8]
-    pub_count = len(DATA["publications"])
+
+    # Fetch live/cached Google Scholar stats
+    scholar_data = get_scholar_data()
+
+    # Clone DATA to avoid mutating global dict across concurrent requests
+    site_data = dict(DATA)
+    site_data["citations"] = scholar_data.get("citations", DATA["citations"])
+    site_data["h_index"] = scholar_data.get("h_index", DATA["h_index"])
+    site_data["i10_index"] = scholar_data.get("i10_index", 0)
+
+    # Sync publications citation counts with scholar
+    synced_pubs, top_cited = sync_publications(DATA["publications"], scholar_data.get("articles", []))
+    site_data["publications"] = synced_pubs
+    pub_count = len(synced_pubs)
 
     # Track visitor
     try:
@@ -849,11 +867,30 @@ def index(request):
         today_visitors = 0
 
     return render(request, 'portfolio/index.html', {
-        'data': DATA,
+        'data': site_data,
         'pub_count': pub_count,
+        'scholar_stats': scholar_data,
+        'top_cited_json': json.dumps(top_cited),
         'feedbacks': feedbacks,
         'total_visitors': total_visitors,
         'today_visitors': today_visitors,
+    })
+
+
+def sync_scholar_api(request):
+    """API endpoint to refresh or inspect live Google Scholar stats."""
+    force = request.GET.get('force') in ('1', 'true', 'yes')
+    scholar_data = get_scholar_data(force_refresh=force)
+    synced_pubs, top_cited = sync_publications(DATA["publications"], scholar_data.get("articles", []))
+    return JsonResponse({
+        "status": "ok",
+        "citations": scholar_data.get("citations", DATA["citations"]),
+        "h_index": scholar_data.get("h_index", DATA["h_index"]),
+        "i10_index": scholar_data.get("i10_index", 0),
+        "pub_count": len(synced_pubs),
+        "last_synced": scholar_data.get("last_synced", "Just now"),
+        "cached": scholar_data.get("cached", False),
+        "top_cited": top_cited,
     })
 
 
