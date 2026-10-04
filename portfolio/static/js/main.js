@@ -1183,6 +1183,8 @@ function copyBibtexToClipboard() {
       closeCmdKModal();
       closeCaseStudyModal();
       closeBibtexModal();
+      if (typeof closePaperDrawer === 'function') closePaperDrawer();
+      if (typeof closeExecutiveModal === 'function') closeExecutiveModal();
     }
   });
 
@@ -1647,5 +1649,909 @@ async function handleContactSubmit(e) {
 document.addEventListener('DOMContentLoaded', () => {
   if (window.lucide) {
     lucide.createIcons();
+  }
+});
+
+// ══════════════════════════════════════════════════════════════════
+//  FEATURE A: INTERACTIVE NEURAL PIPELINE SIMULATOR RUNTIME
+// ══════════════════════════════════════════════════════════════════
+
+const SIMULATOR_DATA = {
+  swin: {
+    title: "Swin-UNETR (Medical 3D CT/MRI Segmentation)",
+    badge: "Medical AI · Shifted Window Attention",
+    desc: "Hierarchical vision transformer with non-overlapping shifted window self-attention for high-resolution volumetric organ & lesion boundary segmentation.",
+    stages: [
+      {
+        step: "STAGE 01",
+        name: "Patch Partition & Linear Projection",
+        tensorDim: "[B, 3136, 96]",
+        receptiveField: "4×4 px",
+        params: "0.8M Params",
+        flops: "0.6 GFLOPs",
+        latencyRtx: "0.8 ms",
+        latencyJetson: "2.9 ms",
+        desc: "Splits 224×224 input image or 3D CT slice into non-overlapping 4×4 spatial patches and linearly projects each patch vector to embedding dimension C=96.",
+        mathEq: "z_0 = [x_p^1 E; x_p^2 E; ...; x_p^N E] + E_{pos}",
+        loss: "Initial Feature Pyramidal Mapping"
+      },
+      {
+        step: "STAGE 02",
+        name: "Stage 1: W-MSA Window Attention",
+        tensorDim: "[B, 3136, 96]",
+        receptiveField: "16×16 px",
+        params: "4.2M Params",
+        flops: "2.1 GFLOPs",
+        latencyRtx: "1.4 ms",
+        latencyJetson: "4.8 ms",
+        desc: "Computes multi-head self-attention locally within partitioned 7×7 non-overlapping windows, reducing standard attention complexity from quadratic O(N^2) to linear O(N).",
+        mathEq: "Attention(Q,K,V) = Softmax(QK^T / \\sqrt{d} + B)V",
+        loss: "Local Window Self-Attention Block"
+      },
+      {
+        step: "STAGE 03",
+        name: "Stage 2: SW-MSA Shifted Windows",
+        tensorDim: "[B, 784, 192]",
+        receptiveField: "32×32 px",
+        params: "12.8M Params",
+        flops: "4.5 GFLOPs",
+        latencyRtx: "2.3 ms",
+        latencyJetson: "7.9 ms",
+        desc: "Shifts partition windows by (\\lfloor M/2 \\rfloor, \\lfloor M/2 \\rfloor) to introduce cross-window spatial connections between neighboring patches without extra compute overhead.",
+        mathEq: "\\hat{z}^l = \\text{SW-MSA}(\\text{LN}(z^{l-1})) + z^{l-1}",
+        loss: "Cross-Window Spatial Aggregation"
+      },
+      {
+        step: "STAGE 04",
+        name: "Bottleneck Latent Representation",
+        tensorDim: "[B, 49, 768]",
+        receptiveField: "Global Context",
+        params: "28.4M Params",
+        flops: "5.8 GFLOPs",
+        latencyRtx: "3.1 ms",
+        latencyJetson: "10.4 ms",
+        desc: "Dense semantic bottleneck capturing multi-scale context, lesion contours, and anatomical organ topology at 1/32 downsampled spatial resolution.",
+        mathEq: "Z_{latent} = \\text{MLP}(\\text{LN}(\\hat{z}^L)) + \\hat{z}^L",
+        loss: "Latent Manifold Regularization"
+      },
+      {
+        step: "STAGE 05",
+        name: "U-Net Decoder & Focal-Dice Head",
+        tensorDim: "[B, K, 224, 224]",
+        receptiveField: "Voxel Level",
+        params: "16.1M Params",
+        flops: "3.2 GFLOPs",
+        latencyRtx: "1.9 ms",
+        latencyJetson: "6.2 ms",
+        desc: "Multi-scale skip-connections fuse hierarchical encoder feature maps with transposed convolutional upsampling layers, producing fine-grained voxel segmentation masks.",
+        mathEq: "\\mathcal{L}_{total} = \\alpha \\mathcal{L}_{Dice} + (1-\\alpha)\\mathcal{L}_{FocalCE}",
+        loss: "Focal-Dice Composite Loss Objective"
+      }
+    ]
+  },
+  sunflower: {
+    title: "Semi-Supervised GCN (Smart AgriTech Detection)",
+    badge: "Published Elsevier 2025 · 38.2 FPS Edge",
+    desc: "SimCLR self-supervised contrastive pretraining with Spatial Graph Convolutional Networks (GCN) modeling geometric relations between overlapping flower heads.",
+    stages: [
+      {
+        step: "STAGE 01",
+        name: "In-Field Visual Augmentation",
+        tensorDim: "[2×B, 3, 416, 416]",
+        receptiveField: "Raw Sensor",
+        params: "Zero-Param Ops",
+        flops: "0.1 GFLOPs",
+        latencyRtx: "0.4 ms",
+        latencyJetson: "1.1 ms",
+        desc: "Generates paired stochastic augmentations (random crop, solarization, Gaussian blur, color jitter) simulating agricultural camera shake and daylight variation.",
+        mathEq: "\\tilde{x}_i = t(x), \\quad \\tilde{x}_j = t'(x) \\quad t, t' \\sim \\mathcal{T}",
+        loss: "Stochastic Transformation Space"
+      },
+      {
+        step: "STAGE 02",
+        name: "SimCLR Contrastive Encoder",
+        tensorDim: "[2×B, 2048, 13, 13]",
+        receptiveField: "416×416 px",
+        params: "23.5M Params",
+        flops: "4.1 GFLOPs",
+        latencyRtx: "2.1 ms",
+        latencyJetson: "7.1 ms",
+        desc: "Extracts invariant visual priors from 50,000+ unannotated field images, mapping positive pairs close together while pushing negative image views apart.",
+        mathEq: "\\ell_{i,j} = -\\log \\frac{\\exp(\\text{sim}(z_i, z_j)/\\tau)}{\\sum_{k} \\exp(\\text{sim}(z_i, z_k)/\\tau)}",
+        loss: "NT-Xent Contrastive Loss"
+      },
+      {
+        step: "STAGE 03",
+        name: "Graph Construction & Node Adjacency",
+        tensorDim: "[N_{nodes}, N_{nodes}]",
+        receptiveField: "Relational",
+        params: "Dynamic Graph",
+        flops: "0.3 GFLOPs",
+        latencyRtx: "0.6 ms",
+        latencyJetson: "2.0 ms",
+        desc: "Builds a botanical topology graph where candidate bounding boxes form nodes and overlapping spatial coordinates define normalized edge weights A.",
+        mathEq: "A_{ij} = \\exp(-\\frac{\\mathcal{D}(c_i, c_j)^2}{2\\sigma^2}) \\cdot \\mathbb{I}_{\\text{IoU}(b_i, b_j) > \\theta}",
+        loss: "Spatial Distance & IoU Topology"
+      },
+      {
+        step: "STAGE 04",
+        name: "Spatial Graph Convolution (GCN)",
+        tensorDim: "[N_{nodes}, 256]",
+        receptiveField: "K-Hop Neighbors",
+        params: "3.4M Params",
+        flops: "0.9 GFLOPs",
+        latencyRtx: "1.1 ms",
+        latencyJetson: "3.8 ms",
+        desc: "Aggregates message-passing signals across neighboring plant nodes to disambiguate severe foliage occlusions and cluster dense blooms.",
+        mathEq: "H^{(l+1)} = \\sigma(\\tilde{D}^{-\\frac{1}{2}}\\tilde{A}\\tilde{D}^{-\\frac{1}{2}} H^{(l)} W^{(l)})",
+        loss: "Graph Spectral Convolution"
+      },
+      {
+        step: "STAGE 05",
+        name: "Quantized Edge Detection Head",
+        tensorDim: "[B, N_{dets}, 6]",
+        receptiveField: "Multi-Scale",
+        params: "5.8M Params",
+        flops: "1.4 GFLOPs",
+        latencyRtx: "0.9 ms",
+        latencyJetson: "3.2 ms",
+        desc: "TensorRT INT8 quantized anchor-free prediction head outputting precise bounding boxes, flower class probabilities, and maturity indices at 38+ FPS.",
+        mathEq: "\\mathcal{L}_{det} = \\lambda_{cls}\\mathcal{L}_{BCE} + \\lambda_{box}\\mathcal{L}_{CIoU}",
+        loss: "Real-Time Edge Objective (>38 FPS)"
+      }
+    ]
+  },
+  emotion: {
+    title: "CodeMixEcom Transformer (Bangla-English NLP)",
+    badge: "Best Paper Award AII 2025 · Washington D.C.",
+    desc: "Dual-head cross-lingual transformer with phonological subword tokenization for fine-grained emotion classification on code-mixed Banglish reviews.",
+    stages: [
+      {
+        step: "STAGE 01",
+        name: "Phonological Subword Tokenizer",
+        tensorDim: "[B, 128]",
+        receptiveField: "Token Level",
+        params: "32K Vocab",
+        flops: "0.05 GFLOPs",
+        latencyRtx: "0.2 ms",
+        latencyJetson: "0.6 ms",
+        desc: "Custom Romanized Bangla (Banglish) subword BPE tokenizer resolving phonetic spelling variations and informal colloquial slang.",
+        mathEq: "Tokens = \\text{BPE}(\\text{Normalize}(Text)) \\quad |V| = 32{,}000",
+        loss: "Subword Segmentation"
+      },
+      {
+        step: "STAGE 02",
+        name: "Multilingual Embedding Space",
+        tensorDim: "[B, 128, 768]",
+        receptiveField: "Word + Position",
+        params: "24.5M Params",
+        flops: "0.3 GFLOPs",
+        latencyRtx: "0.5 ms",
+        latencyJetson: "1.4 ms",
+        desc: "Projects subwords, token types, and sinusoidal position encodings into unified 768-dimensional cross-lingual semantic embedding vectors.",
+        mathEq: "E = E_{tok} + E_{pos} + E_{seg}",
+        loss: "Embedding Manifold Alignment"
+      },
+      {
+        step: "STAGE 03",
+        name: "Bidirectional Self-Attention Stack",
+        tensorDim: "[B, 128, 768]",
+        receptiveField: "Full Sentence",
+        params: "85.2M Params",
+        flops: "5.4 GFLOPs",
+        latencyRtx: "2.8 ms",
+        latencyJetson: "9.2 ms",
+        desc: "12-layer transformer encoder computing all-to-all contextual token relationships across simultaneous Bangla, English, and transliterated phrases.",
+        mathEq: "\\text{MultiHead}(Q,K,V) = \\text{Concat}(head_1, ..., head_h) W^O",
+        loss: "Cross-Attention Representation"
+      },
+      {
+        step: "STAGE 04",
+        name: "Contrastive Semantic Projection Head",
+        tensorDim: "[B, 256]",
+        receptiveField: "[CLS] Pooling",
+        params: "1.8M Params",
+        flops: "0.4 GFLOPs",
+        latencyRtx: "0.6 ms",
+        latencyJetson: "1.8 ms",
+        desc: "Pulls same-emotion utterances from different scripts (native Bengali vs. Romanized Banglish) into congruent latent metric clusters.",
+        mathEq: "\\mathcal{L}_{sup-con} = \\sum_{i} -\\frac{1}{|P(i)|} \\sum_{p \\in P(i)} \\log \\frac{\\exp(z_i \\cdot z_p / \\tau)}{\\sum_a \\exp(z_i \\cdot z_a / \\tau)}",
+        loss: "Supervised Contrastive Head"
+      },
+      {
+        step: "STAGE 05",
+        name: "Fine-Grained Emotion Classifier",
+        tensorDim: "[B, 7]",
+        receptiveField: "Document Level",
+        params: "0.4M Params",
+        flops: "0.1 GFLOPs",
+        latencyRtx: "0.3 ms",
+        latencyJetson: "0.9 ms",
+        desc: "Softmax output predicting 7 distinct affective classes (Joy, Anger, Sadness, Fear, Love, Surprise, Neutral) achieving SOTA 84.7% Macro F1.",
+        mathEq: "\\hat{y} = \\text{Softmax}(W_c \\cdot [CLS] + b_c)",
+        loss: "Focal Cross-Entropy Loss"
+      }
+    ]
+  },
+  voicerag: {
+    title: "HealthRide Low-Latency Voice RAG Engine",
+    badge: "Production SaaS · Sub-350ms Pipeline",
+    desc: "Real-time streaming WebRTC audio ingestion with Whisper VAD, FAISS semantic vector retrieval, and event-driven NEMT trip dispatching.",
+    stages: [
+      {
+        step: "STAGE 01",
+        name: "Streaming WebRTC Audio Ingestion & VAD",
+        tensorDim: "[16000 Hz, 16-bit PCM]",
+        receptiveField: "Temporal Frame",
+        params: "Silero VAD",
+        flops: "0.02 GFLOPs",
+        latencyRtx: "12 ms",
+        latencyJetson: "25 ms",
+        desc: "Buffers continuous 20ms incoming voice chunks and applies sub-millisecond Voice Activity Detection (VAD) to trim ambient noise and silence.",
+        mathEq: "P(\\text{speech} | x_t) > \\theta_{vad} \\implies \\text{Emit Chunk}",
+        loss: "Streaming Frame Gating"
+      },
+      {
+        step: "STAGE 02",
+        name: "Streaming Whisper Speech-to-Text",
+        tensorDim: "[B, 80, 3000] Mel Spectrogram",
+        receptiveField: "30s Buffer",
+        params: "39M Params",
+        flops: "1.8 GFLOPs",
+        latencyRtx: "115 ms",
+        latencyJetson: "240 ms",
+        desc: "Fast streaming acoustic encoder converting speech spectrograms into verified patient ride request transcripts with medical entity preservation.",
+        mathEq: "Y_{text} = \\arg\\max_y \\prod_{t} P(y_t | y_{<t}, \\text{Mel}(X))",
+        loss: "CTC & Autoregressive Transcription"
+      },
+      {
+        step: "STAGE 03",
+        name: "FAISS Vector RAG Knowledge Retrieval",
+        tensorDim: "[1, 384] Query Embedding",
+        receptiveField: "SOP Vector Space",
+        params: "HNSW Index",
+        flops: "0.01 GFLOPs",
+        latencyRtx: "1.2 ms",
+        latencyJetson: "3.4 ms",
+        desc: "Embeds caller intention and conducts sub-2ms similarity search across compliance protocols, Medicaid billing rules, and regional vehicle dispatch matrices.",
+        mathEq: "k^* = \\arg\\min_{k} ||q_{embed} - v_k||_2^2 \\quad k \\in \\text{Index}",
+        loss: "Top-K Contextual Neighbor Retrieval"
+      },
+      {
+        step: "STAGE 04",
+        name: "LLM Function Calling & Entity Extraction",
+        tensorDim: "JSON Payload",
+        receptiveField: "Context Window",
+        params: "Quantized 8B Model",
+        flops: "3.8 GFLOPs",
+        latencyRtx: "140 ms",
+        latencyJetson: "310 ms",
+        desc: "Extracts pickup location, destination medical facility, wheelchair mobility requirements, and Medicaid ID into structured dispatch schema.",
+        mathEq: "\\text{Schema} = \\text{ExtractEntities}(Y_{text}, Context_{rag})",
+        loss: "Structured Extraction Objective"
+      },
+      {
+        step: "STAGE 05",
+        name: "Streaming Voice Synthesis (TTS) & Event Dispatch",
+        tensorDim: "[24000 Hz Audio Out]",
+        receptiveField: "Phoneme Stream",
+        params: "FastSpeech 2",
+        flops: "0.6 GFLOPs",
+        latencyRtx: "45 ms",
+        latencyJetson: "95 ms",
+        desc: "Streams natural synthesized speech back to patient over WebSockets while publishing an AMQP dispatch job directly to available driver tablets.",
+        mathEq: "\\text{Audio Stream} \\parallel \\text{DispatchTrip}(PatientId, Coordinates)",
+        loss: "End-to-End Latency Target < 350 ms"
+      }
+    ]
+  }
+};
+
+let currentSimModel = 'swin';
+let currentSimStage = 0;
+let isSimulationSweeping = false;
+
+function initNeuralSimulator() {
+  renderSimulatorStageRail();
+  renderSimulatorStageInspector();
+}
+
+function switchSimulatorModel(modelKey) {
+  if (!SIMULATOR_DATA[modelKey]) return;
+  currentSimModel = modelKey;
+  currentSimStage = 0;
+
+  document.querySelectorAll('.sim-model-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-model') === modelKey);
+  });
+
+  renderSimulatorStageRail();
+  renderSimulatorStageInspector();
+  if (window.lucide) lucide.createIcons();
+}
+
+function renderSimulatorStageRail() {
+  const rail = document.getElementById('simPipelineRail');
+  if (!rail) return;
+
+  const model = SIMULATOR_DATA[currentSimModel];
+  if (!model) return;
+
+  let html = '';
+  model.stages.forEach((st, idx) => {
+    const isActive = idx === currentSimStage ? 'active' : '';
+    html += `
+      <div class="sim-stage-node ${isActive}" data-stage="${idx}" onclick="selectSimulatorStage(${idx})">
+        <div class="sim-stage-step">${st.step}</div>
+        <div class="sim-stage-name">${escapeHtml(st.name)}</div>
+        <span class="sim-stage-tensor-dim">${escapeHtml(st.tensorDim)}</span>
+      </div>
+    `;
+    if (idx < model.stages.length - 1) {
+      html += `<div class="sim-stage-arrow">➔</div>`;
+    }
+  });
+
+  rail.innerHTML = html;
+}
+
+function selectSimulatorStage(stageIdx) {
+  currentSimStage = stageIdx;
+
+  document.querySelectorAll('.sim-stage-node').forEach((node, idx) => {
+    node.classList.toggle('active', idx === stageIdx);
+  });
+
+  renderSimulatorStageInspector();
+  if (window.lucide) lucide.createIcons();
+}
+
+function renderSimulatorStageInspector() {
+  const pane = document.getElementById('simInspectorPane');
+  if (!pane) return;
+
+  const model = SIMULATOR_DATA[currentSimModel];
+  if (!model || !model.stages[currentSimStage]) return;
+
+  const st = model.stages[currentSimStage];
+
+  pane.innerHTML = `
+    <div class="sim-inspect-card">
+      <div class="sim-inspect-badge">
+        <i data-lucide="cpu"></i>
+        <span>${st.step} // ARCHITECTURE INSPECTOR</span>
+      </div>
+      <h4 class="sim-inspect-title">${escapeHtml(st.name)}</h4>
+      <p class="sim-inspect-desc">${escapeHtml(st.desc)}</p>
+
+      <div class="sim-specs-table">
+        <div class="sim-spec-cell">
+          <div class="sim-cell-lbl">Output Tensor Shape</div>
+          <div class="sim-cell-val" style="color: var(--cyan);">${escapeHtml(st.tensorDim)}</div>
+        </div>
+        <div class="sim-spec-cell">
+          <div class="sim-cell-lbl">Receptive Field</div>
+          <div class="sim-cell-val">${escapeHtml(st.receptiveField)}</div>
+        </div>
+        <div class="sim-spec-cell">
+          <div class="sim-cell-lbl">Parameters</div>
+          <div class="sim-cell-val">${escapeHtml(st.params)}</div>
+        </div>
+        <div class="sim-spec-cell">
+          <div class="sim-cell-lbl">Floating-Point FLOPs</div>
+          <div class="sim-cell-val">${escapeHtml(st.flops)}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sim-inspect-card">
+      <div class="sim-inspect-badge" style="background: rgba(6, 182, 212, 0.1); color: var(--cyan);">
+        <i data-lucide="activity"></i>
+        <span>EMPIRICAL LATENCY & MATHEMATICAL FORMULATION</span>
+      </div>
+
+      <div class="sim-math-box">
+        <div class="sim-math-lbl">Mathematical Operator Formulation</div>
+        <div class="sim-math-eq">${escapeHtml(st.mathEq)}</div>
+      </div>
+
+      <div class="sim-math-box" style="margin-top: 10px;">
+        <div class="sim-math-lbl" style="color: var(--emerald-light);">Stage Optimization Objective</div>
+        <div class="sim-math-eq" style="color: var(--text-primary); font-size: 0.78rem;">${escapeHtml(st.loss)}</div>
+      </div>
+
+      <div class="sim-latency-track">
+        <div class="sim-latency-lbl-row">
+          <span>Inference Latency (RTX 4090): <strong>${st.latencyRtx}</strong></span>
+          <span>Embedded Jetson Orin: <strong>${st.latencyJetson}</strong></span>
+        </div>
+        <div class="sim-latency-bar">
+          <div class="sim-latency-fill" style="width: ${Math.min(100, (currentSimStage + 1) * 20)}%;"></div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+async function runSimulationSweep() {
+  if (isSimulationSweeping) return;
+  isSimulationSweeping = true;
+
+  const btn = document.getElementById('runSimSweepBtn');
+  const txt = document.getElementById('sweepBtnText');
+  if (btn) btn.disabled = true;
+  if (txt) txt.textContent = 'Simulating Tensor Flow...';
+
+  const model = SIMULATOR_DATA[currentSimModel];
+  const stageCount = model.stages.length;
+
+  for (let i = 0; i < stageCount; i++) {
+    selectSimulatorStage(i);
+    const nodes = document.querySelectorAll('.sim-stage-node');
+    if (nodes[i]) {
+      nodes[i].classList.add('sweeping');
+    }
+    await new Promise(r => setTimeout(r, 650));
+    if (nodes[i]) {
+      nodes[i].classList.remove('sweeping');
+    }
+  }
+
+  showToast(`Full inference pass simulation complete for ${model.title}!`);
+
+  if (btn) btn.disabled = false;
+  if (txt) txt.textContent = 'Run Inference Simulation Sweep';
+  isSimulationSweeping = false;
+}
+
+// ══════════════════════════════════════════════════════════════════
+//  FEATURE B: INTERACTIVE MODEL BENCHMARK COMPARATOR RUNTIME
+// ══════════════════════════════════════════════════════════════════
+
+const BENCHMARK_STUDIES = {
+  agri: {
+    title: "Precision AgriTech: SSL-GCN vs Standard YOLOv8 & ViT",
+    subtitle: "Empirical field trial on 50,000+ images in varying sunlight & foliage occlusion (Elsevier 2025)",
+    metrics: [
+      {
+        name: "Object Detection mAP@0.5",
+        baselineVal: 81.2,
+        proposedVal: 92.6,
+        displayBaseline: "81.2%",
+        displayProposed: "92.6%",
+        delta: "+11.4%",
+        higherIsBetter: true,
+        unit: "%"
+      },
+      {
+        name: "Real-Time Edge Speed (Jetson)",
+        baselineVal: 14.5,
+        proposedVal: 38.2,
+        displayBaseline: "14.5 FPS",
+        displayProposed: "38.2 FPS",
+        delta: "+163%",
+        higherIsBetter: true,
+        unit: "FPS"
+      },
+      {
+        name: "Label Efficiency (10% Labels)",
+        baselineVal: 60.7,
+        proposedVal: 88.1,
+        displayBaseline: "60.7%",
+        displayProposed: "88.1%",
+        delta: "+27.4%",
+        higherIsBetter: true,
+        unit: "%"
+      },
+      {
+        name: "Memory Footprint (Inference)",
+        baselineVal: 14.8,
+        proposedVal: 8.4,
+        displayBaseline: "14.8 GB",
+        displayProposed: "8.4 GB",
+        delta: "-43.2%",
+        higherIsBetter: false,
+        unit: "GB"
+      }
+    ],
+    rationale: "Karib's combination of self-supervised SimCLR pretraining with a spatial Graph Convolutional Network (GCN) captures topological relations between overlapping plant disks, preventing false negatives under foliage occlusion without requiring millions of costly manual annotations."
+  },
+  emotion: {
+    title: "Multimodal NLP: BanglishBERT vs mBERT & XLM-RoBERTa",
+    subtitle: "Evaluated on 20,000+ CodeMixEcom-Emotion reviews (Best Paper Award AII 2025 Washington D.C.)",
+    metrics: [
+      {
+        name: "Macro F1-Score (Fine-Grained 7-Class)",
+        baselineVal: 72.1,
+        proposedVal: 84.7,
+        displayBaseline: "72.1%",
+        displayProposed: "84.7%",
+        delta: "+12.6%",
+        higherIsBetter: true,
+        unit: "%"
+      },
+      {
+        name: "Phonological Slang Accuracy",
+        baselineVal: 64.3,
+        proposedVal: 89.2,
+        displayBaseline: "64.3%",
+        displayProposed: "89.2%",
+        delta: "+24.9%",
+        higherIsBetter: true,
+        unit: "%"
+      },
+      {
+        name: "Throughput (Sentences / Sec)",
+        baselineVal: 210,
+        proposedVal: 620,
+        displayBaseline: "210 sent/s",
+        displayProposed: "620 sent/s",
+        delta: "+195%",
+        higherIsBetter: true,
+        unit: "sent/s"
+      },
+      {
+        name: "Cross-Lingual Perplexity",
+        baselineVal: 18.6,
+        proposedVal: 9.4,
+        displayBaseline: "18.6 PPL",
+        displayProposed: "9.4 PPL",
+        delta: "-49.5%",
+        higherIsBetter: false,
+        unit: "PPL"
+      }
+    ],
+    rationale: "Standard mBERT tokenizers fragment code-mixed words into unintelligible morphemes. Karib designed a dual-head contrastive loss with specialized phonetic subword vocabulary, projecting Romanized Banglish and native script into shared semantic clusters."
+  },
+  medical: {
+    title: "Medical AI: Swin-UNETR vs Standard UNet & SegNet",
+    subtitle: "Benchmarked on multi-organ 3D CT lesion boundaries with limited clinical supervision (IEEE 2025)",
+    metrics: [
+      {
+        name: "Dice Similarity Coefficient",
+        baselineVal: 81.3,
+        proposedVal: 93.0,
+        displayBaseline: "81.3%",
+        displayProposed: "93.0%",
+        delta: "+11.7%",
+        higherIsBetter: true,
+        unit: "%"
+      },
+      {
+        name: "Boundary Hausdorff Distance (95%)",
+        baselineVal: 7.8,
+        proposedVal: 3.1,
+        displayBaseline: "7.8 mm",
+        displayProposed: "3.1 mm",
+        delta: "-60.3%",
+        higherIsBetter: false,
+        unit: "mm"
+      },
+      {
+        name: "Annotation Efficiency (20% Labels)",
+        baselineVal: 68.4,
+        proposedVal: 90.8,
+        displayBaseline: "68.4%",
+        displayProposed: "90.8%",
+        delta: "+22.4%",
+        higherIsBetter: true,
+        unit: "%"
+      },
+      {
+        name: "GPU VRAM Allocation",
+        baselineVal: 18.2,
+        proposedVal: 11.6,
+        displayBaseline: "18.2 GB",
+        displayProposed: "11.6 GB",
+        delta: "-36.3%",
+        higherIsBetter: false,
+        unit: "GB"
+      }
+    ],
+    rationale: "Shifted-window self-attention allows linear computational scaling with image resolution while multi-scale skip connections preserve micro-lesion contours that standard convolutional networks smooth out."
+  }
+};
+
+let currentBenchStudy = 'agri';
+let currentBenchSliderVal = 100;
+
+function initBenchmarkComparator() {
+  renderBenchmarkComparator();
+}
+
+function switchBenchmarkStudy(studyKey) {
+  if (!BENCHMARK_STUDIES[studyKey]) return;
+  currentBenchStudy = studyKey;
+
+  document.querySelectorAll('.bench-tab-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-study') === studyKey);
+  });
+
+  renderBenchmarkComparator();
+  if (window.lucide) lucide.createIcons();
+}
+
+function handleBenchmarkSlider(val) {
+  currentBenchSliderVal = parseInt(val, 10);
+  const centerEl = document.getElementById('benchSliderPct');
+  if (centerEl) {
+    if (currentBenchSliderVal === 0) {
+      centerEl.textContent = '100% Baseline Model';
+    } else if (currentBenchSliderVal === 100) {
+      centerEl.textContent = '100% Karib SOTA Architecture';
+    } else {
+      centerEl.textContent = `${currentBenchSliderVal}% Proposed Mix / ${100 - currentBenchSliderVal}% Baseline`;
+    }
+  }
+
+  updateBenchmarkMetricFills();
+}
+
+function renderBenchmarkComparator() {
+  const study = BENCHMARK_STUDIES[currentBenchStudy];
+  if (!study) return;
+
+  const grid = document.getElementById('benchMetricsGrid');
+  const rationale = document.getElementById('benchRationaleBox');
+
+  if (grid) {
+    let html = '';
+    study.metrics.forEach((m, idx) => {
+      html += `
+        <div class="bench-metric-card" id="bmCard_${idx}">
+          <div class="bm-header">
+            <span class="bm-title">${escapeHtml(m.name)}</span>
+            <span class="bm-delta-pill" id="bmDelta_${idx}">${escapeHtml(m.delta)}</span>
+          </div>
+
+          <div class="bm-bars">
+            <div class="bm-bar-row">
+              <span class="bm-row-lbl">Baseline</span>
+              <div class="bm-bar-track">
+                <div class="bm-fill baseline" id="bmFillBase_${idx}" style="width: 50%;"></div>
+              </div>
+              <span class="bm-row-val" style="color: var(--text-muted);">${escapeHtml(m.displayBaseline)}</span>
+            </div>
+
+            <div class="bm-bar-row">
+              <span class="bm-row-lbl" style="color: var(--emerald-light); font-weight: 700;">Proposed</span>
+              <div class="bm-bar-track">
+                <div class="bm-fill proposed" id="bmFillProp_${idx}" style="width: 85%;"></div>
+              </div>
+              <span class="bm-row-val" id="bmValProp_${idx}" style="color: var(--emerald-light); font-weight: 800;">${escapeHtml(m.displayProposed)}</span>
+            </div>
+          </div>
+        </div>
+      `;
+    });
+    grid.innerHTML = html;
+  }
+
+  if (rationale) {
+    rationale.innerHTML = `
+      <i data-lucide="check-circle-2" class="bench-rationale-icon"></i>
+      <div class="bench-rationale-text">
+        <strong>Architectural Mechanism of Gain:</strong> ${escapeHtml(study.rationale)}
+      </div>
+    `;
+  }
+
+  updateBenchmarkMetricFills();
+}
+
+function updateBenchmarkMetricFills() {
+  const study = BENCHMARK_STUDIES[currentBenchStudy];
+  if (!study) return;
+
+  const t = currentBenchSliderVal / 100;
+
+  study.metrics.forEach((m, idx) => {
+    const baseFill = document.getElementById(`bmFillBase_${idx}`);
+    const propFill = document.getElementById(`bmFillProp_${idx}`);
+    const valProp = document.getElementById(`bmValProp_${idx}`);
+    const deltaEl = document.getElementById(`bmDelta_${idx}`);
+
+    if (m.higherIsBetter) {
+      const maxVal = Math.max(m.baselineVal, m.proposedVal) * 1.15;
+      const basePct = (m.baselineVal / maxVal) * 100;
+      const currVal = m.baselineVal + (m.proposedVal - m.baselineVal) * t;
+      const propPct = (currVal / maxVal) * 100;
+
+      if (baseFill) baseFill.style.width = `${basePct.toFixed(1)}%`;
+      if (propFill) propFill.style.width = `${propPct.toFixed(1)}%`;
+      if (valProp) valProp.textContent = currVal.toFixed(1) + (m.unit === '%' ? '%' : ' ' + m.unit);
+    } else {
+      const maxVal = Math.max(m.baselineVal, m.proposedVal) * 1.25;
+      const basePct = (m.baselineVal / maxVal) * 100;
+      const currVal = m.baselineVal + (m.proposedVal - m.baselineVal) * t;
+      const propPct = (currVal / maxVal) * 100;
+
+      if (baseFill) baseFill.style.width = `${basePct.toFixed(1)}%`;
+      if (propFill) propFill.style.width = `${propPct.toFixed(1)}%`;
+      if (valProp) valProp.textContent = currVal.toFixed(1) + (m.unit === '%' ? '%' : ' ' + m.unit);
+    }
+
+    if (deltaEl) {
+      if (t > 0.8) {
+        deltaEl.style.opacity = '1';
+        deltaEl.textContent = m.delta;
+      } else {
+        const partial = Math.round(t * 100);
+        deltaEl.textContent = `${partial}% Mix`;
+        deltaEl.style.opacity = '0.7';
+      }
+    }
+  });
+}
+
+// ══════════════════════════════════════════════════════════════════
+//  FEATURE C: IN-PAGE RESEARCH PAPER ABSTRACT & DRAWER MODAL
+// ══════════════════════════════════════════════════════════════════
+
+let currentDrawerPub = null;
+
+function openPaperDrawer(pubId) {
+  const pub = STATE.publications.find(p => p.id === pubId);
+  if (!pub) return;
+
+  currentDrawerPub = pub;
+
+  const modal = document.getElementById('paperDrawerModal');
+  const titleEl = document.getElementById('paperDrawerTitle');
+  const venueEl = document.getElementById('paperDrawerVenue');
+  const domainEl = document.getElementById('paperDrawerDomain');
+  const yearEl = document.getElementById('paperDrawerYear');
+  const awardEl = document.getElementById('paperDrawerAward');
+  const citesEl = document.getElementById('paperDrawerCitations');
+  const doiEl = document.getElementById('paperDrawerDoi');
+  const doiLink = document.getElementById('paperDrawerDoiLink');
+  const scholarLink = document.getElementById('paperDrawerScholarLink');
+  const abstractText = document.getElementById('paperDrawerAbstractText');
+  const takeawaysList = document.getElementById('paperDrawerTakeawaysList');
+  const bibtexCode = document.getElementById('paperDrawerBibtexCode');
+
+  if (titleEl) titleEl.textContent = pub.title;
+  if (venueEl) venueEl.textContent = pub.venue;
+  if (domainEl) domainEl.textContent = pub.domain;
+  if (yearEl) yearEl.textContent = pub.year;
+
+  if (awardEl) {
+    if (pub.award) {
+      awardEl.textContent = pub.award;
+      awardEl.style.display = 'inline-flex';
+    } else {
+      awardEl.style.display = 'none';
+    }
+  }
+
+  if (citesEl) {
+    const count = pub.cited || 0;
+    citesEl.textContent = `${count} Citation${count === 1 ? '' : 's'}`;
+  }
+
+  if (doiEl) {
+    doiEl.textContent = pub.doi ? `doi:${pub.doi}` : 'Official Proceedings';
+  }
+
+  if (doiLink) {
+    if (pub.doi) {
+      doiLink.href = `https://doi.org/${pub.doi}`;
+      doiLink.style.display = 'inline-flex';
+    } else {
+      doiLink.href = pub.scholar_url || 'https://scholar.google.com/citations?user=C26dtwMAAAAJ';
+    }
+  }
+
+  if (scholarLink) {
+    scholarLink.href = pub.scholar_url || 'https://scholar.google.com/citations?user=C26dtwMAAAAJ';
+  }
+
+  if (abstractText) {
+    abstractText.textContent = pub.abstract || "This peer-reviewed paper contributes novel neural architectures and empirical methodology to the scientific literature, benchmarked against rigorous domain baselines.";
+  }
+
+  if (takeawaysList) {
+    const takeaways = pub.takeaways && pub.takeaways.length ? pub.takeaways : [
+      "Peer-reviewed scientific validation published in international conference/journal proceedings.",
+      "Novel architecture formulation addressing data-efficiency and real-time execution constraints.",
+      "Empirical benchmark datasets and reproducible baseline comparisons."
+    ];
+    takeawaysList.innerHTML = takeaways.map(t => `<li>${escapeHtml(t)}</li>`).join('');
+  }
+
+  if (bibtexCode) {
+    bibtexCode.textContent = pub.bibtex || `@article{shams${pub.year},\n  title={${pub.title}},\n  author={Shams, Karib and others},\n  year={${pub.year}}\n}`;
+  }
+
+  switchPaperDrawerTab('abstract');
+
+  if (modal) {
+    modal.classList.add('active');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  if (window.lucide) lucide.createIcons();
+}
+
+function closePaperDrawer() {
+  const modal = document.getElementById('paperDrawerModal');
+  if (modal) {
+    modal.classList.remove('active');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+}
+
+function switchPaperDrawerTab(tabName) {
+  document.querySelectorAll('.drawer-tab-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-tab') === tabName);
+  });
+
+  const paneAbstract = document.getElementById('paneAbstract');
+  const paneTakeaways = document.getElementById('paneTakeaways');
+  const paneBibtex = document.getElementById('paneBibtex');
+
+  if (paneAbstract) paneAbstract.style.display = tabName === 'abstract' ? 'block' : 'none';
+  if (paneTakeaways) paneTakeaways.style.display = tabName === 'takeaways' ? 'block' : 'none';
+  if (paneBibtex) paneBibtex.style.display = tabName === 'bibtex' ? 'block' : 'none';
+
+  if (window.lucide) lucide.createIcons();
+}
+
+function copyDrawerBibtex() {
+  const codeEl = document.getElementById('paperDrawerBibtexCode');
+  const btnTxt = document.getElementById('copyDrawerBibText');
+  if (!codeEl) return;
+
+  navigator.clipboard.writeText(codeEl.textContent).then(() => {
+    if (btnTxt) btnTxt.textContent = 'Copied to Clipboard!';
+    showToast('BibTeX citation copied to clipboard!');
+    setTimeout(() => {
+      if (btnTxt) btnTxt.textContent = 'Copy BibTeX Entry';
+    }, 2400);
+  });
+}
+
+// ══════════════════════════════════════════════════════════════════
+//  FEATURE D: RECRUITER 30-SECOND FAST-TRACK EXECUTIVE BRIEF
+// ══════════════════════════════════════════════════════════════════
+
+function openExecutiveModal() {
+  const modal = document.getElementById('executiveBriefModal');
+  if (!modal) return;
+  modal.classList.add('active');
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  if (window.lucide) lucide.createIcons();
+}
+
+function closeExecutiveModal() {
+  const modal = document.getElementById('executiveBriefModal');
+  if (!modal) return;
+  modal.classList.remove('active');
+  modal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+
+// ── INITIALIZE ALL 4 NEW INTERACTIVE FEATURES ─────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  initNeuralSimulator();
+  initBenchmarkComparator();
+
+  // Paper drawer backdrop click
+  const drawerBackdrop = document.getElementById('paperDrawerModal');
+  if (drawerBackdrop) {
+    drawerBackdrop.addEventListener('click', e => {
+      if (e.target === drawerBackdrop) closePaperDrawer();
+    });
+  }
+
+  // Executive brief modal backdrop click
+  const execModal = document.getElementById('executiveBriefModal');
+  if (execModal) {
+    execModal.addEventListener('click', e => {
+      if (e.target === execModal) closeExecutiveModal();
+    });
   }
 });
