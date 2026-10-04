@@ -1,9 +1,35 @@
+import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = 'django-insecure-karib-shams-v3-portfolio-change-in-production-2025'
-DEBUG = True
-ALLOWED_HOSTS = ['*']
+
+# Security: Environment override for PythonAnywhere deployment
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-karib-shams-v3-portfolio-change-in-production-2025')
+DEBUG = os.environ.get('DJANGO_DEBUG', 'True').lower() in ('true', '1', 'yes')
+
+ALLOWED_HOSTS = [
+    'karib.pythonanywhere.com',
+    'www.karib.pythonanywhere.com',
+    '127.0.0.1',
+    'localhost',
+    '*',
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://karib.pythonanywhere.com',
+    'https://*.pythonanywhere.com',
+    'http://127.0.0.1:8000',
+    'http://localhost:8000',
+]
+
+# Security headers
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'
+CSRF_COOKIE_HTTPONLY = False
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SAMESITE = 'Lax'
+CSRF_COOKIE_SAMESITE = 'Lax'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
