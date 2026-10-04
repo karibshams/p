@@ -781,6 +781,144 @@ DATA = {
 
 
 # ══════════════════════════════════════════════════════════════════
+#  RESEARCH PAPER ABSTRACTS & SCIENTIFIC TAKEAWAYS (PEER-REVIEWED)
+# ══════════════════════════════════════════════════════════════════
+
+PAPER_DETAILS = {
+    "pub-1": {
+        "abstract": "This research presents CodeMixEcom-Emotion, an empirical benchmark corpus comprising 20,000+ fine-grained annotated reviews written in code-mixed Bangla–English (Banglish). We benchmark fine-grained emotion classification across transformer architectures, introducing a dual-head contrastive loss formulation that resolves cross-lingual semantic ambiguities. Our model achieves a SOTA macro F1-score of 84.7%, outperforming standard multilingual baselines by +12.6%.",
+        "takeaways": [
+            "Curated 20,000+ review benchmark corpus for code-mixed Bangla-English NLP.",
+            "Dual-head cross-lingual contrastive transformer head minimizing phonological tokenization divergence.",
+            "Awarded Best Paper Award at AII 2025 in Washington D.C., published in Springer CCIS."
+        ]
+    },
+    "pub-2": {
+        "abstract": "Precision field robotics for crop yield estimation faces severe challenges from overlapping plant foliage, lighting fluctuations, and prohibitive annotation costs. This study develops a semi-supervised and self-supervised deep learning framework for real-time sunflower head detection. By combining SimCLR contrastive visual pretraining on 50,000+ unannotated field images with a Spatial Graph Convolutional Network (GCN) to capture botanical geometry, our framework reaches 92.6% mAP@0.5 and maintains 38.2 FPS on NVIDIA Jetson edge hardware with only 10% labeled supervision.",
+        "takeaways": [
+            "Self-supervised SimCLR pretraining extracting invariant visual priors without manual annotations.",
+            "Spatial GCN layer capturing relational occlusion topology between overlapping sunflower disks.",
+            "Published in Elsevier Smart Agricultural Technology (Vol. 11, 2025) with verified real-time edge execution."
+        ]
+    },
+    "pub-3": {
+        "abstract": "Urban traffic in South Asian metropolises is characterized by high heterogeneity, non-lane-based movement, and dense pedestrian-vehicle interactions. We introduce TFP-BD, a comprehensive multi-criteria image dataset comprising thousands of high-resolution annotations across pedestrian dynamics, rickshaws, and motor vehicles in Dhaka. We establish empirical baseline benchmarks across YOLO and RT-DETR backbones, providing computer vision researchers with a robust benchmark for edge traffic surveillance.",
+        "takeaways": [
+            "Comprehensive visual dataset published in Elsevier Data in Brief (Vol. 59, 2025).",
+            "Annotated across multi-class non-lane mixed traffic and complex pedestrian flows.",
+            "Establishes standard transfer learning benchmarks for edge detection models."
+        ]
+    },
+    "pub-4": {
+        "abstract": "Automated indoor vertical farming requires continuous non-invasive fungal growth monitoring. We propose an attention-enhanced ShuffleNet-based explainable AI (XAI) pipeline connected to CCTV video feeds for oyster mushroom growth stage segmentation. Incorporating channel-spatial attention mechanisms, our model achieves 94.1% classification accuracy with 4.8x lower FLOPs than standard ResNet architectures. Visual explanations validated via Grad-CAM and SHAP guarantee trustworthy biological tracking.",
+        "takeaways": [
+            "Ultra-lightweight attention ShuffleNet running real-time on continuous CCTV video streams.",
+            "XAI validation via Grad-CAM and SHAP attributions confirming biological relevance.",
+            "Published in Elsevier Smart Agricultural Technology (Vol. 12, 2025)."
+        ]
+    },
+    "pub-5": {
+        "abstract": "High-stakes clinical pharmacology requires interpretable decision-support systems. We develop an explainable XGBoost framework for multi-class illness category classification derived from structural drug attributes and chemical descriptors. Leveraging SHAP (SHapley Additive exPlanations) tree-explainers, our framework computes global feature importance and local patient-level attribution scores, achieving 91.8% AUROC while preserving clinical transparency.",
+        "takeaways": [
+            "Interpretable tree ensemble matching deep learning accuracy on structured pharmacological data.",
+            "Rigorous SHAP attribution uncovering key chemical determinants of adverse drug reactions.",
+            "Published in IEEE QPAIN 2025."
+        ]
+    },
+    "pub-6": {
+        "abstract": "Phenological tracking in automated floriculture is limited by dataset scarcity. BDFlower provides a standardized multi-stage visual corpus tracking botanical blooming stages under varying agricultural environments. Evaluated on multi-scale vision backbones, it serves as an open-access foundation for automated greenhouse robotics.",
+        "takeaways": [
+            "Published in Elsevier Data in Brief (Vol. 64, 2026).",
+            "Captures microscopic to macroscopic flower growth stages for precision agriculture.",
+            "Standardized train/val/test splits for reproducibility."
+        ]
+    },
+    "pub-7": {
+        "abstract": "Automated harvest sorting in developing agricultural economies requires robust computer vision on low-cost consumer hardware. We release a smartphone-based vegetable object detection dataset with multi-criteria annotations (maturity, defects, occlusion) captured in local markets across Bangladesh.",
+        "takeaways": [
+            "Published in Elsevier Data in Brief (Vol. 62, 2025).",
+            "Diverse lighting conditions, consumer smartphone camera sensors, and natural background clutter.",
+            "Benchmarked for lightweight edge deployment on mobile processors."
+        ]
+    },
+    "pub-8": {
+        "abstract": "Tuberculosis (TB) remains a major global public health concern where rapid diagnostic triage is crucial. This study engineers an automated TB diagnostic architecture from chest radiographs using a hybrid CNN-vision transformer. The pipeline achieves 96.4% diagnostic sensitivity on international benchmarks, outperforming standard radiologist baseline screening.",
+        "takeaways": [
+            "Hybrid CNN-Vision Transformer pipeline capturing global lung fields and local focal lesions.",
+            "Validated on multi-source chest radiograph benchmarks.",
+            "Published in IEEE ICAECT 2025."
+        ]
+    },
+    "pub-9": {
+        "abstract": "Published in Nature Portfolio's Scientific Reports, this study conducts an exhaustive architectural benchmark comparing hybrid convolutional neural networks, vision transformers (ViT/Swin), and graph convolutional networks (GCN) for phenological flower growth-stage classification. Results demonstrate that hybrid transformer-GCN topologies achieve superior topological feature representation under occluded field conditions.",
+        "takeaways": [
+            "Published in Scientific Reports (Nature Portfolio, 2026).",
+            "Exhaustive comparative study of CNNs vs. Vision Transformers vs. GCNs.",
+            "Empirically proves that spatial graph reasoning reduces misclassification under floral occlusion."
+        ]
+    },
+    "pub-10": {
+        "abstract": "Radiological annotation of 3D abdominal CT scans is clinically labor-intensive. We propose a semi-supervised Swin Transformer framework utilizing shifted-window self-attention for kidney lesion classification. By enforcing consistency regularization across perturbed unlabeled volumes, the framework achieves 93.8% AUC with only 20% labeled CT slices.",
+        "takeaways": [
+            "Shifted window self-attention reducing computational complexity from quadratic to linear.",
+            "Semi-supervised consistency regularization maximizing data efficiency on limited CT annotations.",
+            "Published in IEEE SPICSCON 2025."
+        ]
+    },
+    "pub-11": {
+        "abstract": "Small cell lung cancer (SCLC) exhibits rapid progression and poor clinical prognosis. We train a deep learning multi-instance learning framework on whole slide histopathology images to predict patient therapeutic response and survival strata. The model accurately correlates tumor micro-environment morphology with clinical outcomes.",
+        "takeaways": [
+            "Multi-instance learning on gigapixel histopathology whole slide images (WSI).",
+            "Correlates morphological cellular patterns with chemotherapy response.",
+            "Published in Springer Nature LNNS 2024."
+        ]
+    },
+    "pub-12": {
+        "abstract": "Early detection of bone metastases in adult breast cancer patients is critical for therapeutic intervention. We formulate a semi-supervised convolutional framework that fuses multi-view skeletal scintigraphy and radiographs, achieving early osteolytic lesion localization with high sensitivity.",
+        "takeaways": [
+            "Semi-supervised contrastive learning for skeletal metastatic screening.",
+            "Published in IEEE International Conference on Bioinformatics and Bioengineering (BIBE 2025)."
+        ]
+    },
+    "pub-13": {
+        "abstract": "Investigating maternal health risk stratification across rural healthcare centers in Bangladesh. We build an explainable machine learning architecture integrating physiological sensor signals and socioeconomic indicators, coupled with LIME and SHAP dashboards for frontline clinical interpretation.",
+        "takeaways": [
+            "Explainable ensemble ML for prenatal health risk stratification.",
+            "Published in IEEE SPICSCON 2025."
+        ]
+    },
+    "pub-14": {
+        "abstract": "Minimally invasive laparoscopic surgery demands real-time surgical instrument tracking under severe smoke and blood occlusion. We present an occlusion-resilient YOLO framework enhanced with self-supervised temporal tracking and attention heads.",
+        "takeaways": [
+            "Real-time surgical tool tracking operating at >45 FPS under severe surgical occlusion.",
+            "Published in IEEE BIBE 2025."
+        ]
+    },
+    "pub-15": {
+        "abstract": "Addressing the challenge of unaligned and paired CT-MRI multimodal neuroimaging. We develop a semi-supervised cross-modal alignment architecture that projects CT and MRI representations into a shared latent manifold for robust lesion classification.",
+        "takeaways": [
+            "Cross-modal latent space projection aligning CT and MRI feature representations.",
+            "Published in ICCIT 2025."
+        ]
+    },
+    "pub-16": {
+        "abstract": "Real-time airport terminal indoor air quality (IAQ) monitoring using Sensirion SCD30 sensor arrays. We deploy an explainable Random Forest pipeline that forecasts CO2 and particulate concentrations, providing automated HVAC ventilation triggers.",
+        "takeaways": [
+            "Edge IoT telemetry analysis with explainable tree ensembles.",
+            "Published in IEEE QPAIN 2025."
+        ]
+    },
+    "pub-17": {
+        "abstract": "Forecasting commercial building energy demand from meteorological signals using a comparative benchmark of classical ARIMA, ensemble trees, and hybrid deep learning (LSTM-Transformer) models with explainable weather feature importance.",
+        "takeaways": [
+            "Hybrid deep learning benchmark for energy consumption forecasting.",
+            "Published in IEEE QPAIN 2025."
+        ]
+    }
+}
+
+
+# ══════════════════════════════════════════════════════════════════
 #  INTERACTIVE RESEARCH QUERY ENGINE
 # ══════════════════════════════════════════════════════════════════
 
@@ -951,6 +1089,10 @@ def index(request):
 
     # Sync publications citation counts with scholar
     synced_pubs, top_cited = sync_publications(DATA["publications"], scholar_data.get("articles", []))
+    for p in synced_pubs:
+        details = PAPER_DETAILS.get(p["id"], {})
+        p["abstract"] = details.get("abstract", "")
+        p["takeaways"] = details.get("takeaways", [])
     site_data["publications"] = synced_pubs
     pub_count = len(synced_pubs)
 
