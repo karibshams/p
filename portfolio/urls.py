@@ -6,4 +6,5 @@ urlpatterns = [
     path('api/chat/', views.ai_chat, name='chat'),
     path('api/feedback/', views.submit_feedback, name='feedback'),
     path('api/scholar-sync/', views.sync_scholar_api, name='scholar_sync'),
+    path('api/github-sync/', views.sync_github_api, name='github_sync'),
 ]
