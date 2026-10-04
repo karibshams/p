@@ -986,6 +986,52 @@ function copyBibtexToClipboard() {
       action: () => {
         window.open('https://wa.me/8801797470717', '_blank');
       }
+    },
+    {
+      id: 'act-exec-brief',
+      type: 'actions',
+      title: '⚡ 30-Second Executive Brief (Recruiter Fast-Track)',
+      sub: 'Target roles, core superpowers, quantified impact, and instant contact',
+      badge: 'Recruiter',
+      icon: 'zap',
+      action: () => {
+        closeCmdKModal();
+        openExecutiveModal();
+      }
+    },
+    {
+      id: 'act-pipeline-sim',
+      type: 'architectures',
+      title: 'Interactive Neural Pipeline Simulator',
+      sub: 'Inspect layer latencies, tensor shapes, and loss math for Swin, GCN, NLP, and Voice RAG',
+      badge: 'Simulator',
+      icon: 'cpu',
+      action: () => {
+        closeCmdKModal();
+        const el = document.getElementById('pipeline-simulator');
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          el.style.borderColor = 'var(--emerald)';
+          setTimeout(() => el.style.borderColor = '', 2500);
+        }
+      }
+    },
+    {
+      id: 'act-bench-comparator',
+      type: 'architectures',
+      title: 'Interactive Model Benchmark Comparator',
+      sub: 'Quantify empirical deltas against baseline models in AgriTech, NLP, and Medical AI',
+      badge: 'Benchmarks',
+      icon: 'split',
+      action: () => {
+        closeCmdKModal();
+        const el = document.getElementById('benchmark-comparator');
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          el.style.borderColor = 'var(--cyan)';
+          setTimeout(() => el.style.borderColor = '', 2500);
+        }
+      }
     }
   );
 
@@ -1027,7 +1073,7 @@ function copyBibtexToClipboard() {
     });
   });
 
-  // 4. Publications
+  // 4. Publications (opens drawer directly)
   STATE.publications.forEach(pub => {
     items.push({
       id: pub.id,
@@ -1038,16 +1084,7 @@ function copyBibtexToClipboard() {
       icon: 'book-open',
       action: () => {
         closeCmdKModal();
-        const el = document.querySelector(`[data-pub-id="${pub.id}"]`);
-        if (el) {
-          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          el.style.borderColor = 'var(--emerald)';
-          setTimeout(() => el.style.borderColor = '', 2400);
-        } else if (pub.doi) {
-          window.open(`https://doi.org/${pub.doi}`, '_blank');
-        } else if (pub.scholar_url) {
-          window.open(pub.scholar_url, '_blank');
-        }
+        openPaperDrawer(pub.id);
       }
     });
   });
