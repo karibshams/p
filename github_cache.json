@@ -1,0 +1,54 @@
+{
+  "username": "karibshams",
+  "public_repos": 70,
+  "followers": 4,
+  "following": 2,
+  "total_contributions": 1244,
+  "commits_last_year": 755,
+  "total_prs": 2,
+  "total_stars": 1,
+  "longest_streak": 21,
+  "avatar_url": "https://avatars.githubusercontent.com/u/154616482?v=4",
+  "bio": "Hi, I am Karib Shams. Developing a strong \r\nfoundation in AI, machine learning, and \r\ndeep learning.",
+  "languages": {
+    "Python": "65.51%",
+    "Jupyter Notebook": "28.52%",
+    "C++": "3.81%",
+    "Cython": "1.38%",
+    "C": "0.52%",
+    "HTML": "0.16%",
+    "JavaScript": "0.06%",
+    "CSS": "0.04%"
+  },
+  "latest_repos": [
+    {
+      "name": "bg",
+      "description": "Applied AI and machine learning repository",
+      "language": "HTML",
+      "stars": 0,
+      "url": "https://github.com/karibshams/bg",
+      "updated_at": "Sep 2026"
+    },
+    {
+      "name": "p",
+      "description": "Applied AI and machine learning repository",
+      "language": "Python",
+      "stars": 0,
+      "url": "https://github.com/karibshams/p",
+      "updated_at": "Sep 2026"
+    },
+    {
+      "name": "ai_h",
+      "description": "Applied AI and machine learning repository",
+      "language": "Python",
+      "stars": 0,
+      "url": "https://github.com/karibshams/ai_h",
+      "updated_at": "Sep 2026"
+    }
+  ],
+  "last_synced": "Oct 04, 2026 12:43 PM",
+  "is_live": true,
+  "cached": false,
+  "timestamp": 1791096214.6291766,
+  "last_synced_iso": "2026-10-04T06:43:34.629176"
+}
