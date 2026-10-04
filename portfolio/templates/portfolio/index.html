@@ -113,16 +113,25 @@
       <nav class="nav-menu" id="navMenu">
         <a href="#about" class="nav-link">About</a>
         <a href="#case-studies" class="nav-link">Architectures</a>
+        <a href="#pipeline-simulator" class="nav-link">Simulator</a>
         <a href="#publications" class="nav-link">Research</a>
         <a href="#projects" class="nav-link">Systems</a>
         <a href="#github" class="nav-link">GitHub</a>
         <a href="#experience" class="nav-link">Experience</a>
         <a href="#analytics" class="nav-link">Analytics</a>
+        <a href="#benchmark-comparator" class="nav-link">Benchmarks</a>
         <a href="#assistant" class="nav-link">Console</a>
         <a href="#contact" class="nav-link">Contact</a>
       </nav>
 
       <div class="nav-actions">
+        <!-- Recruiter 30s Fast-Track Button -->
+        <button id="execBriefTrigger" class="nav-exec-pill" onclick="openExecutiveModal()" title="30-Second Fast-Track for Hiring Managers & CTOs">
+          <span class="exec-pulse-dot"></span>
+          <i data-lucide="zap"></i>
+          <span>Executive Brief</span>
+        </button>
+
         <!-- Command Palette Trigger -->
         <button id="cmdKTrigger" class="cmd-k-trigger" title="Command Palette (Ctrl + K / ⌘K)" aria-label="Open Command Palette" onclick="openCmdKModal()">
           <i data-lucide="search" class="cmd-k-icon"></i>
@@ -214,6 +223,12 @@
 
           <!-- CTAs -->
           <div class="hero-actions reveal">
+            <!-- 30s Executive Fast-Track Button -->
+            <button class="btn btn-exec-brief magnetic-btn" onclick="openExecutiveModal()" title="30-Second Fast-Track for Hiring Managers & CTOs">
+              <i data-lucide="zap"></i>
+              <span>⚡ 30s Executive Brief</span>
+            </button>
+
             <a href="#case-studies" class="btn btn-primary magnetic-btn">
               <span>View System Architectures</span>
               <i data-lucide="cpu"></i>
@@ -411,6 +426,67 @@
           </div>
           {% endfor %}
         </div>
+
+        <!-- ══════════════════════════════════════════════════════════════════
+             FEATURE A: INTERACTIVE NEURAL PIPELINE SIMULATOR
+        ══════════════════════════════════════════════════════════════════ -->
+        <div id="pipeline-simulator" class="neural-simulator-card glass-card reveal">
+          <div class="sim-header">
+            <div class="sim-title-group">
+              <div class="section-tag">
+                <i data-lucide="cpu"></i>
+                <span>FLAGSHIP RUNTIME PLAYGROUND</span>
+              </div>
+              <h3 class="sim-title">Interactive Neural Pipeline Simulator</h3>
+              <p class="sim-desc">
+                Select an architecture and click individual pipeline stages to inspect tensor dimensions, mathematical loss objectives, layer execution latencies, and parameter distributions in real time.
+              </p>
+            </div>
+            
+            <div class="sim-actions">
+              <button class="btn btn-primary btn-sm" id="runSimSweepBtn" onclick="runSimulationSweep()">
+                <i data-lucide="play"></i>
+                <span id="sweepBtnText">Run Inference Simulation Sweep</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Architecture Selector Pills -->
+          <div class="sim-model-selector" id="simModelSelector">
+            <button class="sim-model-btn active" data-model="swin" onclick="switchSimulatorModel('swin')">
+              <i data-lucide="scan"></i>
+              <span>Swin-UNETR (Medical CT)</span>
+            </button>
+            <button class="sim-model-btn" data-model="sunflower" onclick="switchSimulatorModel('sunflower')">
+              <i data-lucide="sprout"></i>
+              <span>SSL-GCN (Smart AgriTech)</span>
+            </button>
+            <button class="sim-model-btn" data-model="emotion" onclick="switchSimulatorModel('emotion')">
+              <i data-lucide="languages"></i>
+              <span>CodeMixEcom (Best Paper AII '25)</span>
+            </button>
+            <button class="sim-model-btn" data-model="voicerag" onclick="switchSimulatorModel('voicerag')">
+              <i data-lucide="mic"></i>
+              <span>HealthRide (Voice RAG Sub-350ms)</span>
+            </button>
+          </div>
+
+          <!-- Interactive Pipeline Stage Rail -->
+          <div class="sim-pipeline-rail-wrap">
+            <div class="sim-rail-telemetry">
+              <span class="sim-rail-lbl">Interactive Dataflow Graph</span>
+              <span class="sim-rail-hint"><i data-lucide="mouse-pointer"></i> Click any stage to inspect internal weights &amp; math</span>
+            </div>
+            <div class="sim-pipeline-rail" id="simPipelineRail">
+              <!-- Dynamically populated via JS -->
+            </div>
+          </div>
+
+          <!-- Deep Stage Technical Inspector Pane -->
+          <div class="sim-inspector-grid" id="simInspectorPane">
+            <!-- Dynamically populated via JS -->
+          </div>
+        </div>
       </div>
     </section>
 
@@ -533,6 +609,10 @@
               </div>
 
               <div class="pub-actions">
+                <button class="pub-action-btn pub-drawer-trigger" onclick="openPaperDrawer('{{ pub.id }}')" title="Inspect Full Abstract, Methodology & Mathematical Takeaways">
+                  <i data-lucide="book-open"></i>
+                  <span>Inspect Abstract</span>
+                </button>
                 {% if pub.award_url %}
                 <a href="{{ pub.award_url }}" target="_blank" rel="noopener noreferrer" class="pub-action-btn award-btn">
                   <i data-lucide="award"></i>
@@ -1135,6 +1215,71 @@
             </div>
           </div>
         </div>
+
+        <!-- ══════════════════════════════════════════════════════════════════
+             FEATURE B: INTERACTIVE MODEL BENCHMARK COMPARATOR
+        ══════════════════════════════════════════════════════════════════ -->
+        <div id="benchmark-comparator" class="benchmark-comparator-card glass-card reveal">
+          <div class="comparator-header">
+            <div class="comparator-title-group">
+              <div class="section-tag">
+                <i data-lucide="split"></i>
+                <span>EMPIRICAL RIGOR BENCHMARK</span>
+              </div>
+              <h3 class="comparator-title">Interactive Model Benchmark Comparator</h3>
+              <p class="comparator-desc">
+                Directly quantify Karib's proposed neural architectures against standard baseline models. Drag the split comparator slider or toggle benchmark presets to reveal empirical deltas in accuracy, FPS latency, and parameter footprint.
+              </p>
+            </div>
+
+            <!-- Study Selector Tabs -->
+            <div class="bench-study-tabs" id="benchStudyTabs">
+              <button class="bench-tab-btn active" data-study="agri" onclick="switchBenchmarkStudy('agri')">
+                <i data-lucide="sprout"></i>
+                <span>AgriTech: SSL-GCN vs YOLOv8</span>
+              </button>
+              <button class="bench-tab-btn" data-study="emotion" onclick="switchBenchmarkStudy('emotion')">
+                <i data-lucide="languages"></i>
+                <span>NLP: BanglishBERT vs mBERT</span>
+              </button>
+              <button class="bench-tab-btn" data-study="medical" onclick="switchBenchmarkStudy('medical')">
+                <i data-lucide="scan"></i>
+                <span>Medical: Swin-UNETR vs UNet</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Interactive Dual Slider Controls -->
+          <div class="bench-slider-wrap">
+            <div class="bench-slider-header">
+              <span class="bench-slider-lbl baseline-lbl">
+                <span class="dot-baseline"></span> Standard Baseline Model
+              </span>
+              <span class="bench-slider-center" id="benchSliderPct">100% Karib SOTA Proposed Architecture</span>
+              <span class="bench-slider-lbl proposed-lbl">
+                <span class="dot-proposed"></span> Karib's Proposed Architecture
+              </span>
+            </div>
+            <input type="range" id="benchSlider" class="bench-range-input" min="0" max="100" value="100" oninput="handleBenchmarkSlider(this.value)" />
+            <div class="bench-slider-ticks">
+              <span>0% Baseline</span>
+              <span>25%</span>
+              <span>50% Split</span>
+              <span>75%</span>
+              <span>100% Karib SOTA</span>
+            </div>
+          </div>
+
+          <!-- Dynamic Comparison Metric Tracks Grid -->
+          <div class="bench-metrics-grid" id="benchMetricsGrid">
+            <!-- Populated dynamically via JS -->
+          </div>
+
+          <!-- Architectural Reason / Win Mechanism Callout -->
+          <div class="bench-rationale-box" id="benchRationaleBox">
+            <!-- Populated dynamically via JS -->
+          </div>
+        </div>
       </div>
     </section>
 
@@ -1455,6 +1600,205 @@
             <span id="copyBibText">Copy BibTeX Entry</span>
           </button>
           <button class="btn btn-ghost btn-sm" onclick="closeBibtexModal()">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════════
+       FEATURE C: IN-PAGE RESEARCH PAPER ABSTRACT & DRAWER MODAL
+  ══════════════════════════════════════════════════════════════════ -->
+  <div id="paperDrawerModal" class="paper-drawer-backdrop" aria-hidden="true" role="dialog" aria-labelledby="paperDrawerTitle">
+    <div class="paper-drawer-panel glass-card">
+      <div class="drawer-header">
+        <div class="drawer-header-left">
+          <span class="modal-badge" id="paperDrawerDomain">Domain</span>
+          <span class="paper-drawer-year" id="paperDrawerYear">2025</span>
+          <span class="paper-drawer-award" id="paperDrawerAward" style="display:none;"></span>
+        </div>
+        <button class="drawer-close-btn" onclick="closePaperDrawer()" aria-label="Close drawer">✕</button>
+      </div>
+
+      <h2 class="drawer-title" id="paperDrawerTitle">Paper Title</h2>
+      <div class="drawer-venue-row">
+        <i data-lucide="landmark" class="venue-icon"></i>
+        <span id="paperDrawerVenue">Conference / Journal Venue</span>
+      </div>
+
+      <!-- Quick Metrics Strip -->
+      <div class="drawer-metrics-strip">
+        <div class="drawer-metric-item">
+          <span class="dm-label">Citations</span>
+          <span class="dm-val" id="paperDrawerCitations">0 Citations</span>
+        </div>
+        <div class="drawer-metric-item">
+          <span class="dm-label">Peer-Reviewed Status</span>
+          <span class="dm-val text-emerald" id="paperDrawerStatus">Verified Published</span>
+        </div>
+        <div class="drawer-metric-item" id="paperDrawerDoiWrap">
+          <span class="dm-label">Identifier</span>
+          <span class="dm-val mono" id="paperDrawerDoi">DOI Pending</span>
+        </div>
+      </div>
+
+      <!-- Drawer Content Tabs -->
+      <div class="drawer-tabs">
+        <button class="drawer-tab-btn active" data-tab="abstract" onclick="switchPaperDrawerTab('abstract')">
+          <i data-lucide="file-text"></i>
+          <span>Structured Abstract</span>
+        </button>
+        <button class="drawer-tab-btn" data-tab="takeaways" onclick="switchPaperDrawerTab('takeaways')">
+          <i data-lucide="sparkles"></i>
+          <span>Scientific Innovations</span>
+        </button>
+        <button class="drawer-tab-btn" data-tab="bibtex" onclick="switchPaperDrawerTab('bibtex')">
+          <i data-lucide="code"></i>
+          <span>BibTeX Citation</span>
+        </button>
+      </div>
+
+      <!-- Tab Panes -->
+      <div class="drawer-body">
+        <div class="drawer-pane active" id="paneAbstract">
+          <p class="drawer-abstract-text" id="paperDrawerAbstractText"></p>
+        </div>
+
+        <div class="drawer-pane" id="paneTakeaways" style="display:none;">
+          <h4 class="drawer-section-heading">Key Architectural &amp; Empirical Takeaways</h4>
+          <ul class="drawer-takeaways-list" id="paperDrawerTakeawaysList"></ul>
+        </div>
+
+        <div class="drawer-pane" id="paneBibtex" style="display:none;">
+          <pre class="bibtex-code-block" id="paperDrawerBibtexCode"></pre>
+          <button class="btn btn-outline btn-sm copy-drawer-bib-btn" onclick="copyDrawerBibtex()">
+            <i data-lucide="copy"></i>
+            <span id="copyDrawerBibText">Copy BibTeX Entry</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Drawer Actions Footer -->
+      <div class="drawer-footer">
+        <a id="paperDrawerDoiLink" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
+          <span>Open DOI Resolver</span>
+          <i data-lucide="external-link"></i>
+        </a>
+        <a id="paperDrawerScholarLink" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">
+          <span>Google Scholar</span>
+          <i data-lucide="arrow-up-right"></i>
+        </a>
+        <a href="mailto:shams321karib@gmail.com?subject=Paper%20Preprint%20Inquiry" class="btn btn-ghost btn-sm">
+          <span>Request Preprint</span>
+          <i data-lucide="mail"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════════
+       FEATURE D: RECRUITER 30-SECOND FAST-TRACK EXECUTIVE BRIEF MODAL
+  ══════════════════════════════════════════════════════════════════ -->
+  <div id="executiveBriefModal" class="modal-backdrop" aria-hidden="true" role="dialog" aria-labelledby="execModalTitle">
+    <div class="modal-dialog glass-card exec-brief-dialog">
+      <div class="modal-header">
+        <div class="exec-header-left">
+          <span class="modal-badge exec-badge">
+            <span class="exec-pulse-dot"></span>
+            <span>EXECUTIVE BRIEF // 30-SECOND FAST TRACK</span>
+          </span>
+          <h2 class="modal-title" id="execModalTitle">Karib Shams — Leadership &amp; AI Engineering Dossier</h2>
+          <p class="exec-header-sub">Tailored for VP of AI, Head of Engineering, CTOs &amp; Senior Technical Recruiters</p>
+        </div>
+        <button class="modal-close-btn" onclick="closeExecutiveModal()" aria-label="Close dialog">✕</button>
+      </div>
+
+      <div class="modal-body exec-brief-body">
+        <!-- Target Positions Banner -->
+        <div class="exec-roles-strip">
+          <div class="exec-role-pill"><i data-lucide="target"></i> Target Roles:</div>
+          <span class="role-chip">Senior Data Scientist</span>
+          <span class="role-chip">Applied AI Researcher</span>
+          <span class="role-chip">AI Systems / ML Engineering Lead</span>
+          <span class="avail-chip"><span class="badge-dot-live"></span> Immediate Availability (Hybrid / Remote Global)</span>
+        </div>
+
+        <!-- 4 Core Pillars Bento Grid -->
+        <div class="exec-superpowers-grid">
+          <div class="exec-super-card">
+            <div class="super-icon-wrap bg-emerald">
+              <i data-lucide="brain"></i>
+            </div>
+            <h4>1. Deep Learning &amp; Computer Vision</h4>
+            <p>Self-supervised contrastive learning (SimCLR), Swin Transformers, Spatial Graph Convolutional Networks (GCN), and multimodal object detection backbones.</p>
+          </div>
+
+          <div class="exec-super-card">
+            <div class="super-icon-wrap bg-cyan">
+              <i data-lucide="zap"></i>
+            </div>
+            <h4>2. Low-Latency Edge &amp; C++/Cython Systems</h4>
+            <p>Bypassing Python's GIL with custom C++ &amp; Cython tensor loops (12x–20x speedup), TensorRT quantizations, and sub-350ms streaming voice RAG pipelines.</p>
+          </div>
+
+          <div class="exec-super-card">
+            <div class="super-icon-wrap bg-gold">
+              <i data-lucide="layers"></i>
+            </div>
+            <h4>3. Proven Leadership &amp; 60+ Products</h4>
+            <p>Senior Executive Data Scientist &amp; Team Leader at JVai. Directed AI Stream engineering squads shipping 60+ commercial web, mobile, and IoT AI applications.</p>
+          </div>
+
+          <div class="exec-super-card">
+            <div class="super-icon-wrap bg-purple">
+              <i data-lucide="award"></i>
+            </div>
+            <h4>4. World-Class Scientific Validation</h4>
+            <p>Winner of the Best Paper Award at AII 2025 (Washington D.C.), 17 peer-reviewed papers across IEEE, Elsevier, and Springer, with a 3.91 MSc Data Science CGPA.</p>
+          </div>
+        </div>
+
+        <!-- Executive Metrics Scorecard -->
+        <div class="exec-scorecard-row">
+          <div class="scorecard-col">
+            <span class="sc-big-num">17</span>
+            <span class="sc-lbl">Peer-Reviewed Papers</span>
+            <span class="sc-hint">IEEE · Elsevier · Springer</span>
+          </div>
+          <div class="scorecard-col">
+            <span class="sc-big-num">60+</span>
+            <span class="sc-lbl">Delivered AI Products</span>
+            <span class="sc-hint">AI Stream Team Lead</span>
+          </div>
+          <div class="scorecard-col">
+            <span class="sc-big-num">3.91</span>
+            <span class="sc-lbl">MSc Data Science CGPA</span>
+            <span class="sc-hint">East West University</span>
+          </div>
+          <div class="scorecard-col">
+            <span class="sc-big-num">38+ FPS</span>
+            <span class="sc-lbl">Real-Time Edge Speed</span>
+            <span class="sc-hint">Embedded Jetson Hardware</span>
+          </div>
+        </div>
+
+        <!-- Fast Executive Actions -->
+        <div class="exec-modal-actions">
+          <a href="{% static 'img/karib_ace_78.pdf' %}" download="Karib_Shams_Academic_CV.pdf" class="btn btn-primary magnetic-btn">
+            <i data-lucide="file-text"></i>
+            <span>Download Academic CV (PDF)</span>
+          </a>
+          <a href="{% static 'img/karib_ser_78.pdf' %}" download="Karib_Shams_Software_Engineering_Resume.pdf" class="btn btn-outline magnetic-btn">
+            <i data-lucide="briefcase"></i>
+            <span>Download Software Resume (PDF)</span>
+          </a>
+          <a href="https://wa.me/8801797470717?text=Hi%20Karib%2C%20I%20reviewed%20your%20Executive%20Brief%20and%20would%20like%20to%20connect%20for%20an%20interview." target="_blank" rel="noopener noreferrer" class="btn btn-secondary magnetic-btn">
+            <i data-lucide="message-square"></i>
+            <span>Direct WhatsApp: +880 1797470717</span>
+          </a>
+          <a href="mailto:shams321karib@gmail.com?subject=Senior%20AI%20Role%20Discussion%20-%20Karib%20Shams" class="btn btn-ghost magnetic-btn">
+            <i data-lucide="mail"></i>
+            <span>Direct Email</span>
+          </a>
         </div>
       </div>
     </div>
