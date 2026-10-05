@@ -827,13 +827,17 @@
           <div class="gh-heatmap-wrap">
             <div class="gh-heatmap-header">
               <span class="gh-subhead"><i data-lucide="grid"></i> Contribution Activity Matrix</span>
-              <span class="gh-heatmap-summary">755 Commits in the last 12 months</span>
+              <span class="gh-heatmap-summary" id="ghHeatmapSummary">{{ github_stats.commits_last_year }} Commits in the last 12 months</span>
             </div>
 
             <!-- 12-Month Calendar Grid -->
             <div class="gh-calendar-container">
-              <div class="gh-months-row">
-                <span>Oct</span><span>Nov</span><span>Dec</span><span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span><span>Aug</span><span>Sep</span>
+              <div class="gh-months-row" id="ghMonthsRow">
+                {% for m in github_stats.months %}
+                  <span>{{ m.name }}</span>
+                {% empty %}
+                  <span>Oct</span><span>Nov</span><span>Dec</span><span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span><span>Aug</span><span>Sep</span>
+                {% endfor %}
               </div>
               <div class="gh-matrix-grid" id="githubMatrixGrid"></div>
               <div class="gh-matrix-footer">
@@ -866,7 +870,7 @@
                   </div>
                   <div class="gh-stat-row">
                     <span class="gh-stat-lbl"><i data-lucide="git-commit" class="text-emerald"></i> Total Commits (1 year):</span>
-                    <strong class="gh-stat-val">755</strong>
+                    <strong class="gh-stat-val" id="liveCommitsLastYear">{{ github_stats.commits_last_year }}</strong>
                   </div>
                   <div class="gh-stat-row">
                     <span class="gh-stat-lbl"><i data-lucide="users" class="text-violet"></i> GitHub Network Followers:</span>
@@ -874,7 +878,7 @@
                   </div>
                   <div class="gh-stat-row">
                     <span class="gh-stat-lbl"><i data-lucide="git-pull-request" class="text-emerald"></i> Pull Requests Merged:</span>
-                    <strong class="gh-stat-val">2</strong>
+                    <strong class="gh-stat-val" id="livePRs">{{ github_stats.total_prs }}</strong>
                   </div>
                   <div class="gh-stat-row">
                     <span class="gh-stat-lbl"><i data-lucide="terminal" class="text-gold"></i> Enterprise Deliverables:</span>
@@ -961,7 +965,7 @@
             <!-- Card 3: Contribution Streak & Velocity -->
             <div class="gh-bento-card gh-streak-card">
               <div class="streak-column">
-                <span class="streak-big-val">1,244</span>
+                <span class="streak-big-val" id="liveTotalContributions">{{ github_stats.total_contributions_display|default:github_stats.total_contributions|default:"1,258" }}</span>
                 <span class="streak-label">Total Contributions</span>
                 <span class="streak-sub">Dec 22, 2023 – Present</span>
               </div>
@@ -976,7 +980,7 @@
                   </svg>
                   <div class="streak-fire-inner">
                     <i data-lucide="flame" class="fire-icon"></i>
-                    <span class="streak-num">755</span>
+                    <span class="streak-num" id="liveAnnualCommits">{{ github_stats.commits_last_year|default:"798" }}</span>
                   </div>
                 </div>
                 <span class="streak-label">Annual Commits</span>
@@ -986,9 +990,9 @@
               <div class="streak-divider"></div>
 
               <div class="streak-column">
-                <span class="streak-big-val">21</span>
-                <span class="streak-label">Longest Streak</span>
-                <span class="streak-sub">Aug 9, 2025 – Aug 29, 2025</span>
+                <span class="streak-big-val" id="liveLongestStreak">{{ github_stats.longest_streak|default:"6" }}</span>
+                <span class="streak-label">Longest Streak (Days)</span>
+                <span class="streak-sub" id="liveLongestStreakRange">{{ github_stats.longest_streak_range|default:"Nov 30, 2025 – Dec 05, 2025" }}</span>
               </div>
             </div>
           </div>
@@ -1815,6 +1819,7 @@
   <script id="publicationsData" type="application/json">{{ publications_json|safe }}</script>
   <script id="topCitedPapersData" type="application/json">{{ top_cited_json|safe }}</script>
   <script id="scholarStatsData" type="application/json">{{ scholar_stats_json|safe }}</script>
+  <script id="githubStatsData" type="application/json">{{ github_stats_json|safe }}</script>
 
   <!-- JavaScript Suite -->
   <script src="{% static 'js/main.js' %}"></script>
