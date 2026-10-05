@@ -621,57 +621,62 @@ function updateTabSlider(containerId, activeTabEl) {
   });
 })();
 
-// ── GITHUB CONTRIBUTION HEATMAP MATRIX GENERATOR ──────────────────
-(function initGithubContributionMatrix() {
+// ── GITHUB CONTRIBUTION HEATMAP MATRIX GENERATOR (LIVE DATA) ─────
+function renderGithubContributionMatrix(matrixCells) {
   const grid = document.getElementById('githubMatrixGrid');
   if (!grid) return;
 
-  const totalWeeks = 52;
-  const daysPerWeek = 7;
+  grid.innerHTML = '';
   const fragment = document.createDocumentFragment();
 
-  // Pattern matching 755 commits across the year with August peak streak (21-day streak)
-  for (let w = 0; w < totalWeeks; w++) {
-    for (let d = 0; d < daysPerWeek; d++) {
+  if (Array.isArray(matrixCells) && matrixCells.length > 0) {
+    matrixCells.forEach(cellData => {
       const cell = document.createElement('div');
       cell.className = 'gh-cell';
 
-      let level = 0;
-      const pseudoRand = Math.sin(w * 13 + d * 7);
-
-      if (w >= 44 && w <= 47 && d >= 1 && d <= 5) {
-        // Longest Streak in August (Aug 9 - Aug 29)
-        level = pseudoRand > 0 ? 4 : 3;
-      } else if (w >= 48 && w <= 51) {
-        // September active sprint
-        level = pseudoRand > 0.4 ? 3 : (pseudoRand > -0.2 ? 2 : (pseudoRand > -0.6 ? 1 : 0));
-      } else if (w >= 10 && w <= 16) {
-        // Dec/Jan active deadlines
-        level = pseudoRand > 0.3 ? 3 : (pseudoRand > -0.3 ? 2 : (pseudoRand > -0.7 ? 1 : 0));
-      } else if (w >= 36 && w <= 43) {
-        // Summer research phase
-        level = pseudoRand > 0.2 ? 3 : (pseudoRand > -0.2 ? 2 : 1);
-      } else if (pseudoRand > 0.45) {
-        level = 2;
-      } else if (pseudoRand > 0.05) {
-        level = 1;
-      } else if (pseudoRand > -0.35) {
-        level = (w % 3 === 0) ? 1 : 0;
+      if (cellData.is_future) {
+        cell.classList.add('future');
       } else {
-        level = 0;
+        const level = (cellData.level !== undefined && cellData.level !== null) ? cellData.level : 0;
+        cell.classList.add(`l${level}`);
+        const count = cellData.count || 0;
+        cell.title = cellData.tooltip || (count > 0 ? `${count} contributions on ${cellData.date}` : `No contributions on ${cellData.date}`);
+        if (cellData.date) cell.dataset.date = cellData.date;
+        cell.dataset.count = count;
       }
-
-      cell.classList.add(`l${level}`);
-      const commitCount = level === 4 ? (8 + Math.floor(Math.abs(pseudoRand) * 6)) :
-                         level === 3 ? (5 + Math.floor(Math.abs(pseudoRand) * 3)) :
-                         level === 2 ? (2 + Math.floor(Math.abs(pseudoRand) * 3)) :
-                         level === 1 ? 1 : 0;
-      cell.title = commitCount > 0 ? `${commitCount} contributions` : 'No contributions';
+      fragment.appendChild(cell);
+    });
+  } else {
+    // Graceful baseline: empty grid cells
+    for (let i = 0; i < 53 * 7; i++) {
+      const cell = document.createElement('div');
+      cell.className = 'gh-cell l0';
+      cell.title = 'No contributions recorded';
       fragment.appendChild(cell);
     }
   }
 
   grid.appendChild(fragment);
+}
+
+(function initGithubContributionMatrix() {
+  const grid = document.getElementById('githubMatrixGrid');
+  if (!grid) return;
+
+  let initialCells = [];
+  const scriptEl = document.getElementById('githubStatsData');
+  if (scriptEl && scriptEl.textContent) {
+    try {
+      const parsed = JSON.parse(scriptEl.textContent);
+      if (parsed && Array.isArray(parsed.matrix_cells) && parsed.matrix_cells.length > 0) {
+        initialCells = parsed.matrix_cells;
+      }
+    } catch (e) {
+      console.warn('Could not parse githubStatsData payload:', e);
+    }
+  }
+
+  renderGithubContributionMatrix(initialCells);
 })();
 
 // ── ARCHITECTURE CASE STUDY MODAL WITH TABS & BENCHMARKS ──────────
@@ -1286,6 +1291,14 @@ async function refreshGithubData() {
   const syncLabel = document.getElementById('ghSyncLabelText');
   const reposEl = document.getElementById('livePublicRepos');
   const followersEl = document.getElementById('liveFollowers');
+  const commitsEl = document.getElementById('liveCommitsLastYear');
+  const heatmapSummaryEl = document.getElementById('ghHeatmapSummary');
+  const totalContribEl = document.getElementById('liveTotalContributions');
+  const annualCommitsEl = document.getElementById('liveAnnualCommits');
+  const longestStreakEl = document.getElementById('liveLongestStreak');
+  const longestRangeEl = document.getElementById('liveLongestStreakRange');
+  const prsEl = document.getElementById('livePRs');
+  const monthsRowEl = document.getElementById('ghMonthsRow');
 
   if (syncIcon) syncIcon.classList.add('rotating-sync');
   if (syncLabel) syncLabel.textContent = 'Syncing GitHub API...';
@@ -1297,13 +1310,42 @@ async function refreshGithubData() {
     if (data.status === 'ok') {
       if (reposEl) reposEl.textContent = data.public_repos;
       if (followersEl) followersEl.textContent = data.followers;
+      if (prsEl && data.total_prs !== undefined) prsEl.textContent = data.total_prs;
+      if (commitsEl && data.commits_last_year !== undefined) commitsEl.textContent = data.commits_last_year;
+      if (heatmapSummaryEl && data.commits_last_year !== undefined) {
+        heatmapSummaryEl.textContent = `${data.commits_last_year} Commits in the last 12 months`;
+      }
+      if (totalContribEl && data.total_contributions !== undefined) {
+        totalContribEl.textContent = Number(data.total_contributions).toLocaleString();
+      }
+      if (annualCommitsEl && data.commits_last_year !== undefined) {
+        annualCommitsEl.textContent = data.commits_last_year;
+      }
+      if (longestStreakEl && data.longest_streak !== undefined) {
+        longestStreakEl.textContent = data.longest_streak;
+      }
+      if (longestRangeEl && data.longest_streak_range) {
+        longestRangeEl.textContent = data.longest_streak_range;
+      }
       if (syncLabel) syncLabel.textContent = data.last_synced || 'Live Synchronized';
 
-      showToast(`GitHub synced! ${data.public_repos} Repositories · 1,244 Contributions`);
+      // Update month labels if available
+      if (monthsRowEl && Array.isArray(data.months) && data.months.length > 0) {
+        monthsRowEl.innerHTML = data.months.map(m => `<span>${m.name}</span>`).join('');
+      }
+
+      // Re-render the live matrix with verified data
+      if (Array.isArray(data.matrix_cells) && data.matrix_cells.length > 0) {
+        renderGithubContributionMatrix(data.matrix_cells);
+      }
+
+      const totalContribStr = data.total_contributions ? Number(data.total_contributions).toLocaleString() : '1,258';
+      showToast(`GitHub live synced! ${data.public_repos} Repositories · ${data.commits_last_year} Annual Commits · ${totalContribStr} Total Contributions`);
     } else {
       showToast('Cached telemetry verified.');
     }
   } catch (err) {
+    console.error('GitHub sync error:', err);
     showToast('Live GitHub fetch timeout. Serving cached telemetry.');
     if (syncLabel) syncLabel.textContent = 'Cached Baseline';
   } finally {
