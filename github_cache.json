@@ -22,19 +22,19 @@
   },
   "latest_repos": [
     {
+      "name": "p",
+      "description": "Applied AI and machine learning repository",
+      "language": "CSS",
+      "stars": 0,
+      "url": "https://github.com/karibshams/p",
+      "updated_at": "Oct 2026"
+    },
+    {
       "name": "bg",
       "description": "Applied AI and machine learning repository",
       "language": "HTML",
       "stars": 0,
       "url": "https://github.com/karibshams/bg",
-      "updated_at": "Sep 2026"
-    },
-    {
-      "name": "p",
-      "description": "Applied AI and machine learning repository",
-      "language": "Python",
-      "stars": 0,
-      "url": "https://github.com/karibshams/p",
       "updated_at": "Sep 2026"
     },
     {
@@ -46,9 +46,9 @@
       "updated_at": "Sep 2026"
     }
   ],
-  "last_synced": "Oct 04, 2026 12:43 PM",
+  "last_synced": "Oct 05, 2026 09:55 AM",
   "is_live": true,
   "cached": false,
-  "timestamp": 1791096214.6291766,
-  "last_synced_iso": "2026-10-04T06:43:34.629176"
+  "timestamp": 1791172502.8442783,
+  "last_synced_iso": "2026-10-05T03:55:02.844278"
 }
